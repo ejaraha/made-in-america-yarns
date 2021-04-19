@@ -17,7 +17,7 @@ import_new_data <- function(order_cols="order_cols.csv",
   product_cols <- read.csv(product_cols) %>%
     filter(keep==1)
   
-  # load order and product 
+  # load order and product dfs 
   # then use order_cols and product_cols to filter their fields
   order <- read.csv(order) %>%
     select(order_cols$variable)
