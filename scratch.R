@@ -6,19 +6,19 @@ library(lubridate)
 #--------------------------------------------------------------
 
 # set working directory
-setwd("C:/Users/sjara/git/made-in-america-yarns/data/raw")
+setwd("C:/Users/sjara/git/made-in-america-yarns/data/new")
 
 # load keys to select necessary fields
-order_fields <- read.csv("order_fields.csv") %>%
+order_cols <- read.csv("order_cols.csv") %>%
   filter(keep==1)
-product_fields <- read.csv("product_fields.csv") %>%
+product_cols <- read.csv("product_cols.csv") %>%
   filter(keep==1)
 
 # load raw data then select necessary fields
 order <- read.csv("order.csv") %>%
-  select(order_fields$variable)
+  select(order_cols$variable)
 product <- read.csv("product.csv") %>%
-  select(product_fields$variable)
+  select(product_cols$variable)
 
 # CLEAN order df
 #--------------------------------------------------------------
@@ -41,6 +41,7 @@ order <- order %>%
   mutate_if(is.character, list(~na_if(tolower(.),""))) %>% 
   unite("customer_id", c(customer_id, customer_id_addition), sep="_") 
 
+write.csv(order, file="C:/Users/sjara/git/made-in-america-yarns/data/live/order.csv", row.names=FALSE)
 glimpse(order)
 check_empty(order)
 
@@ -53,7 +54,7 @@ product <- product %>%
   mutate(ID = as.character(ID)) %>%
   mutate_if(is.character, list(~na_if(tolower(.),"")))
 
-
+write.csv(product, file="C:/Users/sjara/git/made-in-america-yarns/data/live/product.csv", row.names=FALSE)
 glimpse(product)
 check_empty(product)
 
