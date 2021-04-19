@@ -2,13 +2,15 @@ library(dplyr)
 library(tidyr)
 library(lubridate)
 
-# import data
+# import all data
 #--------------------------------------------------------------
 
-import_new_data <- function(order_cols="order_cols.csv",
-                        order="order_raw.csv",
+import_data <- function(order_cols="order_cols.csv",
                         product_cols="product_cols.csv",
-                        product="product_raw.csv"){
+                        order="order_raw.csv",
+                        product="product_raw.csv",
+                        order_main="order_main.csv",
+                        product_main="product_main.csv"){
 
   # load order_cols and product_cols 
   # then filter them to create vectors of only the wanted fields
@@ -24,17 +26,21 @@ import_new_data <- function(order_cols="order_cols.csv",
   product <- read.csv(product) %>%
     select(product_cols$variable)
   
-  return(list(order, product))
+  # load order_main and product_main
+  order_main <- read.csv(order_main)
+  product_main <- read.csv(product_main)
+  
+  return(list(order, product, order_main, product_main))
 }
 
 
-# clean data
+# clean new data
 #--------------------------------------------------------------
 
 clean_order <- function(df=order){
-  
+  # initialize order df
   order <- df
-  
+  # insert NAs, CAP -> low
   order_clean <- order %>% 
     mutate_if(is.character, list(~na_if(tolower(.),"")))
   
@@ -42,9 +48,9 @@ clean_order <- function(df=order){
   }
 
 clean_product <- function(df=product){
-  
+  #initialize product df
   product <- df
-  
+  # insert NAs, CAP -> low
   product_clean <- product %>%
     mutate_if(is.character, list(~na_if(tolower(.),"")))
   

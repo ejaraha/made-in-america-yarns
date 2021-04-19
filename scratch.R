@@ -59,15 +59,29 @@ glimpse(product)
 check_empty(product)
 
 
+# NORMALIZE 
+#--------------------------------------------------------------
+
+glimpse(order_main)
+
+glimpse(product_main)
+glimpse(order)
+
+order_raw <- read.csv("order_raw.csv")
+glimpse(order_raw)
 
 
+order_raw %>%
+  count(billing_email,billing_phone) %>%
+  group_by(billing_email)%>%  ############# ID TEST
+  add_count(name="count") %>%
+  arrange(desc(count)) %>%
+  glimpse()
 
+test <- data.frame("a"=c(1,2,3,4), "b"=c(5,5,6,6))
+test
 
-
-
-
-
-
+test %>% count(a,b) %>% group_by(b) %>% add_count(name="count")
 
 
 
