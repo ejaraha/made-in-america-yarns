@@ -5,59 +5,44 @@ library(lubridate)
 # import all data
 #--------------------------------------------------------------
 
-import_data <- function(order_cols="order_cols.csv",
-                        product_cols="product_cols.csv",
-                        order="order_raw.csv",
-                        product="product_raw.csv",
-                        order_main="order_main.csv",
-                        product_main="product_main.csv"){
+import_data <- function(){
 
-  # load order_cols and product_cols 
-  # then filter them to create vectors of only the wanted fields
-  order_cols <- read.csv(order_cols) %>%
-    filter(keep==1) 
-  product_cols <- read.csv(product_cols) %>%
-    filter(keep==1)
+  # make a list of the file names in the working directory
+  file_list <- list.files()
+  # read all of the files into one list
+  df_list <- lapply(file_list, 
+                    FUN = function(f){
+                      read.csv(f)
+                    })
+  # name each item in the list using the file name
+  df_names <- str_replace(file_list, ".csv", "")
+  names(df_list) <- df_names
   
-  # load order and product dfs 
-  # then use order_cols and product_cols to filter their fields
-  order <- read.csv(order) %>%
-    select(order_cols$variable)
-  product <- read.csv(product) %>%
-    select(product_cols$variable)
-  
-  # load order_main and product_main
-  order_main <- read.csv(order_main)
-  product_main <- read.csv(product_main)
-  
-  return(list(order, product, order_main, product_main))
+  return(df_list)
 }
 
 
-# clean new data
+# CLEAN order_main df
 #--------------------------------------------------------------
 
-clean_order <- function(df=order){
-  # initialize order df
-  order <- df
-  # insert NAs, CAP -> low
-  order_clean <- order %>% 
-    mutate_if(is.character, list(~na_if(tolower(.),"")))
-  
-  return(order_clean)
-  }
-
-clean_product <- function(df=product){
-  #initialize product df
-  product <- df
-  # insert NAs, CAP -> low
-  product_clean <- product %>%
-    mutate_if(is.character, list(~na_if(tolower(.),"")))
-  
-  return(product_clean)
+clean_order_main <- function(df){
+  # initialize df
+  df <- data$order_main
+  # create customer_id column based on billing_email
+  id_df <- df %>%
+    distinct(billing_email) %>%
+    mutate(customer_id=1:nrow(.)) 
+  df <- df %>%
+    # redefine the existing customer_id column to be more appropriate
+    rename(registered_customer = customer_id) %>%
+    # join the customer_id column defined above
+    left_join(.,id_df, by="billing_email") %>%
+    # replace "" with NA, convert to lowercase
+    mutate_if(is.character, list(~na_if(tolower(.),""))) %>%
+    # eliminate all orders outside of the US
+    filter(shipping_country == "us") %>%
+    select(-shipping_country)
 }
-
-
 
 
 
