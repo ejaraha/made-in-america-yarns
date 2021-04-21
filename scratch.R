@@ -57,15 +57,36 @@ data$order_main <- data$order_main %>%
   filter(shipping_country == "us") %>%
   select(-shipping_country)
 
-
-
-
 # CLEAN product_main df
 #--------------------------------------------------------------
 
-data$product_main %>% filter(ID == 13654)
+names_with_hyphens <-c(9824,9825,9826,9827,9828,9829,9830,9850,10078,14822,14823,14824,14825,14863,15022,15025,15526,15529,15713,18075,18076,18189,18190,18963,18964,18965,18966,18967,18968,18969,22036,22037,22159,22161,22162,22322)
+
+df <- data$product_main %>% 
+  # handle names with "-" before the "-" that marks the start of the attributes 
+  # so that we can use the "-" to isolate the name
+  mutate(Name = case_when(ID %in% names_with_hyphens ~ str_replace(Name, "-", ""),
+                          TRUE ~ Name),
+         # the ID field will be re-purposed as the variation_id field. entries that are not variations will not have variation ids. (used for SKU)
+         ID = case_when(Type == "variable" ~ NA_character_,
+                        TRUE ~ str_trim(as.character(ID)))) %>%
+  # rename he ID field as described above
+  rename("variation_id"=ID) %>%
+  # isolate name field to group products by name and assign a unique id to each group (used for SKU)
+  separate(Name, into=c("Name", "Attribute.all"), sep="-", extra="merge", fill="right") %>%
+  mutate(Name = str_trim(Name)) %>%
+  group_by(Name) %>%
+  # order by name, then variation_id
+  arrange(as.integer(variation_id), .by_group = TRUE) %>%
+  mutate("product_id"=cur_group_id()) %>%
+  ungroup() %>%
+  # create the SKU = (P + product_id + V + variation_id)
+  unite("sku", c("product_id", "variation_id"), sep="V", remove = FALSE) %>%
+  mutate(sku = case_when(is.na(variation_id) == FALSE ~ paste("P", sku, sep=""),
+                         TRUE ~ paste("P", product_id, sep=""))) 
 
 
+write.csv(df, "C:/Users/sjara/Downloads/sku.csv", row.names = FALSE)
 
 # NORMALIZE 
 #--------------------------------------------------------------

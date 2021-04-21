@@ -1,6 +1,7 @@
 library(dplyr)
 library(tidyr)
 library(lubridate)
+library(stringr)
 
 source("C:/Users/sjara/git/made-in-america-yarns/functions.R")
 setwd("C:/Users/sjara/git/made-in-america-yarns/data")
