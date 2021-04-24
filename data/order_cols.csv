@@ -11,8 +11,8 @@ tax_total,0
 cart_discount,0
 order_discount,0
 discount_total,0
-order_total,0
-order_currency,0
+order_total,1
+order_currency,1
 payment_method,0
 shipping_method,0
 customer_id,1

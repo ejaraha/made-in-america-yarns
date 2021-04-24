@@ -2,6 +2,7 @@ library(dplyr)
 library(tidyr)
 library(lubridate)
 library(stringr)
+library(purrr)
 
 source("C:/Users/sjara/git/made-in-america-yarns/functions.R")
 setwd("C:/Users/sjara/git/made-in-america-yarns/data")
@@ -11,29 +12,21 @@ setwd("C:/Users/sjara/git/made-in-america-yarns/data")
 #--------------------------------------------------------------
 data <- import_data()
 
-
-# filter raw data
+# drop unnecessary fields from raw data
 #--------------------------------------------------------------
-## order
-fields_to_keep <- data$order_cols %>%
-  filter(keep == 1)
-order <- data$order_raw %>%
-  select(fields_to_keep$variable)
-## product
-fields_to_keep <- data$product_cols %>%
-  filter(keep == 1)
-product <- data$product_raw %>%
-  select(fields_to_keep$variable)
+
+## add the _raw_drop files to the data list
+data <- append(data, drop_cols())
 
 
-# update main data with filtered data
+# update main data with  data
 #--------------------------------------------------------------
 ## update matching rows from product_main to match product
-## & insert non-matching rows from product to product_main
-data$product_main <- rows_upsert(data$product_main,product, by="ID")
+## & insert non-matching rows from product_raw_drop to product_main
+data$product_main <- rows_upsert(data$product_main,data$product_raw_drop, by="ID")
 
-## insert non-matching ids from order into order_main
-data$order_main <- rows_upsert(data$order_main, order, by="order_id")
+## insert non-matching ids from order_raw_drop into order_main
+data$order_main <- rows_upsert(data$order_main, data$order_raw_drop, by="order_id")
 
 
 # clean main data
@@ -43,6 +36,7 @@ data$order_main <- clean_order_main()
 glimpse(data$order_main)
 
 
+data$product_main <- clean_product_main()
 glimpse(data$product_main)
 
 
