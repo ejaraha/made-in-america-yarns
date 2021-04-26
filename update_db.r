@@ -21,23 +21,27 @@ data <- append(data, drop_cols())
 
 # update main data with  data
 #--------------------------------------------------------------
+## update matching rows from order_main to match order
+## & insert non-matching ids from order_raw_drop into order_main
+data$order_main <- rows_upsert(data$order_main, data$order_raw_drop, by="order_id")
+
 ## update matching rows from product_main to match product
 ## & insert non-matching rows from product_raw_drop to product_main
-data$product_main <- rows_upsert(data$product_main,data$product_raw_drop, by="ID")
+data$product_main <- rows_upsert(data$product_main,data$product_raw_drop, by="id")
 
-## insert non-matching ids from order_raw_drop into order_main
-data$order_main <- rows_upsert(data$order_main, data$order_raw_drop, by="order_id")
+## update matching rows from role_main to match role
+## & insert non-matching rows from role_raw_drop to role_main
+data$role_main <- rows_upsert(data$role_main, data$role_raw_drop, by="id")
 
 
 # clean main data
 #--------------------------------------------------------------
 data$order_main <- clean_order_main()
-
 glimpse(data$order_main)
 
 
 data$product_main <- clean_product_main()
 glimpse(data$product_main)
 
-
-
+# raw data is clean
+glimpse(data$role_main)

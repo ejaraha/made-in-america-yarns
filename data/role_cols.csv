@@ -1,7 +1,7 @@
 variable,keep
 ID,1
 User.Pass,0
-Display.Name,1
+Display.Name,0
 User.Email,1
 Role,1
 Billing.State,0

@@ -115,9 +115,9 @@ drop_cols <- function(df_list){
   df_list <- data
   # split df_list into two lists
   ## cols: dfs of column names and boolean field of keep or not keep
-  cols_df_list <- df[grepl("_cols", names(data))]
+  cols_df_list <- df_list[grepl("_cols", names(data))]
   ## raw: raw dfs
-  raw_df_list <- df[grepl("_raw", names(data))]
+  raw_df_list <- df_list[grepl("_raw", names(data))]
   
   # filter and select cols_df_list
   cols_df_list <- lapply(cols_df_list, 

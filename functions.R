@@ -30,6 +30,16 @@ import_data <- function(){
   return(df_list)
 }
 
+# sort column names alphabetically
+#--------------------------------------------------------------------------------
+
+sort_cols <- function(df, decrease = FALSE){
+  T_F <- as.logical(decrease)
+  df <- df[sort(names(df), decreasing = T_F)]
+  return(df)
+}
+
+
 # drop unnecessary fields
 #--------------------------------------------------------------------------------
 
@@ -37,21 +47,17 @@ drop_cols <- function(df_list){
   
   # get data
   df_list <- data
-  # split df_list into two lists
+  # split df_list into two lists & order lists alphabetically in prep to loop
   ## cols: dfs of column names and boolean field of keep or not keep
-  cols_df_list <- df_list[grepl("_cols", names(df_list))]
+  cols_df_list <- df_list[grepl("_cols", names(df_list))] %>% sort_cols()
   ## raw: raw dfs
-  raw_df_list <- df_list[grepl("_raw", names(df_list))]
+  raw_df_list <- df_list[grepl("_raw", names(df_list))] %>% sort_cols()
   
   # filter and select cols_df_list
   cols_df_list <- lapply(cols_df_list, 
                          function(x)
                            filter(x, keep==1) %>%
                            select(variable))
-  
-  # order lists alphabetically in prep to loop
-  cols_df_list <- cols_df_list[order(names(cols_df_list))]
-  raw_df_list <- raw_df_list[order(names(raw_df_list))]
   
   # initialize list for loop
   raw_drop_df_list <- list()
@@ -78,29 +84,24 @@ drop_cols <- function(df_list){
 }
 
 
-# CLEAN order_main df
+# clean order_main df
 #--------------------------------------------------------------
 
 clean_order_main <- function(df){
   # initialize df
   df <- data$order_main
-  # # create customer_id column based on billing_email
-  # id_df <- df %>%
-  #   distinct(billing_email) %>%
-  #   mutate(customer_id=1:nrow(.))
+
   df <- df %>%
     # redefine the existing customer_id column to be more appropriate
     rename(registered_customer = customer_id) %>%
-    
-    # # join the customer_id column defined above
-    # left_join(.,id_df, by="billing_email") %>%
-    
     # replace "" with NA, convert to lowercase
     mutate_if(is.character, list(~na_if(tolower(.),""))) %>%
+    mutate(registered_customer = na_if(registered_customer, 0)) %>%
     # only orders in us & usd
     filter(shipping_country == "us",
            order_currency == "usd") %>%
     select(-c(shipping_country, order_currency)) %>%
+    # create customer_id column based on billing_email
     group_by(billing_email) %>%
     mutate("customer_id" = cur_group_id()) %>%
     ungroup()
@@ -108,7 +109,7 @@ clean_order_main <- function(df){
 
 
 
-# CLEAN product_main df
+# clean product_main df
 #--------------------------------------------------------------
 
 clean_product_main <- function(df){
