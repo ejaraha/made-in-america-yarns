@@ -39,8 +39,7 @@ data$role_main <- rows_upsert(data$role_main, data$role_raw_drop, by="id")
 data$order_main <- clean_order_main()
 glimpse(data$order_main)
 
-
-data$product_main <- clean_product_main()
+# product data is clean
 glimpse(data$product_main)
 
 # raw data is clean

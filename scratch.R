@@ -60,6 +60,26 @@ data$order_main <- data$order_main %>%
 # CLEAN product_main df
 #--------------------------------------------------------------
 
+
+# clean product_main df
+#--------------------------------------------------------------
+# 
+# clean_product_main <- function(df){
+#   
+#   df <- data$product_main
+# 
+#   df <- df %>% 
+#   # isolate name field to group products by name and assign a unique id to each group
+#   separate(name, into=c("name", "attribute.all"), sep="-", extra="merge", fill="right") %>%
+#   select(-attribute.all) %>%
+#   mutate(name = str_trim(name)) %>%
+#   group_by(name) %>%
+#   mutate("product_group"=cur_group_id()) %>%
+#   ungroup() 
+#   
+#   return(df)
+# }
+
 #names_with_hyphens <-c(9824,9825,9826,9827,9828,9829,9830,9850,10078,14822,14823,14824,14825,14863,15022,15025,15526,15529,15713,18075,18076,18189,18190,18963,18964,18965,18966,18967,18968,18969,22036,22037,22159,22161,22162,22322)
 
 df <- data$product_main %>% 
@@ -163,6 +183,21 @@ data$order_cols <- data$product_cols %>%
   filter(keep == 1)
 product_raw_drop <- data$product_raw %>%
   select(data$order_cols$variable)
+
+
+
+
+# normalize data
+#-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
 
 

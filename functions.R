@@ -93,10 +93,10 @@ clean_order_main <- function(df){
 
   df <- df %>%
     # redefine the existing customer_id column to be more appropriate
-    rename(registered_customer = customer_id) %>%
+    rename(user_id = customer_id) %>%
     # replace "" with NA, convert to lowercase
     mutate_if(is.character, list(~na_if(tolower(.),""))) %>%
-    mutate(registered_customer = na_if(registered_customer, 0)) %>%
+    mutate(user_id = na_if(user_id, 0)) %>%
     # only orders in us & usd
     filter(shipping_country == "us",
            order_currency == "usd") %>%
@@ -109,24 +109,6 @@ clean_order_main <- function(df){
 
 
 
-# clean product_main df
-#--------------------------------------------------------------
-
-clean_product_main <- function(df){
-  
-  df <- data$product_main
-
-  df <- df %>% 
-  # isolate name field to group products by name and assign a unique id to each group
-  separate(name, into=c("name", "attribute.all"), sep="-", extra="merge", fill="right") %>%
-  select(-attribute.all) %>%
-  mutate(name = str_trim(name)) %>%
-  group_by(name) %>%
-  mutate("product_group"=cur_group_id()) %>%
-  ungroup() 
-  
-  return(df)
-}
 
 
 
