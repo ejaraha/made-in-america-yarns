@@ -190,12 +190,94 @@ product_raw_drop <- data$product_raw %>%
 # normalize data
 #-----------------------------------------------------------------
 
+# order_
+order <- data$order_main %>% 
+  # extract date from order_date
+  mutate(order_date = as_date(ymd_hms(order_date)),
+         # convert ids to character
+         order_id = as.character(order_id),
+         customer_id = as.character(customer_id)) %>%
+  select(order_id,
+         order_date,
+         order_total,
+         customer_id,
+         billing_company)
+
+order_main_pivot <- data$order_main %>%
+  pivot_longer(cols = starts_with("line_item"), 
+               names_to = "item", 
+               values_to = "item_description",
+               values_drop_na = TRUE) %>% 
+  mutate("product_id" = str_extract(item_description, "(?<=product_id:)[:digit:]*"),
+         "variation_id" = str_extract(item_description, "(?<=variation_id:)[:digit:]*"),
+         product_id = case_when(product_id == "0" & is.na(variation_id) == FALSE ~variation_id,
+                                TRUE ~ as.character(product_id)),
+         variation_id = case_when(product_id == variation_id ~"0",
+                                  TRUE ~ as.character(variation_id)),
+         "quantity" = str_extract(item_description, "(?<=quantity:)[:digit:]*(?=|total)"),
+         "name" = str_sub(str_trim(str_extract(item_description, "(?<=name:).*(?=product_id:)")),start=1, end=-2),
+         "color" = str_extract(item_description, "(?<=color:|colors:)[:alpha:]*[:space:]*[:alpha:]*[:space:]*[:alpha:]*")) %>%
+  separate(name, into = c("name", "detail"), sep = "-", extra="merge", fill="right") %>%
+  mutate_at(c("name", "detail"), str_trim) 
+
+order_product <- order_main_pivot %>%
+  select(order_id,
+         product_id,
+         variation_id,
+         quantity) 
+
+order_coupon <- data$order_main %>%
+  mutate("coupon" = str_sub(str_trim(str_extract(coupon_items, "(?<=code:).*(?=amount:)")), start=1, end=-2)) %>%
+  select(order_id,
+         coupon)
+
+# product_
+product <- order_main_pivot %>%
+  select(product_id,
+         variation_id,
+         name,
+         color) 
+
+product_effect <- data$product_main %>% glimpse()
+  select(product_id,
+         effect)
+
+product_fiber <- data$product_main %>%
+  select(product_id,
+         fiber)
+
+product_hue <- data$product_main %>%
+  select(product_id,
+         variation_id,
+         hue)
+
+product_usage <- data$product_main %>%
+  select(product_id,
+         meta.yarn_usage)
+
+product_yarn_weight <- data$product_main %>%
+  select(product_id,
+         yarn_weight)
+
+# customer_
+customer <- data$order_main %>%
+  select(customer_id,
+         billing_email,
+         user_id)
+
+customer_role <- data$order_main %>%
+  left_join(data$role_main) %>%
+  select(customer_id,
+         role)
+
+customer_usage <- data$order_main %>%
+  select(customer_id,
+         meta.yarn_usage)
 
 
 
 
-
-
+glimpse(data$order_main)
 
 
 

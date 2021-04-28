@@ -10,7 +10,7 @@ setwd("C:/Users/sjara/git/made-in-america-yarns/data")
 
 # import all data
 #--------------------------------------------------------------
-data <- import_data()
+data <- import_data() %>% sort_cols()
 
 # drop unnecessary fields from raw data
 #--------------------------------------------------------------
