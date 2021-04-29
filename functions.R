@@ -89,7 +89,7 @@ drop_cols <- function(df_list){
 
 clean_order_main <- function(df){
   # initialize df
-  df <- data$order_main
+  df <- df_list$order_main
 
   df <- df %>%
     # redefine the existing customer_id column to be more appropriate
@@ -108,6 +108,155 @@ clean_order_main <- function(df){
 }
 
 
+# normalize data
+#--------------------------------------------------------------
+
+
+
+# normalize data
+#-----------------------------------------------------------------
+  
+create_normalized_dfs <- function(df_list){
+  df_list <- data
+
+  ###############
+  # order_
+  ###############
+
+  order <- df_list$order_main %>% 
+    # extract date from order_date
+    mutate(order_date = as_date(ymd_hms(order_date)),
+           # convert ids to character
+           order_id = as.character(order_id),
+           customer_id = as.character(customer_id)) %>%
+    select(order_id,
+           order_date,
+           order_total,
+           customer_id,
+           billing_company)
+  #------------------
+  
+  order_main_pivot <- df_list$order_main %>%
+    # gather all "line_item_" columns
+    pivot_longer(cols = starts_with("line_item"), 
+                 names_to = "item", 
+                 values_to = "item_description",
+                 values_drop_na = TRUE) %>% 
+    # extract product info from item_description
+    mutate("product_id" = str_extract(item_description, "(?<=product_id:)[:digit:]*"),
+           "variation_id" = str_extract(item_description, "(?<=variation_id:)[:digit:]*"),
+           "quantity" = str_extract(item_description, "(?<=quantity:)[:digit:]*(?=|total)"),
+           "name" = str_sub(str_trim(str_extract(item_description, "(?<=name:).*(?=product_id:)")),start=1, end=-2),
+           "color" = str_extract(item_description, "(?<=color:|colors:)[:alpha:]*[:space:]*[:alpha:]*[:space:]*[:alpha:]*")) %>%
+    separate(name, into = c("name", "detail"), sep = "-", extra="merge", fill="right") %>%
+    mutate_at(c("name", "detail"), str_trim) 
+  
+  # handle error
+  order_main_pivot <- order_main_pivot %>% 
+    # this is to handle an error in some of the entries of order_raw$line_item_
+    # when product_id="0" & variation_id!=NA, then swap product_id and variation_id
+    mutate(product_id = case_when(product_id == "0" & is.na(variation_id) == FALSE ~variation_id,
+                                  TRUE ~ as.character(product_id)),
+           variation_id = case_when(product_id == variation_id ~"0",
+                                    TRUE ~ as.character(variation_id)))
+  #------------------
+  
+  order_product <- order_main_pivot %>%
+    select(order_id,
+           product_id,
+           variation_id,
+           quantity) 
+  #------------------
+  
+  order_coupon <- df_list$order_main %>%
+    mutate("coupon" = str_sub(str_trim(str_extract(coupon_items, "(?<=code:).*(?=amount:)")), start=1, end=-2)) %>%
+    select(order_id,
+           coupon)
+  
+  ###############
+  # product_
+  ###############
+  product <- order_main_pivot %>%
+    select(product_id,
+           variation_id,
+           name,
+           color) 
+  
+  #------------------
+  
+  product_category <- df_list$product_main %>% 
+    mutate("fiber" = str_extract_all(categories, "(?<=fiber > )[^,]*"), 
+           "yarn_weight" = str_extract_all(categories, "(?<=yarn weight > )[^,]*"),
+           "effect" = str_extract_all(categories, "(?<=effect > )[^,]*"),
+           "hue" = str_extract_all(categories, "(?<=hue > )[^,]*"),
+           "big_cones" = str_detect(categories, "big cones"),
+           "spools" = str_detect(categories, "spools"))
+  #------------------
+  
+  product_fiber <- product_category %>%
+    filter(type == "variable") %>%
+    rename("product_id"=id) %>%
+    unnest(fiber) %>% 
+    select(product_id,
+           fiber) 
+  #------------------
+  
+  product_yarn_weight <- product_category %>%
+    filter(type == "variable") %>%
+    rename("product_id"=id) %>%
+    unnest(yarn_weight) %>% 
+    select(product_id,
+           yarn_weight) 
+  
+  #------------------
+  
+  product_effect <- product_category %>%
+    filter(type == "variable") %>%
+    rename("product_id"=id) %>%
+    unnest(effect) %>% 
+    select(product_id,
+           effect)
+  
+  #------------------
+  
+  # to be manually created by intern
+  ###########
+  # product_hue <- df_list$product_main %>%
+  #   select(product_id,
+  #          variation_id,
+  #          hue)
+  
+  #------------------
+  product_usage <- order_main_pivot %>%
+    distinct(product_id, meta.yarn_usage) %>%
+    select(product_id,
+           meta.yarn_usage)
+  
+  
+  ###############
+  # customer_
+  ###############
+  
+  customer <- df_list$order_main %>%
+    distinct(customer_id,
+             billing_email,
+             user_id) 
+  #------------------
+  
+  customer_usage <- df_list$order_main %>%
+    distinct(customer_id,
+             meta.yarn_usage)
+  #------------------
+  
+  # wait until smart manager plugin is fixed
+  #################
+  # customer_role <- df_list$order_main %>%
+  #   left_join(df_list$role_main) %>%
+  #   select(customer_id,
+  #          role)
+
+
+}
 
 
 

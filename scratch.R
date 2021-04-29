@@ -191,6 +191,7 @@ product_raw_drop <- data$product_raw %>%
 #-----------------------------------------------------------------
 
 # order_
+###############
 order <- data$order_main %>% 
   # extract date from order_date
   mutate(order_date = as_date(ymd_hms(order_date)),
@@ -204,21 +205,29 @@ order <- data$order_main %>%
          billing_company)
 
 order_main_pivot <- data$order_main %>%
+  # gather all "line_item_" columns
   pivot_longer(cols = starts_with("line_item"), 
                names_to = "item", 
                values_to = "item_description",
                values_drop_na = TRUE) %>% 
+  # extract product info from item_description
   mutate("product_id" = str_extract(item_description, "(?<=product_id:)[:digit:]*"),
          "variation_id" = str_extract(item_description, "(?<=variation_id:)[:digit:]*"),
-         product_id = case_when(product_id == "0" & is.na(variation_id) == FALSE ~variation_id,
-                                TRUE ~ as.character(product_id)),
-         variation_id = case_when(product_id == variation_id ~"0",
-                                  TRUE ~ as.character(variation_id)),
          "quantity" = str_extract(item_description, "(?<=quantity:)[:digit:]*(?=|total)"),
          "name" = str_sub(str_trim(str_extract(item_description, "(?<=name:).*(?=product_id:)")),start=1, end=-2),
          "color" = str_extract(item_description, "(?<=color:|colors:)[:alpha:]*[:space:]*[:alpha:]*[:space:]*[:alpha:]*")) %>%
   separate(name, into = c("name", "detail"), sep = "-", extra="merge", fill="right") %>%
   mutate_at(c("name", "detail"), str_trim) 
+
+# handle error
+order_main_pivot <- order_main_pivot %>% 
+  # this is to handle an error in some of the entries of order_raw$line_item_
+  # when product_id="0" & variation_id!=NA, then swap product_id and variation_id
+  mutate(product_id = case_when(product_id == "0" & is.na(variation_id) == FALSE ~variation_id,
+                       TRUE ~ as.character(product_id)),
+         variation_id = case_when(product_id == variation_id ~"0",
+                         TRUE ~ as.character(variation_id)))
+
 
 order_product <- order_main_pivot %>%
   select(order_id,
@@ -231,53 +240,79 @@ order_coupon <- data$order_main %>%
   select(order_id,
          coupon)
 
+
 # product_
+####################
 product <- order_main_pivot %>%
   select(product_id,
          variation_id,
          name,
          color) 
 
-product_effect <- data$product_main %>% glimpse()
+
+product_category <- data$product_main %>% 
+  mutate("fiber" = str_extract_all(categories, "(?<=fiber > )[^,]*"), 
+         "yarn_weight" = str_extract_all(categories, "(?<=yarn weight > )[^,]*"),
+         "effect" = str_extract_all(categories, "(?<=effect > )[^,]*"),
+         "hue" = str_extract_all(categories, "(?<=hue > )[^,]*"),
+         "big_cones" = str_detect(categories, "big cones"),
+         "spools" = str_detect(categories, "spools"))
+ 
+
+glimpse(product_category)
+
+product_fiber <- product_category %>%
+  filter(type == "variable") %>%
+  rename("product_id"=id) %>%
+  unnest(fiber) %>% 
+  select(product_id,
+         fiber) 
+
+product_yarn_weight <- product_category %>%
+  filter(type == "variable") %>%
+  rename("product_id"=id) %>%
+  unnest(yarn_weight) %>% 
+  select(product_id,
+         yarn_weight) 
+
+product_effect <- product_category %>%
+  filter(type == "variable") %>%
+  rename("product_id"=id) %>%
+  unnest(effect) %>% 
   select(product_id,
          effect)
 
-product_fiber <- data$product_main %>%
-  select(product_id,
-         fiber)
+# to be manually created by intern
+###########
+# product_hue <- data$product_main %>%
+#   select(product_id,
+#          variation_id,
+#          hue)
 
-product_hue <- data$product_main %>%
-  select(product_id,
-         variation_id,
-         hue)
-
-product_usage <- data$product_main %>%
+product_usage <- order_main_pivot %>%
+  distinct(product_id, meta.yarn_usage) %>%
   select(product_id,
          meta.yarn_usage)
 
-product_yarn_weight <- data$product_main %>%
-  select(product_id,
-         yarn_weight)
 
 # customer_
+#################
 customer <- data$order_main %>%
-  select(customer_id,
+  distinct(customer_id,
          billing_email,
-         user_id)
-
-customer_role <- data$order_main %>%
-  left_join(data$role_main) %>%
-  select(customer_id,
-         role)
+         user_id) 
 
 customer_usage <- data$order_main %>%
-  select(customer_id,
+  distinct(customer_id,
          meta.yarn_usage)
 
+# wait until smart manager plugin is fixed
+#################
+# customer_role <- data$order_main %>%
+#   left_join(data$role_main) %>%
+#   select(customer_id,
+#          role)
 
-
-
-glimpse(data$order_main)
 
 
 
