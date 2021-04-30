@@ -8,18 +8,17 @@ source("C:/Users/sjara/git/made-in-america-yarns/functions.R")
 setwd("C:/Users/sjara/git/made-in-america-yarns/data")
 
 
-# import all data
+# import all data (_raw.csv, _cols.csv, _main.csv)
 #--------------------------------------------------------------
 data <- import_data() %>% sort_cols()
 
-# drop unnecessary fields from raw data
+# drop unnecessary fields from raw data (_raw_drop.csv)
 #--------------------------------------------------------------
 
 ## add the _raw_drop files to the data list
 data <- append(data, drop_cols())
 
-
-# update main data with  data
+# update main data with clear, most recent data (_main.csv <- update(_main.csv + _raw_drop.csv))
 #--------------------------------------------------------------
 ## update matching rows from order_main to match order
 ## & insert non-matching ids from order_raw_drop into order_main
@@ -34,13 +33,11 @@ data$product_main <- rows_upsert(data$product_main,data$product_raw_drop, by="id
 data$role_main <- rows_upsert(data$role_main, data$role_raw_drop, by="id")
 
 
-# clean main data
-#--------------------------------------------------------------
-data$order_main <- clean_order_main()
-glimpse(data$order_main)
+# normalize data
+#-----------------------------------------------------------------
 
-# product data is clean
-glimpse(data$product_main)
+data_norm <- create_normalized_dfs(data)
 
-# raw data is clean
-glimpse(data$role_main)
+check_primary_keys(define_primary_keys())
+
+glimpse(data_norm$order_product)

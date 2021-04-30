@@ -86,12 +86,56 @@ drop_cols <- function(df_list){
 
 # clean order_main df
 #--------------------------------------------------------------
+# 
+# clean_order_raw_drop <- function(df){
+#   # initialize df
+#   df <- df_list$order_raw_drop
+# 
+#   df <- df %>%
+#     # redefine the existing customer_id column to be more appropriate
+#     rename(user_id = customer_id) %>%
+#     # replace "" with NA, convert to lowercase
+#     mutate_if(is.character, list(~na_if(tolower(.),""))) %>%
+#     mutate(user_id = na_if(user_id, 0)) %>%
+#     # only orders in us & usd
+#     filter(shipping_country == "us",
+#            order_currency == "usd") %>%
+#     select(-c(shipping_country, order_currency)) %>%
+#     # create customer_id column based on billing_email
+#     group_by(billing_email) %>%
+#     mutate("customer_id" = cur_group_id()) %>%
+#     ungroup()
+#}
 
-clean_order_main <- function(df){
-  # initialize df
-  df <- df_list$order_main
 
-  df <- df %>%
+
+# normalize data
+#-----------------------------------------------------------------
+  
+create_normalized_dfs <- function(df_list){
+  # use the updated data to create normalized data frames
+  # return a list of the normalized data frames
+  
+  # get list of updated data
+  df_list <- data
+  
+  # initialize list for normalized data frames
+  data_norm <- list()
+  
+  ###############
+  #
+  #
+  #
+  # create normalized data frames:
+  #
+  #
+  #
+  ###############
+  # order_
+  ###############
+  #
+  
+  df_list$order_main <- df_list$order_main %>%
     # redefine the existing customer_id column to be more appropriate
     rename(user_id = customer_id) %>%
     # replace "" with NA, convert to lowercase
@@ -105,25 +149,9 @@ clean_order_main <- function(df){
     group_by(billing_email) %>%
     mutate("customer_id" = cur_group_id()) %>%
     ungroup()
-}
-
-
-# normalize data
-#--------------------------------------------------------------
-
-
-
-# normalize data
-#-----------------------------------------------------------------
   
-create_normalized_dfs <- function(df_list){
-  df_list <- data
 
-  ###############
-  # order_
-  ###############
-
-  order <- df_list$order_main %>% 
+  data_norm$order <- df_list$order_main %>% 
     # extract date from order_date
     mutate(order_date = as_date(ymd_hms(order_date)),
            # convert ids to character
@@ -161,14 +189,14 @@ create_normalized_dfs <- function(df_list){
                                     TRUE ~ as.character(variation_id)))
   #------------------
   
-  order_product <- order_main_pivot %>%
+  data_norm$order_product <- order_main_pivot %>%
     select(order_id,
            product_id,
            variation_id,
            quantity) 
   #------------------
   
-  order_coupon <- df_list$order_main %>%
+  data_norm$order_coupon <- df_list$order_main %>%
     mutate("coupon" = str_sub(str_trim(str_extract(coupon_items, "(?<=code:).*(?=amount:)")), start=1, end=-2)) %>%
     select(order_id,
            coupon)
@@ -176,7 +204,7 @@ create_normalized_dfs <- function(df_list){
   ###############
   # product_
   ###############
-  product <- order_main_pivot %>%
+  data_norm$product <- order_main_pivot %>%
     select(product_id,
            variation_id,
            name,
@@ -193,7 +221,7 @@ create_normalized_dfs <- function(df_list){
            "spools" = str_detect(categories, "spools"))
   #------------------
   
-  product_fiber <- product_category %>%
+  data_norm$product_fiber <- product_category %>%
     filter(type == "variable") %>%
     rename("product_id"=id) %>%
     unnest(fiber) %>% 
@@ -201,7 +229,7 @@ create_normalized_dfs <- function(df_list){
            fiber) 
   #------------------
   
-  product_yarn_weight <- product_category %>%
+  data_norm$product_yarn_weight <- product_category %>%
     filter(type == "variable") %>%
     rename("product_id"=id) %>%
     unnest(yarn_weight) %>% 
@@ -210,7 +238,7 @@ create_normalized_dfs <- function(df_list){
   
   #------------------
   
-  product_effect <- product_category %>%
+  data_norm$product_effect <- product_category %>%
     filter(type == "variable") %>%
     rename("product_id"=id) %>%
     unnest(effect) %>% 
@@ -227,7 +255,7 @@ create_normalized_dfs <- function(df_list){
   #          hue)
   
   #------------------
-  product_usage <- order_main_pivot %>%
+  data_norm$product_usage <- order_main_pivot %>%
     distinct(product_id, meta.yarn_usage) %>%
     select(product_id,
            meta.yarn_usage)
@@ -237,13 +265,13 @@ create_normalized_dfs <- function(df_list){
   # customer_
   ###############
   
-  customer <- df_list$order_main %>%
+  data_norm$customer <- df_list$order_main %>%
     distinct(customer_id,
              billing_email,
              user_id) 
   #------------------
   
-  customer_usage <- df_list$order_main %>%
+  data_norm$customer_usage <- df_list$order_main %>%
     distinct(customer_id,
              meta.yarn_usage)
   #------------------
@@ -256,11 +284,69 @@ create_normalized_dfs <- function(df_list){
   #          role)
 
 
+  return(data_norm)
+}
+
+define_primary_keys <- function(){
+
+primary_keys <- list(
+  "order_pk" = data_norm$order %>% 
+    select(order_id),
+  "order_product_pk" = data_norm$order_product %>%
+    select(order_id,
+           product_id,
+           variation_id),
+  "order_coupon_pk" = data_norm$order_coupon %>%
+    select(everything()),
+  "product_pk" = data_norm$product %>%
+    select(product_id,
+           variation_id),
+  "product_fiber_pk" = data_norm$product_fiber %>%
+    select(everything()),
+  "product_yarn_weight_pk" = data_norm$product_yarn_weight %>%
+    select(everything()),
+  "product_effect_pk" = data_norm$product_effect %>%
+    select(everything()),
+  "product_usage_pk" = data_norm$product_usage %>%
+    select(everything()),
+  "customer_pk" = data_norm$customer %>%
+    select(customer_id),
+  "customer_usage_pk" = data_norm$customer_usage %>%
+    select(everything())
+) 
+return(primary_keys)
 }
 
 
-
-
+check_primary_keys <- function(pk_list){
+  
+  # get list of primary key data frames
+  
+  # create a data frame to record the result of each primary key data frame against the criteria:
+  ## is_unique? is_na? is_empty_string?
+  criteria_df <- as.data.frame(
+    cbind(is_unique = lapply(pk_list, function(pk){if_else(count(pk)==nrow(pk),
+                                                     TRUE,
+                                                     FALSE)}),
+          is_na = lapply(pk_list, function(pk){any(is.na(pk))}),
+          is_empty_string = lapply(pk_list, function(pk){any(pk=="", na.rm = TRUE)})
+    )
+  )
+  
+  # create a data frame of only invalid primary keys
+  invalid <- criteria_df %>% filter(is_unique == FALSE |is_na == TRUE |is_empty_string == TRUE)
+  
+  # if there are any invalid primary keys, return those
+  if(nrow(invalid) != 0){
+    print("INVALID PRIMARY KEYS:")
+    result <- invalid
+    # if not, all good!
+  }else{result <- "All good!"}
+  
+  
+  return(result)
+  
+}
 
 
 

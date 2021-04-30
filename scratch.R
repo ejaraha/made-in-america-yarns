@@ -315,7 +315,38 @@ customer_usage <- data$order_main %>%
 
 
 
+# check normalized data
+#-----------------------------------------------------------------
 
 
+lapply(data_norm, check_empty)
+
+
+
+check_pk <- function(x){
+  x <- data_norm$primary_keys
+  criteria_df <- as.data.frame(
+    cbind(is_unique = lapply(x, function(pk){if_else(count(pk)==nrow(pk),
+                                                              TRUE,
+                                                              FALSE)}),
+        is_na = lapply(x, function(pk){any(is.na(pk))}),
+        is_empty_string = lapply(x, function(pk){any(pk=="", na.rm = TRUE)})
+        )
+  )
+  
+  invalid <- criteria_df %>% filter(is_unique == FALSE |is_na == TRUE |is_empty_string == TRUE)
+  
+  if(nrow(invalid) != 0){
+    print("INVALID PRIMARY KEYS:")
+    result <- invalid
+  }else{result <- "All good!"}
+
+
+return(result)
+
+}
+
+
+check_pk(pk_list)
 
 
