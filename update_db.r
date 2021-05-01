@@ -40,4 +40,4 @@ data_norm <- create_normalized_dfs(data)
 
 check_primary_keys(define_primary_keys())
 
-glimpse(data_norm$order_product)
+lapply(data_norm, check_empty)

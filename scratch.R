@@ -349,4 +349,9 @@ return(result)
 
 check_pk(pk_list)
 
-
+# when there's a variation_id but no product_id:
+## WooCommerce' mistake? the id listed as variation_id should actually be in the product_id column 
+## comparing against wcSmartManager plugin shows this
+## for these instances, swap the contents of product_id and variation_id
+pid_0_vid_not.na <- order_main_pivot %>% filter(product_id == "0" & is.na(variation_id) == FALSE)
+pid_0 <- order_main_pivot %>% filter(product_id == "0")

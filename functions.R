@@ -84,30 +84,6 @@ drop_cols <- function(df_list){
 }
 
 
-# clean order_main df
-#--------------------------------------------------------------
-# 
-# clean_order_raw_drop <- function(df){
-#   # initialize df
-#   df <- df_list$order_raw_drop
-# 
-#   df <- df %>%
-#     # redefine the existing customer_id column to be more appropriate
-#     rename(user_id = customer_id) %>%
-#     # replace "" with NA, convert to lowercase
-#     mutate_if(is.character, list(~na_if(tolower(.),""))) %>%
-#     mutate(user_id = na_if(user_id, 0)) %>%
-#     # only orders in us & usd
-#     filter(shipping_country == "us",
-#            order_currency == "usd") %>%
-#     select(-c(shipping_country, order_currency)) %>%
-#     # create customer_id column based on billing_email
-#     group_by(billing_email) %>%
-#     mutate("customer_id" = cur_group_id()) %>%
-#     ungroup()
-#}
-
-
 
 # normalize data
 #-----------------------------------------------------------------
@@ -162,6 +138,7 @@ create_normalized_dfs <- function(df_list){
            order_total,
            customer_id,
            billing_company)
+  
   #------------------
   
   order_main_pivot <- df_list$order_main %>%
@@ -179,14 +156,32 @@ create_normalized_dfs <- function(df_list){
     separate(name, into = c("name", "detail"), sep = "-", extra="merge", fill="right") %>%
     mutate_at(c("name", "detail"), str_trim) 
   
-  # handle error
+  
+
+  # handle three scenarios of product_id == "0" and/or variation_id == NA
+  
   order_main_pivot <- order_main_pivot %>% 
-    # this is to handle an error in some of the entries of order_raw$line_item_
-    # when product_id="0" & variation_id!=NA, then swap product_id and variation_id
-    mutate(product_id = case_when(product_id == "0" & is.na(variation_id) == FALSE ~variation_id,
+    # [1] when there's a variation_id but no product_id:
+    ## WooCommerce' mistake? the id listed as variation_id should actually be in the product_id column 
+    ## comparing against wcSmartManager plugin shows this
+    ## for these instances, swap the contents of product_id and variation_id
+    mutate(product_id = case_when(product_id == "0" & is.na(variation_id) == FALSE ~ variation_id,
                                   TRUE ~ as.character(product_id)),
-           variation_id = case_when(product_id == variation_id ~"0",
+           # variation_id = "9999" indicates a missing variation_id
+           # this is likely due to data loss
+           variation_id = case_when(product_id == variation_id ~"9999",
+                                    TRUE ~ as.character(variation_id))
+           ) %>%
+    # [2] when product_id == "0" & variation_id is.na 
+    ## these are products that have since been deleted
+    ## these products will also be deleted from the database from this date on
+    filter(product_id != "0" & is.na(variation_id)!=TRUE) %>%   
+    # [3] for the remaining records, is.na(variation_id)=TRUE indicates a simple product
+    ## all NAs in variation_id will be replaced with "0000" to explicitly indicate simple products
+    mutate(variation_id = case_when(is.na(variation_id)==TRUE ~ "0000",
                                     TRUE ~ as.character(variation_id)))
+    
+    
   #------------------
   
   data_norm$order_product <- order_main_pivot %>%
@@ -194,10 +189,12 @@ create_normalized_dfs <- function(df_list){
            product_id,
            variation_id,
            quantity) 
+  
   #------------------
   
   data_norm$order_coupon <- df_list$order_main %>%
     mutate("coupon" = str_sub(str_trim(str_extract(coupon_items, "(?<=code:).*(?=amount:)")), start=1, end=-2)) %>%
+    filter(is.na(coupon)==FALSE) %>%
     select(order_id,
            coupon)
   
@@ -219,6 +216,7 @@ create_normalized_dfs <- function(df_list){
            "hue" = str_extract_all(categories, "(?<=hue > )[^,]*"),
            "big_cones" = str_detect(categories, "big cones"),
            "spools" = str_detect(categories, "spools"))
+  
   #------------------
   
   data_norm$product_fiber <- product_category %>%
@@ -227,11 +225,12 @@ create_normalized_dfs <- function(df_list){
     unnest(fiber) %>% 
     select(product_id,
            fiber) 
+  
   #------------------
   
   data_norm$product_yarn_weight <- product_category %>%
     filter(type == "variable") %>%
-    rename("product_id"=id) %>%
+    rename("product_id"=id) %>% 
     unnest(yarn_weight) %>% 
     select(product_id,
            yarn_weight) 
@@ -247,7 +246,7 @@ create_normalized_dfs <- function(df_list){
   
   #------------------
   
-  # to be manually created by intern
+  # to be manually created
   ###########
   # product_hue <- df_list$product_main %>%
   #   select(product_id,
@@ -255,10 +254,14 @@ create_normalized_dfs <- function(df_list){
   #          hue)
   
   #------------------
-  data_norm$product_usage <- order_main_pivot %>%
-    distinct(product_id, meta.yarn_usage) %>%
-    select(product_id,
-           meta.yarn_usage)
+  
+  # unpack meta.yarn_usage with multiple usages
+  usage_list <- strsplit(order_main_pivot$meta.yarn_usage, split = ",")
+  # create a new data frame with room to insert the usages previously packed in comma-separated character strings
+  data_norm$product_usage <- data.frame(product_id = rep(order_main_pivot$product_id, sapply(usage_list, length)), 
+                                        meta.yarn_usage = unlist(usage_list)) %>%
+    filter(is.na(meta.yarn_usage)==FALSE)
+  
   
   
   ###############
@@ -271,9 +274,10 @@ create_normalized_dfs <- function(df_list){
              user_id) 
   #------------------
   
-  data_norm$customer_usage <- df_list$order_main %>%
-    distinct(customer_id,
-             meta.yarn_usage)
+  data_norm$customer_usage <- data.frame(customer_id = rep(order_main_pivot$customer_id, sapply(usage_list, length)), 
+                                         meta.yarn_usage = unlist(usage_list)) %>%
+    filter(is.na(meta.yarn_usage)==FALSE)
+  
   #------------------
   
   # wait until smart manager plugin is fixed
@@ -341,7 +345,7 @@ check_primary_keys <- function(pk_list){
     print("INVALID PRIMARY KEYS:")
     result <- invalid
     # if not, all good!
-  }else{result <- "All good!"}
+  }else{result <- "All good! Carry on..."}
   
   
   return(result)
@@ -349,7 +353,12 @@ check_primary_keys <- function(pk_list){
 }
 
 
-
+check_empty <- function(df){
+  #checks every column in df for NAs and ""
+  df <- data.frame("any_nas" = apply(df, 2, function(df) any(is.na(df))),
+                   "any_empty_character_vectors" = apply(df, 2, function(df) any(df == "", na.rm = TRUE))) 
+  return(df)
+}
 
 
 
