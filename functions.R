@@ -3,10 +3,8 @@
 # library(lubridate)
 
 # import all data
-#--------------------------------------------------------------
-
+#-------------------------------------------------------------
 import_data <- function(){
-
   # make a list of the file names in the working directory
   file_list <- list.files()
   # read all of the files into one list
@@ -27,84 +25,115 @@ import_data <- function(){
   df_names <- str_replace(file_list, ".csv", "")
   names(df_list) <- df_names
   
+  # output messages
+  cat("All necessary files imported:\n----------------------------\n")
+  cat(file_list, sep="\n")
+  
   return(df_list)
 }
 
 # sort column names alphabetically
-#--------------------------------------------------------------------------------
-
+#-------------------------------------------------------------
 sort_cols <- function(df, decrease = FALSE){
   T_F <- as.logical(decrease)
   df <- df[sort(names(df), decreasing = T_F)]
   return(df)
 }
 
-
 # drop unnecessary fields
-#--------------------------------------------------------------------------------
-
+#-------------------------------------------------------------
 drop_cols <- function(df_list){
-  
-  # get data
-  df_list <- data
   # split df_list into two lists & order lists alphabetically in prep to loop
   ## cols: dfs of column names and boolean field of keep or not keep
   cols_df_list <- df_list[grepl("_cols", names(df_list))] %>% sort_cols()
   ## raw: raw dfs
   raw_df_list <- df_list[grepl("_raw", names(df_list))] %>% sort_cols()
-  
   # filter and select cols_df_list
   cols_df_list <- lapply(cols_df_list, 
                          function(x)
                            filter(x, keep==1) %>%
                            select(variable))
-  
   # initialize list for loop
   raw_drop_df_list <- list()
-  
   for(i in 1:length(raw_df_list)){
-    
     # define variables
     ## column names to keep
     cols <- cols_df_list[[i]]$variable
     ## corresponding df
     df <- raw_df_list[[i]]
-    
     # redefine df with only columns %in% cols
     df <- df %>%
       select(all_of(cols))
-    
     # add df to the list of processed dfs
-    raw_drop_df_list[[i]] <- df
-  }
-  
+    raw_drop_df_list[[i]] <- df}
   names(raw_drop_df_list) <- lapply(names(raw_df_list), function(x)paste(x, "_drop", sep=""))
-  
+  #output messages
+  df_names <- names(raw_drop_df_list)
+  cat(sprintf("\n%i new data frames have been created\nwith only the necessary fields from the _raw data frames:
+              \n--------------------------------------
+              \n", length(raw_drop_df_list)))
+  cat(df_names, sep="\n")
   return(raw_drop_df_list)
 }
 
-
+# update data
+#-------------------------------------------------------------
+update <- function(data){
+  # import all data (_raw.csv, _cols.csv, _main.csv)
+  #--------------------------------------------------------------
+  data <- import_data() %>% sort_cols()
+  
+  # drop unnecessary fields from raw data (_raw_drop.csv)
+  #--------------------------------------------------------------
+  ## add the _raw_drop files to the data list
+  data <- append(data, drop_cols(data))
+  
+  # output message: number of rows BEFORE update
+  nrow_om_before <- as.integer(nrow(data$order_main))
+  nrow_pm_before <- as.integer(nrow(data$product_main))
+  nrow_rm_before <- as.integer(nrow(data$role_main))
+  cat(sprintf("\n\nThe _main data frames will now be updated with _raw_drop data frames
+              \n-----------------------------------------------------------------------
+              \n...nrows in _main data frames BEFORE the update:
+              \ndata$order_main %i\ndata$product_main %i\ndata$role_main %i",
+              nrow_om_before, 
+              nrow_pm_before,
+              nrow_rm_before))
+  
+  # update main data with most recent data (_main <- update(_main + _raw_drop))
+  #--------------------------------------------------------------
+  ## update matching rows from order_main to match order
+  ## & insert non-matching ids from order_raw_drop into order_main
+  data$order_main <- rows_upsert(data$order_main, data$order_raw_drop, by="order_id")
+  
+  ## update matching rows from product_main to match product
+  ## & insert non-matching rows from product_raw_drop to product_main
+  data$product_main <- rows_upsert(data$product_main,data$product_raw_drop, by="id")
+  
+  ## update matching rows from role_main to match role
+  ## & insert non-matching rows from role_raw_drop to role_main
+  data$role_main <- rows_upsert(data$role_main, data$role_raw_drop, by="id")
+  
+  # output message: number of rows AFTER update
+  cat(sprintf("\n\n...nrows ADDED TO _main data frames during the update:
+              \ndata$order_main %i\ndata$product_main %i\ndata$role_main %i\n",
+              as.integer(nrow(data$order_main) - nrow_om_before),
+              as.integer(nrow(data$product_main)) - nrow_pm_before,
+              as.integer(nrow(data$role_main)) - nrow_rm_before))
+  
+  return(data)
+}
 
 # normalize data
-#-----------------------------------------------------------------
-  
-create_normalized_dfs <- function(df_list){
+#-------------------------------------------------------------
+normalize <- function(df_list){
   # use the updated data to create normalized data frames
   # return a list of the normalized data frames
   
-  # get list of updated data
-  df_list <- data
-  
   # initialize list for normalized data frames
   data_norm <- list()
-  
-  ###############
-  #
-  #
   #
   # create normalized data frames:
-  #
-  #
   #
   ###############
   # order_
@@ -126,7 +155,7 @@ create_normalized_dfs <- function(df_list){
     mutate("customer_id" = cur_group_id()) %>%
     ungroup()
   
-
+  
   data_norm$order <- df_list$order_main %>% 
     # extract date from order_date
     mutate(order_date = as_date(ymd_hms(order_date)),
@@ -157,7 +186,7 @@ create_normalized_dfs <- function(df_list){
     mutate_at(c("name", "detail"), str_trim) 
   
   
-
+  
   # handle three scenarios of product_id == "0" and/or variation_id == NA
   
   order_main_pivot <- order_main_pivot %>% 
@@ -171,7 +200,7 @@ create_normalized_dfs <- function(df_list){
            # this is likely due to data loss
            variation_id = case_when(product_id == variation_id ~"9999",
                                     TRUE ~ as.character(variation_id))
-           ) %>%
+    ) %>%
     # [2] when product_id == "0" & variation_id is.na 
     ## these are products that have since been deleted
     ## these products will also be deleted from the database from this date on
@@ -180,8 +209,8 @@ create_normalized_dfs <- function(df_list){
     ## all NAs in variation_id will be replaced with "0000" to explicitly indicate simple products
     mutate(variation_id = case_when(is.na(variation_id)==TRUE ~ "0000",
                                     TRUE ~ as.character(variation_id)))
-    
-    
+  
+  
   #------------------
   
   data_norm$order_product <- order_main_pivot %>%
@@ -286,72 +315,68 @@ create_normalized_dfs <- function(df_list){
   #   left_join(df_list$role_main) %>%
   #   select(customer_id,
   #          role)
-
-
+  
+  cat(sprintf("\n\n%i normalized data frames created:\n", length(data_norm)))
+  cat(names(data_norm), sep="\n")
   return(data_norm)
 }
 
-define_primary_keys <- function(){
-
-primary_keys <- list(
-  "order_pk" = data_norm$order %>% 
-    select(order_id),
-  "order_product_pk" = data_norm$order_product %>%
-    select(order_id,
-           product_id,
-           variation_id),
-  "order_coupon_pk" = data_norm$order_coupon %>%
-    select(everything()),
-  "product_pk" = data_norm$product %>%
-    select(product_id,
-           variation_id),
-  "product_fiber_pk" = data_norm$product_fiber %>%
-    select(everything()),
-  "product_yarn_weight_pk" = data_norm$product_yarn_weight %>%
-    select(everything()),
-  "product_effect_pk" = data_norm$product_effect %>%
-    select(everything()),
-  "product_usage_pk" = data_norm$product_usage %>%
-    select(everything()),
-  "customer_pk" = data_norm$customer %>%
-    select(customer_id),
-  "customer_usage_pk" = data_norm$customer_usage %>%
-    select(everything())
-) 
-return(primary_keys)
+primary_key_list <- function(){
+  # select the primary key fields from [data_norm]
+  ## in the global environment, [data_norm] is a variable defined by 'normalize(update_db())'
+  df_list <- list(
+    "pk_order" = data_norm$order %>% 
+      select(order_id),
+    "pk_order_product" = data_norm$order_product %>%
+      select(order_id,
+             product_id,
+             variation_id),
+    "pk_order_coupon" = data_norm$order_coupon %>%
+      select(everything()),
+    "pk_product" = data_norm$product %>%
+      select(product_id,
+             variation_id),
+    "pk_product_fiber" = data_norm$product_fiber %>%
+      select(everything()),
+    "pk_product_yarn_weight" = data_norm$product_yarn_weight %>%
+      select(everything()),
+    "pk_product_effect" = data_norm$product_effect %>%
+      select(everything()),
+    "pk_product_usage" = data_norm$product_usage %>%
+      select(everything()),
+    "pk_customer" = data_norm$customer %>%
+      select(customer_id),
+    "pk_customer_usage" = data_norm$customer_usage %>%
+      select(everything()))
+  
+  return(df_list)
 }
 
-
-check_primary_keys <- function(pk_list){
+check_primary_keys <- function(df_list){
   
   # get list of primary key data frames
-  
-  # create a data frame to record the result of each primary key data frame against the criteria:
-  ## is_unique? is_na? is_empty_string?
-  criteria_df <- as.data.frame(
+  pk_list <- df_list
+  # [1] check each pk in pk_list for uniqueness, NAs, and empty strings. 
+  ## record the results in criteria_df
+  pk_check <- as.data.frame(
     cbind(is_unique = lapply(pk_list, function(pk){if_else(count(pk)==nrow(pk),
-                                                     TRUE,
-                                                     FALSE)}),
+                                                           # unique if the # rows matches the # unique rows
+                                                           TRUE,
+                                                           FALSE)}),
           is_na = lapply(pk_list, function(pk){any(is.na(pk))}),
-          is_empty_string = lapply(pk_list, function(pk){any(pk=="", na.rm = TRUE)})
-    )
-  )
-  
-  # create a data frame of only invalid primary keys
-  invalid <- criteria_df %>% filter(is_unique == FALSE |is_na == TRUE |is_empty_string == TRUE)
-  
-  # if there are any invalid primary keys, return those
+          is_empty_string = lapply(pk_list, function(pk){any(pk=="", na.rm = TRUE)})))
+  # [2] create a data frame of only invalid primary keys 
+  invalid <- pk_check %>% 
+    filter(is_unique == FALSE |is_na == TRUE |is_empty_string == TRUE)
+  # [3] if there are any invalid primary keys, return those
   if(nrow(invalid) != 0){
-    print("INVALID PRIMARY KEYS:")
+    cat("INVALID PRIMARY KEYS: \n The following dataframes have invalid primary keys:")
     result <- invalid
     # if not, all good!
-  }else{result <- "All good! Carry on..."}
-  
+  }else{result <- "All primary keys are valid (unique, no nulls)."}
   
   return(result)
-  
 }
-
 
 check_empty <- function(df){
   #checks every column in df for NAs and ""
@@ -359,8 +384,6 @@ check_empty <- function(df){
                    "any_empty_character_vectors" = apply(df, 2, function(df) any(df == "", na.rm = TRUE))) 
   return(df)
 }
-
-
 
 
 
