@@ -82,6 +82,15 @@
     mutate(variation_id = case_when(is.na(variation_id)==TRUE ~ "0000",
                                     TRUE ~ as.character(variation_id)))
   
+  #------------------
+  # output message
+  
+  n_9999 <- order_main_pivot %>% filter(variation_id == "9999") %>% nrow()
+  n_0000 <- order_main_pivot %>% filter(variation_id == "0000") %>% nrow()
+  p_9999 <- as.integer(n_9999/nrow(order_main_pivot)*100)
+  cat(sprintf("%i rows in order_main_pivot have been assigned a variation_id of \"0000\"\nindicating a SIMPLE PRODUCT", n_0000))
+  cat(sprintf("%i rows in order_main_pivot have been assigned a variation_id of \"9999\"\nThat's %i% of the rows\n*?*?*Investigate if this gets above 10%", n_9999, P_9999))
+  
   
   #------------------
   ##############################################################################
@@ -162,35 +171,33 @@
               by = c("product_id", "variation_id")) %>%
     select(product_id, 
            variation_id,
-           hue)
+           hue) 
+
   ##############################################################################
-  #------------------
-  
-  # unpack meta.yarn_usage with multiple usages
-  usage_list <- strsplit(order_main_pivot$meta.yarn_usage, split = ",")
-  # create a new data frame with room to insert the usages previously packed in comma-separated character strings
-  data_norm$product_usage <- data.frame(product_id = rep(order_main_pivot$product_id, sapply(usage_list, length)), 
-                                        meta.yarn_usage = unlist(usage_list)) %>%
-    filter(is.na(meta.yarn_usage)==FALSE)
-  
-  
   
   ###############
   # customer_
   ###############
-  
+  ##############################################################################
   data_norm$customer <- data$order_main %>%
-    distinct(customer_id,
+    group_by(customer_id) %>%
+    # get most recent info for a specific customer_id
+    mutate("max_date_by_cid"=max(order_date)) %>%
+    filter(max_date_by_cid == order_date) %>%
+    ungroup() %>%
+    select(customer_id,
              billing_email,
-             user_id) 
-  #------------------
+             user_id) %>% glimpse()
   
+  ##############################################################################
+  #------------------
+  ##############################################################################
   data_norm$customer_usage <- data.frame(customer_id = rep(order_main_pivot$customer_id, sapply(usage_list, length)), 
                                          meta.yarn_usage = unlist(usage_list)) %>%
     filter(is.na(meta.yarn_usage)==FALSE)
-  
+  ##############################################################################
   #------------------
-  
+  ##############################################################################
   # make a list of lists to unpack users with multiple roles
   role_list <- strsplit(data$role_main[["wp.capabilities"]],":true") 
   # remove anything that isn't a letter
@@ -200,7 +207,7 @@
                                         "role" = unlist(role_list)) %>%
     filter(role != "") %>%
     select(user_id, role)
-  
+  ##############################################################################
   #------------------
   #outut message
   
@@ -267,5 +274,23 @@ check_primary_keys <- function(df_list){
     cat("INVALID PRIMARY KEYS: \n The following dataframes have invalid primary keys:\n")
     result <- invalid
     # if not, all good!
-  }else{result <- "All primary keys are valid (unique, no nulls)."}
+  }else{result <- "All primary keys are valid (unique, no nulls)."}}
  
+# export normalized data
+#-------------------------------------------------------------
+export_data_norm <- function(df_list){
+  lapply(names(data), function(df){
+    # write all normalized data frames to the /data/normalized directory
+    wd_data_norm <- "C:/Users/sjara/git/made-in-america-yarns/data/normalized"
+    write.csv(data[[df]], paste(wd_data_norm, "/", df, ".csv", sep=""), row.names = FALSE)
+  })
+  
+  cat("Noramlized tables have been written to the data/NORMALIZED directory \n")
+  
+  # write product_hue data to the /data directory AS WELL AS the /data/normalized directory
+  write.csv(df_list[["product_hue"]], "product_hue.csv", row.names = FALSE)
+  
+  cat("Product_hue.csv has been updated in the /DATA directory \n")
+}
+
+

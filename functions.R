@@ -179,7 +179,7 @@ normalize <- function(df_list){
     # extract product info from item_description
     mutate("product_id" = str_extract(item_description, "(?<=product_id:)[:digit:]*"),
            "variation_id" = str_extract(item_description, "(?<=variation_id:)[:digit:]*"),
-           "quantity" = str_extract(item_description, "(?<=quantity:)[:digit:]*(?=|total)"),
+           "quantity" = as.integer(str_extract(item_description, "(?<=quantity:)[:digit:]*(?=|total)")),
            "name" = str_sub(str_trim(str_extract(item_description, "(?<=name:).*(?=product_id:)")),start=1, end=-2),
            "color" = str_extract(item_description, "(?<=color:|colors:)[:alpha:]*[:space:]*[:alpha:]*[:space:]*[:alpha:]*")) %>%
     separate(name, into = c("name", "detail"), sep = "-", extra="merge", fill="right") %>%
@@ -216,18 +216,17 @@ normalize <- function(df_list){
   n_9999 <- order_main_pivot %>% filter(variation_id == "9999") %>% nrow()
   n_0000 <- order_main_pivot %>% filter(variation_id == "0000") %>% nrow()
   p_9999 <- as.integer(n_9999/nrow(order_main_pivot)*100)
-  cat(sprintf("%i rows in order_main_pivot have been assigned a variation_id of \"0000\"\nindicating a SIMPLE PRODUCT", n_0000))
-  cat(sprintf("%i rows in order_main_pivot have been assigned a variation_id of \"9999\"\nThat's %i% of the rows\n*?*?*Investigate if this gets above 10%", n_9999, P_9999))
+  cat(sprintf("%i rows in order_main_pivot have been assigned a variation_id of \"0000\"\nindicating a SIMPLE PRODUCT\n", n_0000))
+  cat(sprintf("%i rows in order_main_pivot have been assigned a variation_id of \"9999\"\nThat's %i percent of the rows\n*?*?*Investigate if this gets above 10 percent",n_9999, p_9999))
   
   
   #------------------
-  
+  ##############################################################################
   data_norm$order_product <- order_main_pivot %>%
-    select(order_id,
-           product_id,
-           variation_id,
-           quantity) 
-  
+    group_by(order_id, product_id, variation_id) %>% 
+    summarise("quantity" = sum(quantity), .groups = "keep") %>%
+    as.data.frame()
+  ##############################################################################
   #------------------
   
   data_norm$order_coupon <- df_list$order_main %>%
@@ -235,16 +234,31 @@ normalize <- function(df_list){
     filter(is.na(coupon)==FALSE) %>%
     select(order_id,
            coupon)
+  #------------------
   
+  # unpack meta.yarn_usage with multiple usages
+  usage_list <- strsplit(order_main_pivot$meta.yarn_usage, split = ",")
+  # create a new data frame with room to insert the usages previously packed in comma-separated character strings
+  data_norm$order_usage <- data.frame(order_id = rep(order_main_pivot$order_id, sapply(usage_list, length)), 
+                                        meta.yarn_usage = unlist(usage_list)) %>%
+    filter(is.na(meta.yarn_usage)==FALSE) %>%
+    distinct()
+  #------------------
+
   ###############
   # product_
   ###############
+  ##############################################################################
   data_norm$product <- order_main_pivot %>%
-    select(product_id,
-           variation_id,
-           name,
-           color) 
-  
+    group_by(product_id,
+             variation_id) %>% 
+    # get most recent data for a specific product_id / variation_id combo
+    mutate("max_date_by_pid_vid" = max(order_date)) %>% 
+    filter(max_date_by_pid_vid==order_date) %>% 
+    # for orders on the same date/time with more than one color/name (usually because of 9999 variation_id)
+    summarize(across(c(name, color), max), .groups = "keep") %>%
+    ungroup()
+  ##############################################################################
   #------------------
   
   product_category <- df_list$product_main %>% 
@@ -283,30 +297,21 @@ normalize <- function(df_list){
            effect)
   
   #------------------
+  ##############################################################################
+  # int -> char (id columns in df_list$product_hue)
+  df_list$product_hue <- df_list$product_hue %>%
+    mutate(across(.cols = contains("_id"), as.character)) 
   
-  # int -> char (id columns in DATA$product_hue)
-  data$product_hue <- data$product_hue %>%
-    mutate(across(.cols = contains("_id"), as.character))
-  
-  # join DATA$product_hue to data_norm$product
+  # join df_list$product_hue to data_norm$product
   ## in resulting data_norm$product_hue, hue will be NA for new products
-  ## hue must be manually assigned in excel by editing the ./data/product_hue.csv
+  ## NAs must be filled manually assigning hue in excel by editing the ./data/product_hue.csv
   data_norm$product_hue <- data_norm$product %>%
-    left_join(data$product_hue,
+    left_join(df_list$product_hue,
               by = c("product_id", "variation_id")) %>%
     select(product_id, 
            variation_id,
-           hue) 
-  
-  #------------------
-  
-  # unpack meta.yarn_usage with multiple usages
-  usage_list <- strsplit(order_main_pivot$meta.yarn_usage, split = ",")
-  # create a new data frame with room to insert the usages previously packed in comma-separated character strings
-  data_norm$product_usage <- data.frame(product_id = rep(order_main_pivot$product_id, sapply(usage_list, length)), 
-                                        meta.yarn_usage = unlist(usage_list)) %>%
-    filter(is.na(meta.yarn_usage)==FALSE)
-  
+           hue)  
+  ##############################################################################
   
   
   ###############
@@ -314,29 +319,36 @@ normalize <- function(df_list){
   ###############
   
   data_norm$customer <- df_list$order_main %>%
-    distinct(customer_id,
-             billing_email,
-             user_id) 
+    group_by(customer_id) %>%
+    # get most recent info for a specific customer_id
+    mutate("max_date_by_cid"=max(order_date)) %>%
+    filter(max_date_by_cid == order_date) %>%
+    ungroup() %>%
+    select(customer_id,
+           billing_email,
+           user_id)
+  
   #------------------
   
   data_norm$customer_usage <- data.frame(customer_id = rep(order_main_pivot$customer_id, sapply(usage_list, length)), 
                                          meta.yarn_usage = unlist(usage_list)) %>%
-    filter(is.na(meta.yarn_usage)==FALSE)
+    filter(is.na(meta.yarn_usage)==FALSE) %>%
+    distinct()
   
   #------------------
   
   # make a list of lists to unpack users with multiple roles
-  role_list <- strsplit(data$role_main[["wp.capabilities"]],":true") 
+  role_list <- strsplit(df_list$role_main[["wp.capabilities"]],":true") 
   # remove anything that isn't a letter
   role_list <- lapply(role_list, FUN = function(x){str_replace_all(x,"[^a-z]", "")})
   # create a data frame with an user_id for each role
-  data_norm$customer_role <- data.frame("user_id" = rep(data$role_main[["id"]], sapply(role_list, length)),
+  data_norm$customer_role <- data.frame("user_id" = rep(df_list$role_main[["id"]], sapply(role_list, length)),
                                         "role" = unlist(role_list)) %>%
-                             filter(role != "") %>%
-                             select(user_id, role)
+    filter(role != "") %>%
+    distinct(user_id, role)
   
   #------------------
-  #ouput message
+  #outut message
   
   cat(sprintf("\n\n%i normalized data frames created:\n", length(data_norm)))
   cat(names(data_norm), sep="\n")
@@ -357,6 +369,8 @@ primary_key_list <- function(){
              variation_id),
     "pk_order_coupon" = data_norm$order_coupon %>%
       select(everything()),
+    "pk_order_usage" = data_norm$order_usage %>%
+      select(everything()),
     "pk_product" = data_norm$product %>%
       select(product_id,
              variation_id),
@@ -365,8 +379,6 @@ primary_key_list <- function(){
     "pk_product_yarn_weight" = data_norm$product_yarn_weight %>%
       select(everything()),
     "pk_product_effect" = data_norm$product_effect %>%
-      select(everything()),
-    "pk_product_usage" = data_norm$product_usage %>%
       select(everything()),
     "pk_product_hue" = data_norm$product_hue %>%
       select(everything()),
@@ -387,7 +399,7 @@ check_primary_keys <- function(df_list){
   # [1] check each pk in pk_list for uniqueness, NAs, and empty strings. 
   ## record the results in criteria_df
   pk_check <- as.data.frame(
-    cbind(is_unique = lapply(pk_list, function(pk){if_else(count(pk)==nrow(pk),
+    cbind(is_unique = lapply(pk_list, function(pk){if_else(nrow(distinct(pk))==nrow(pk),
                                                            # unique if the # rows matches the # unique rows
                                                            TRUE,
                                                            FALSE)}),
@@ -425,13 +437,8 @@ export_data_norm <- function(df_list){
   cat("Noramlized tables have been written to the data/NORMALIZED directory \n")
   
   # write product_hue data to the /data directory AS WELL AS the /data/normalized directory
-  ## before writing data, add the product and color name fields to the product_hue table
-  df <- df_list$product_hue %>% left_join(df_list$product, by = c("product_id" = "product_id", "variation_id"="variation_id")) 
-  write.csv(df, "product_hue.csv", row.names = FALSE)
+  write.csv(df_list[["product_hue"]], "product_hue.csv", row.names = FALSE)
   
   cat("Product_hue.csv has been updated in the /DATA directory \n")
 }
 
-# data_norm$product_hue %>% left_join(.,data_norm$product, by = c("variation_id"="variation_id", "product_id" = "product_id")) %>% glimpse()
-# glimpse(data_norm$product_hue)
-# glimpse(data_norm$product)
