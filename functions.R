@@ -6,7 +6,7 @@
 #-------------------------------------------------------------
 import_data <- function(){
   # make a list of the file names in the working directory
-  file_list <- list.files()
+  file_list <- list.files(pattern = ".csv")
   # read all of the files into one list
   df_list <- lapply(file_list, 
                     FUN = function(f){
@@ -210,6 +210,15 @@ normalize <- function(df_list){
     mutate(variation_id = case_when(is.na(variation_id)==TRUE ~ "0000",
                                     TRUE ~ as.character(variation_id)))
   
+  #------------------
+  # output message
+  
+  n_9999 <- order_main_pivot %>% filter(variation_id == "9999") %>% nrow()
+  n_0000 <- order_main_pivot %>% filter(variation_id == "0000") %>% nrow()
+  p_9999 <- as.integer(n_9999/nrow(order_main_pivot)*100)
+  cat(sprintf("%i rows in order_main_pivot have been assigned a variation_id of \"0000\"\nindicating a SIMPLE PRODUCT", n_0000))
+  cat(sprintf("%i rows in order_main_pivot have been assigned a variation_id of \"9999\"\nThat's %i% of the rows\n*?*?*Investigate if this gets above 10%", n_9999, P_9999))
+  
   
   #------------------
   
@@ -275,12 +284,19 @@ normalize <- function(df_list){
   
   #------------------
   
-  # to be manually created
-  ###########
-  # product_hue <- df_list$product_main %>%
-  #   select(product_id,
-  #          variation_id,
-  #          hue)
+  # int -> char (id columns in DATA$product_hue)
+  data$product_hue <- data$product_hue %>%
+    mutate(across(.cols = contains("_id"), as.character))
+  
+  # join DATA$product_hue to data_norm$product
+  ## in resulting data_norm$product_hue, hue will be NA for new products
+  ## hue must be manually assigned in excel by editing the ./data/product_hue.csv
+  data_norm$product_hue <- data_norm$product %>%
+    left_join(data$product_hue,
+              by = c("product_id", "variation_id")) %>%
+    select(product_id, 
+           variation_id,
+           hue) 
   
   #------------------
   
@@ -309,18 +325,26 @@ normalize <- function(df_list){
   
   #------------------
   
-  # wait until smart manager plugin is fixed
-  #################
-  # customer_role <- df_list$order_main %>%
-  #   left_join(df_list$role_main) %>%
-  #   select(customer_id,
-  #          role)
+  # make a list of lists to unpack users with multiple roles
+  role_list <- strsplit(data$role_main[["wp.capabilities"]],":true") 
+  # remove anything that isn't a letter
+  role_list <- lapply(role_list, FUN = function(x){str_replace_all(x,"[^a-z]", "")})
+  # create a data frame with an user_id for each role
+  data_norm$customer_role <- data.frame("user_id" = rep(data$role_main[["id"]], sapply(role_list, length)),
+                                        "role" = unlist(role_list)) %>%
+                             filter(role != "") %>%
+                             select(user_id, role)
+  
+  #------------------
+  #ouput message
   
   cat(sprintf("\n\n%i normalized data frames created:\n", length(data_norm)))
   cat(names(data_norm), sep="\n")
   return(data_norm)
 }
 
+# check primary keys
+#-------------------------------------------------------------
 primary_key_list <- function(){
   # select the primary key fields from [data_norm]
   ## in the global environment, [data_norm] is a variable defined by 'normalize(update_db())'
@@ -344,9 +368,13 @@ primary_key_list <- function(){
       select(everything()),
     "pk_product_usage" = data_norm$product_usage %>%
       select(everything()),
+    "pk_product_hue" = data_norm$product_hue %>%
+      select(everything()),
     "pk_customer" = data_norm$customer %>%
       select(customer_id),
     "pk_customer_usage" = data_norm$customer_usage %>%
+      select(everything()),
+    "pk_customer_role" = data_norm$customer_role %>%
       select(everything()))
   
   return(df_list)
@@ -370,7 +398,7 @@ check_primary_keys <- function(df_list){
     filter(is_unique == FALSE |is_na == TRUE |is_empty_string == TRUE)
   # [3] if there are any invalid primary keys, return those
   if(nrow(invalid) != 0){
-    cat("INVALID PRIMARY KEYS: \n The following dataframes have invalid primary keys:")
+    cat("INVALID PRIMARY KEYS: \n The following dataframes have invalid primary keys:\n")
     result <- invalid
     # if not, all good!
   }else{result <- "All primary keys are valid (unique, no nulls)."}
@@ -385,5 +413,25 @@ check_empty <- function(df){
   return(df)
 }
 
+# export normalized data
+#-------------------------------------------------------------
+export_data_norm <- function(df_list){
+  lapply(names(df_list), function(df){
+    # write all normalized data frames to the /data/normalized directory
+    wd_data_norm <- "C:/Users/sjara/git/made-in-america-yarns/data/normalized"
+    write.csv(df_list[[df]], paste(wd_data_norm, "/", df, ".csv", sep=""), row.names = FALSE)
+  })
+  
+  cat("Noramlized tables have been written to the data/NORMALIZED directory \n")
+  
+  # write product_hue data to the /data directory AS WELL AS the /data/normalized directory
+  ## before writing data, add the product and color name fields to the product_hue table
+  df <- df_list$product_hue %>% left_join(df_list$product, by = c("product_id" = "product_id", "variation_id"="variation_id")) 
+  write.csv(df, "product_hue.csv", row.names = FALSE)
+  
+  cat("Product_hue.csv has been updated in the /DATA directory \n")
+}
 
-
+# data_norm$product_hue %>% left_join(.,data_norm$product, by = c("variation_id"="variation_id", "product_id" = "product_id")) %>% glimpse()
+# glimpse(data_norm$product_hue)
+# glimpse(data_norm$product)

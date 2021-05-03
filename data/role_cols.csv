@@ -3,6 +3,7 @@ ID,1
 User.Pass,0
 Display.Name,0
 User.Email,1
-Role,1
+Role,0
+Wp.Capabilities,1
 Billing.State,0
 User.Registered,0

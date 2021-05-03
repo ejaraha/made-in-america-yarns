@@ -21,3 +21,7 @@ check_primary_keys(primary_key_list())
 
 #lapply(data, check_empty)
 
+# export normalized tables
+#-------------------------------------------------------------
+export_data_norm(data_norm)
+

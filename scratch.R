@@ -1,357 +1,271 @@
-library(dplyr)
-library(tidyr)
-library(lubridate)
-library(stringr)
 
-check_empty <- function(df){
-  #checks every column in df for NAs and ""
-  df <- data.frame("any_nas" = apply(df, 2, function(df) any(is.na(df))),
-                   "any_empty_character_vectors" = apply(df, 2, function(df) any(df == "", na.rm = TRUE))) 
-  return(df)
+  # use the updated data to create normalized data frames
+  # return a list of the normalized data frames
+  
+  # initialize list for normalized data frames
+  data_norm <- list()
+  #
+  # create normalized data frames:
+  #
+  ###############
+  # order_
+  ###############
+  #
+  
+  data$order_main <- data$order_main %>%
+    # redefine the existing customer_id column to be more appropriate
+    rename(user_id = customer_id) %>%
+    # replace "" with NA, convert to lowercase
+    mutate_if(is.character, list(~na_if(tolower(.),""))) %>%
+    mutate(user_id = na_if(user_id, 0)) %>%
+    # only orders in us & usd
+    filter(shipping_country == "us",
+           order_currency == "usd") %>%
+    select(-c(shipping_country, order_currency)) %>%
+    # create customer_id column based on billing_email
+    group_by(billing_email) %>%
+    mutate("customer_id" = cur_group_id()) %>%
+    ungroup()
+  
+  
+  data_norm$order <- data$order_main %>% 
+    # extract date from order_date
+    mutate(order_date = as_date(ymd_hms(order_date)),
+           # convert ids to character
+           order_id = as.character(order_id),
+           customer_id = as.character(customer_id)) %>%
+    select(order_id,
+           order_date,
+           order_total,
+           customer_id,
+           billing_company)
+  
+  #------------------
+  
+  order_main_pivot <- data$order_main %>%
+    # gather all "line_item_" columns
+    pivot_longer(cols = starts_with("line_item"), 
+                 names_to = "item", 
+                 values_to = "item_description",
+                 values_drop_na = TRUE) %>% 
+    # extract product info from item_description
+    mutate("product_id" = str_extract(item_description, "(?<=product_id:)[:digit:]*"),
+           "variation_id" = str_extract(item_description, "(?<=variation_id:)[:digit:]*"),
+           "quantity" = as.integer(str_extract(item_description, "(?<=quantity:)[:digit:]*(?=|total)")),
+           "name" = str_sub(str_trim(str_extract(item_description, "(?<=name:).*(?=product_id:)")),start=1, end=-2),
+           "color" = str_extract(item_description, "(?<=color:|colors:)[:alpha:]*[:space:]*[:alpha:]*[:space:]*[:alpha:]*")) %>%
+    separate(name, into = c("name", "detail"), sep = "-", extra="merge", fill="right") %>%
+    mutate_at(c("name", "detail"), str_trim) 
+  
+  
+  
+  # handle three scenarios of product_id == "0" and/or variation_id == NA
+  
+  order_main_pivot <- order_main_pivot %>% 
+    # [1] when there's a variation_id but no product_id:
+    ## WooCommerce' mistake? the id listed as variation_id should actually be in the product_id column 
+    ## comparing against wcSmartManager plugin shows this
+    ## for these instances, swap the contents of product_id and variation_id
+    mutate(product_id = case_when(product_id == "0" & is.na(variation_id) == FALSE ~ variation_id,
+                                  TRUE ~ as.character(product_id)),
+           # variation_id = "9999" indicates a missing variation_id
+           # this is likely due to data loss
+           variation_id = case_when(product_id == variation_id ~"9999",
+                                    TRUE ~ as.character(variation_id))
+    ) %>%
+    # [2] when product_id == "0" & variation_id is.na 
+    ## these are products that have since been deleted
+    ## these products will also be deleted from the database from this date on
+    filter(product_id != "0" & is.na(variation_id)!=TRUE) %>%   
+    # [3] for the remaining records, is.na(variation_id)=TRUE indicates a simple product
+    ## all NAs in variation_id will be replaced with "0000" to explicitly indicate simple products
+    mutate(variation_id = case_when(is.na(variation_id)==TRUE ~ "0000",
+                                    TRUE ~ as.character(variation_id)))
+  
+  
+  #------------------
+  ##############################################################################
+  data_norm$order_product <- order_main_pivot %>%
+    group_by(order_id, product_id, variation_id) %>% 
+    summarise("quantity" = sum(quantity), .groups = "keep") %>%
+    as.data.frame()
+  ##############################################################################
+  #------------------
+  
+  data_norm$order_coupon <- data$order_main %>%
+    mutate("coupon" = str_sub(str_trim(str_extract(coupon_items, "(?<=code:).*(?=amount:)")), start=1, end=-2)) %>%
+    filter(is.na(coupon)==FALSE) %>%
+    select(order_id,
+           coupon)
+  
+  ###############
+  # product_
+  ###############
+  ##############################################################################
+  data_norm$product <- order_main_pivot %>%
+    group_by(product_id,
+          variation_id) %>% 
+    # get most recent data for a specific product_id / variation_id combo
+    mutate("max_date_by_pid_vid" = max(order_date)) %>% 
+    filter(max_date_by_pid_vid==order_date) %>% 
+    # for orders on the same date/time with more than one color/name (usually because of 9999 variation_id)
+    summarize(across(c(name, color), max), .groups = "keep")
+  ##############################################################################
+  #------------------
+  
+  product_category <- data$product_main %>% 
+    mutate("fiber" = str_extract_all(categories, "(?<=fiber > )[^,]*"), 
+           "yarn_weight" = str_extract_all(categories, "(?<=yarn weight > )[^,]*"),
+           "effect" = str_extract_all(categories, "(?<=effect > )[^,]*"),
+           "hue" = str_extract_all(categories, "(?<=hue > )[^,]*"),
+           "big_cones" = str_detect(categories, "big cones"),
+           "spools" = str_detect(categories, "spools"))
+  
+  #------------------
+  
+  data_norm$product_fiber <- product_category %>%
+    filter(type == "variable") %>%
+    rename("product_id"=id) %>%
+    unnest(fiber) %>% 
+    select(product_id,
+           fiber) 
+  
+  #------------------
+  
+  data_norm$product_yarn_weight <- product_category %>%
+    filter(type == "variable") %>%
+    rename("product_id"=id) %>% 
+    unnest(yarn_weight) %>% 
+    select(product_id,
+           yarn_weight) 
+  
+  #------------------
+  
+  data_norm$product_effect <- product_category %>%
+    filter(type == "variable") %>%
+    rename("product_id"=id) %>%
+    unnest(effect) %>% 
+    select(product_id,
+           effect)
+  
+  #------------------
+  ##############################################################################
+  # int -> char (id columns in DATA$product_hue)
+  data$product_hue <- data$product_hue %>%
+    mutate(across(.cols = contains("_id"), as.character)) 
+  
+  # join DATA$product_hue to data_norm$product
+  ## in resulting data_norm$product_hue, hue will be NA for new products
+  ## NAs must be filled manually assigning hue in excel by editing the ./data/product_hue.csv
+  data_norm$product_hue <- data_norm$product %>%
+    left_join(data$product_hue,
+              by = c("product_id", "variation_id")) %>%
+    select(product_id, 
+           variation_id,
+           hue)
+  ##############################################################################
+  #------------------
+  
+  # unpack meta.yarn_usage with multiple usages
+  usage_list <- strsplit(order_main_pivot$meta.yarn_usage, split = ",")
+  # create a new data frame with room to insert the usages previously packed in comma-separated character strings
+  data_norm$product_usage <- data.frame(product_id = rep(order_main_pivot$product_id, sapply(usage_list, length)), 
+                                        meta.yarn_usage = unlist(usage_list)) %>%
+    filter(is.na(meta.yarn_usage)==FALSE)
+  
+  
+  
+  ###############
+  # customer_
+  ###############
+  
+  data_norm$customer <- data$order_main %>%
+    distinct(customer_id,
+             billing_email,
+             user_id) 
+  #------------------
+  
+  data_norm$customer_usage <- data.frame(customer_id = rep(order_main_pivot$customer_id, sapply(usage_list, length)), 
+                                         meta.yarn_usage = unlist(usage_list)) %>%
+    filter(is.na(meta.yarn_usage)==FALSE)
+  
+  #------------------
+  
+  # make a list of lists to unpack users with multiple roles
+  role_list <- strsplit(data$role_main[["wp.capabilities"]],":true") 
+  # remove anything that isn't a letter
+  role_list <- lapply(role_list, FUN = function(x){str_replace_all(x,"[^a-z]", "")})
+  # create a data frame with an user_id for each role
+  data_norm$customer_role <- data.frame("user_id" = rep(data$role_main[["id"]], sapply(role_list, length)),
+                                        "role" = unlist(role_list)) %>%
+    filter(role != "") %>%
+    select(user_id, role)
+  
+  #------------------
+  #outut message
+  
+  cat(sprintf("\n\n%i normalized data frames created:\n", length(data_norm)))
+  cat(names(data_norm), sep="\n")
+  return(data_norm)
+
+
+# check primary keys
+#-------------------------------------------------------------
+primary_key_list <- function(){
+  # select the primary key fields from [data_norm]
+  ## in the global environment, [data_norm] is a variable defined by 'normalize(update_db())'
+  df_list <- list(
+    "pk_order" = data_norm$order %>% 
+      select(order_id),
+    "pk_order_product" = data_norm$order_product %>%
+      select(order_id,
+             product_id,
+             variation_id),
+    "pk_order_coupon" = data_norm$order_coupon %>%
+      select(everything()),
+    "pk_product" = data_norm$product %>%
+      select(product_id,
+             variation_id),
+    "pk_product_fiber" = data_norm$product_fiber %>%
+      select(everything()),
+    "pk_product_yarn_weight" = data_norm$product_yarn_weight %>%
+      select(everything()),
+    "pk_product_effect" = data_norm$product_effect %>%
+      select(everything()),
+    "pk_product_usage" = data_norm$product_usage %>%
+      select(everything()),
+    "pk_product_hue" = data_norm$product_hue %>%
+      select(everything()),
+    "pk_customer" = data_norm$customer %>%
+      select(customer_id),
+    "pk_customer_usage" = data_norm$customer_usage %>%
+      select(everything()),
+    "pk_customer_role" = data_norm$customer_role %>%
+      select(everything()))
+  
+  return(df_list)
 }
 
-# IMPORT DATA
-#--------------------------------------------------------------
-
-setwd("C:/Users/sjara/git/made-in-america-yarns/data")
-
-file_list <- list.files()
-
-df_list <- lapply(file_list, 
-               FUN = function(f){
-                 read.csv(f)
-               })
-
-df_names <- str_replace(file_list, ".csv", "")
-names(df_list) <- df_names
-
-
-
-
-# # set working directory
-# setwd("C:/Users/sjara/git/made-in-america-yarns/data/new")
-# 
-# # load keys to select necessary fields
-# order_cols <- read.csv("order_cols.csv") %>%
-#   filter(keep==1)
-# product_cols <- read.csv("product_cols.csv") %>%
-#   filter(keep==1)
-# 
-# # load raw data then select necessary fields
-# order <- read.csv("order.csv") %>%
-#   select(order_cols$variable)
-# product <- read.csv("product.csv") %>%
-#   select(product_cols$variable)
-
-# CLEAN order_main df
-#--------------------------------------------------------------
-
-id_df <- data$order_main %>%
-  distinct(billing_email) %>%
-  mutate(customer_id=1:nrow(.)) 
-
-data$order_main <- data$order_main %>%
-  select(-customer_id) %>%
-  left_join(.,id_df, by="billing_email") %>%
-  mutate_if(is.character, list(~na_if(tolower(.),""))) %>%
-  filter(shipping_country == "us") %>%
-  select(-shipping_country)
-
-# CLEAN product_main df
-#--------------------------------------------------------------
-
-
-# clean product_main df
-#--------------------------------------------------------------
-# 
-# clean_product_main <- function(df){
-#   
-#   df <- data$product_main
-# 
-#   df <- df %>% 
-#   # isolate name field to group products by name and assign a unique id to each group
-#   separate(name, into=c("name", "attribute.all"), sep="-", extra="merge", fill="right") %>%
-#   select(-attribute.all) %>%
-#   mutate(name = str_trim(name)) %>%
-#   group_by(name) %>%
-#   mutate("product_group"=cur_group_id()) %>%
-#   ungroup() 
-#   
-#   return(df)
-# }
-
-#names_with_hyphens <-c(9824,9825,9826,9827,9828,9829,9830,9850,10078,14822,14823,14824,14825,14863,15022,15025,15526,15529,15713,18075,18076,18189,18190,18963,18964,18965,18966,18967,18968,18969,22036,22037,22159,22161,22162,22322)
-
-df <- data$product_main %>% 
-  # # handle names with "-" before the "-" that marks the start of the attributes 
-  # # so that we can use the "-" to isolate the name
-  # mutate(Name = case_when(ID %in% names_with_hyphens ~ str_replace(Name, "-", ""),
-  #                         TRUE ~ Name)) %>%
-  # # the ID field will be re-purposed as the variation_id field
-  # rename("variation_id"=ID) %>%
+check_primary_keys <- function(df_list){
   
-  # isolate name field to group products by name and assign a unique id to each group (used for SKU)
-  separate(Name, into=c("Name", "Attribute.all"), sep="-", extra="merge", fill="right") %>%
-  mutate(Name = str_trim(Name)) %>%
-  group_by(Name) %>%
-  # order by name, then ID
-  arrange(as.integer(ID), .by_group = TRUE) %>%
-  mutate("product_group"=cur_group_id()) %>%
-  ungroup() 
-
-
-# %>%
-#   # create the SKU = (P + product_id + V + variation_id)
-#   unite("sku", c("product_id", "variation_id"), sep="V", remove = FALSE) %>%
-#   mutate(sku = case_when(Type != "variable" ~ paste("P", sku, sep=""),
-#                          TRUE ~ paste("P", product_id, sep="")))
-
-
-write.csv(df, "C:/Users/sjara/Downloads/sku.csv", row.names = FALSE)
-
-# NORMALIZE 
-#--------------------------------------------------------------
-
-# MAKE order df
-#--------------------------------------------------------------
-
-order <- data$order_main %>%
-  mutate(order_id = as.character(order_id),
-         order_date = ymd_hms(order$order_date),
-         order_hour = hour(order_date),
-         order_date = as_date(ymd_hms(order$order_date)))
-
-# 
-# write.csv(order, file="C:/Users/sjara/git/made-in-america-yarns/data/live/order.csv", row.names=FALSE)
-# glimpse(order)
-# check_empty(order)
-
-# drop unnecessary fields from raw data
-#--------------------------------------------------------------
-
-drop_cols <- function(df_list){
-
-  # get data
-  df_list <- data
-  # split df_list into two lists
-  ## cols: dfs of column names and boolean field of keep or not keep
-  cols_df_list <- df_list[grepl("_cols", names(data))]
-  ## raw: raw dfs
-  raw_df_list <- df_list[grepl("_raw", names(data))]
-  
-  # filter and select cols_df_list
-  cols_df_list <- lapply(cols_df_list, 
-                         function(x)
-                           filter(x, keep==1) %>%
-                           select(variable))
-  
-  # order lists alphabetically in prep to loop
-  cols_df_list <- cols_df_list[order(names(cols_df_list))]
-  raw_df_list <- raw_df_list[order(names(raw_df_list))]
-  
-  # initialize list for loop
-  raw_drop_df_list <- list()
-  
-  for(i in 1:length(raw_df_list)){
-    
-    # define variables
-    ## column names to keep
-    cols <- cols_df_list[[i]]$variable
-    ## corresponding df
-    df <- raw_df_list[[i]]
-    
-    # redefine df with only columns %in% cols
-    df <- df %>%
-      select(all_of(cols))
-    
-    # add df to the list of processed dfs
-    raw_drop_df_list[[i]] <- df
-  }
-  
-  names(raw_drop_df_list) <- lapply(names(raw_df_list), function(x)paste(x, "_drop", sep=""))
-
-  return(raw_drop_df_list)
-}
-
-## order
-data$order_cols <- data$order_cols %>%
-  filter(keep == 1)
-data$order_raw_drop <- data$order_raw %>%
-  select(data$order_cols$variable)
-## product
-data$order_cols <- data$product_cols %>%
-  filter(keep == 1)
-product_raw_drop <- data$product_raw %>%
-  select(data$order_cols$variable)
-
-
-
-
-# normalize data
-#-----------------------------------------------------------------
-
-# order_
-###############
-order <- data$order_main %>% 
-  # extract date from order_date
-  mutate(order_date = as_date(ymd_hms(order_date)),
-         # convert ids to character
-         order_id = as.character(order_id),
-         customer_id = as.character(customer_id)) %>%
-  select(order_id,
-         order_date,
-         order_total,
-         customer_id,
-         billing_company)
-
-order_main_pivot <- data$order_main %>%
-  # gather all "line_item_" columns
-  pivot_longer(cols = starts_with("line_item"), 
-               names_to = "item", 
-               values_to = "item_description",
-               values_drop_na = TRUE) %>% 
-  # extract product info from item_description
-  mutate("product_id" = str_extract(item_description, "(?<=product_id:)[:digit:]*"),
-         "variation_id" = str_extract(item_description, "(?<=variation_id:)[:digit:]*"),
-         "quantity" = str_extract(item_description, "(?<=quantity:)[:digit:]*(?=|total)"),
-         "name" = str_sub(str_trim(str_extract(item_description, "(?<=name:).*(?=product_id:)")),start=1, end=-2),
-         "color" = str_extract(item_description, "(?<=color:|colors:)[:alpha:]*[:space:]*[:alpha:]*[:space:]*[:alpha:]*")) %>%
-  separate(name, into = c("name", "detail"), sep = "-", extra="merge", fill="right") %>%
-  mutate_at(c("name", "detail"), str_trim) 
-
-# handle error
-order_main_pivot <- order_main_pivot %>% 
-  # this is to handle an error in some of the entries of order_raw$line_item_
-  # when product_id="0" & variation_id!=NA, then swap product_id and variation_id
-  mutate(product_id = case_when(product_id == "0" & is.na(variation_id) == FALSE ~variation_id,
-                       TRUE ~ as.character(product_id)),
-         variation_id = case_when(product_id == variation_id ~"0",
-                         TRUE ~ as.character(variation_id)))
-
-
-order_product <- order_main_pivot %>%
-  select(order_id,
-         product_id,
-         variation_id,
-         quantity) 
-
-order_coupon <- data$order_main %>%
-  mutate("coupon" = str_sub(str_trim(str_extract(coupon_items, "(?<=code:).*(?=amount:)")), start=1, end=-2)) %>%
-  select(order_id,
-         coupon)
-
-
-# product_
-####################
-product <- order_main_pivot %>%
-  select(product_id,
-         variation_id,
-         name,
-         color) 
-
-
-product_category <- data$product_main %>% 
-  mutate("fiber" = str_extract_all(categories, "(?<=fiber > )[^,]*"), 
-         "yarn_weight" = str_extract_all(categories, "(?<=yarn weight > )[^,]*"),
-         "effect" = str_extract_all(categories, "(?<=effect > )[^,]*"),
-         "hue" = str_extract_all(categories, "(?<=hue > )[^,]*"),
-         "big_cones" = str_detect(categories, "big cones"),
-         "spools" = str_detect(categories, "spools"))
- 
-
-glimpse(product_category)
-
-product_fiber <- product_category %>%
-  filter(type == "variable") %>%
-  rename("product_id"=id) %>%
-  unnest(fiber) %>% 
-  select(product_id,
-         fiber) 
-
-product_yarn_weight <- product_category %>%
-  filter(type == "variable") %>%
-  rename("product_id"=id) %>%
-  unnest(yarn_weight) %>% 
-  select(product_id,
-         yarn_weight) 
-
-product_effect <- product_category %>%
-  filter(type == "variable") %>%
-  rename("product_id"=id) %>%
-  unnest(effect) %>% 
-  select(product_id,
-         effect)
-
-# to be manually created by intern
-###########
-# product_hue <- data$product_main %>%
-#   select(product_id,
-#          variation_id,
-#          hue)
-
-product_usage <- order_main_pivot %>%
-  distinct(product_id, meta.yarn_usage) %>%
-  select(product_id,
-         meta.yarn_usage)
-
-
-# customer_
-#################
-customer <- data$order_main %>%
-  distinct(customer_id,
-         billing_email,
-         user_id) 
-
-customer_usage <- data$order_main %>%
-  distinct(customer_id,
-         meta.yarn_usage)
-
-# wait until smart manager plugin is fixed
-#################
-# customer_role <- data$order_main %>%
-#   left_join(data$role_main) %>%
-#   select(customer_id,
-#          role)
-
-
-
-# check normalized data
-#-----------------------------------------------------------------
-
-
-lapply(data_norm, check_empty)
-
-
-
-check_pk <- function(x){
-  x <- data_norm$primary_keys
-  criteria_df <- as.data.frame(
-    cbind(is_unique = lapply(x, function(pk){if_else(count(pk)==nrow(pk),
-                                                              TRUE,
-                                                              FALSE)}),
-        is_na = lapply(x, function(pk){any(is.na(pk))}),
-        is_empty_string = lapply(x, function(pk){any(pk=="", na.rm = TRUE)})
-        )
-  )
-  
-  invalid <- criteria_df %>% filter(is_unique == FALSE |is_na == TRUE |is_empty_string == TRUE)
-  
+  # get list of primary key data frames
+  pk_list <- df_list
+  # [1] check each pk in pk_list for uniqueness, NAs, and empty strings. 
+  ## record the results in criteria_df
+  pk_check <- as.data.frame(
+    cbind(is_unique = lapply(pk_list, function(pk){if_else(count(pk)==nrow(pk),
+                                                           # unique if the # rows matches the # unique rows
+                                                           TRUE,
+                                                           FALSE)}),
+          is_na = lapply(pk_list, function(pk){any(is.na(pk))}),
+          is_empty_string = lapply(pk_list, function(pk){any(pk=="", na.rm = TRUE)})))
+  # [2] create a data frame of only invalid primary keys 
+  invalid <- pk_check %>% 
+    filter(is_unique == FALSE |is_na == TRUE |is_empty_string == TRUE)
+  # [3] if there are any invalid primary keys, return those
   if(nrow(invalid) != 0){
-    print("INVALID PRIMARY KEYS:")
+    cat("INVALID PRIMARY KEYS: \n The following dataframes have invalid primary keys:\n")
     result <- invalid
-  }else{result <- "All good!"}
-
-
-return(result)
-
-}
-
-
-check_pk(pk_list)
-
-# when there's a variation_id but no product_id:
-## WooCommerce' mistake? the id listed as variation_id should actually be in the product_id column 
-## comparing against wcSmartManager plugin shows this
-## for these instances, swap the contents of product_id and variation_id
-pid_0_vid_not.na <- order_main_pivot %>% filter(product_id == "0" & is.na(variation_id) == FALSE)
-pid_0 <- order_main_pivot %>% filter(product_id == "0")
+    # if not, all good!
+  }else{result <- "All primary keys are valid (unique, no nulls)."}
+ 

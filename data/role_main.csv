@@ -1,4 +1,4 @@
-id,user.email,role
+id,user.email,wp.capabilities
 2673,janet@thebobbintree.com,subscriber
 2672,genphilipp@gmail.com,customer
 2671,eramsey@americanalifestylellc.com,subscriber
