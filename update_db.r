@@ -23,10 +23,9 @@ check_primary_keys(primary_key_list())
 # denormalize data
 #-------------------------------------------------------------
 
-
-
+data_denorm <- denormalize(data_norm)
 
 # export denormalized tables
 #-------------------------------------------------------------
-# export_data_norm(data_norm)
+export_data(data_norm, data_denorm)
 

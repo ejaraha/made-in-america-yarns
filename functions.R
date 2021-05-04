@@ -153,6 +153,7 @@ normalize <- function(df_list){
     # create customer_id column based on billing_email
     group_by(billing_email) %>%
     mutate("customer_id" = cur_group_id()) %>%
+    mutate(across(.cols = contains("_id"), as.character)) %>% 
     ungroup()
   
   # create role df
@@ -163,6 +164,7 @@ normalize <- function(df_list){
   # create a data frame with space for a user_id for each role
   role_df <- data.frame("user_id" = rep(df_list$role_main[["id"]], sapply(role_list, length)),
                         "role" = unlist(role_list)) %>%
+    mutate(across(.cols = contains("_id"), as.character)) %>% 
     # then filter to isolate wholesale buyers
     filter(role == "wholesalebuyer")
   
@@ -175,7 +177,8 @@ normalize <- function(df_list){
     left_join(role_df, by="user_id") %>% 
     mutate("user_type" = case_when(is.na(user_id)==TRUE ~ "guest",
                                    role=="wholesalebuyer" ~ "wholesale buyer",
-                                   is.na(user_id)==FALSE ~ "registered customer")) %>% 
+                                   is.na(user_id)==FALSE ~ "registered customer")) %>%
+    mutate(across(.cols = contains("_id"), as.character)) %>% 
     select(order_id,
            order_date,
            order_total,
@@ -196,7 +199,8 @@ normalize <- function(df_list){
            "name" = str_sub(str_trim(str_extract(item_description, "(?<=name:).*(?=product_id:)")),start=1, end=-2),
            "color" = str_extract(item_description, "(?<=color:|colors:)[:alpha:]*[:space:]*[:alpha:]*[:space:]*[:alpha:]*")) %>%
     separate(name, into = c("name", "detail"), sep = "-", extra="merge", fill="right") %>%
-    mutate_at(c("name", "detail"), str_trim) 
+    mutate_at(c("name", "detail"), str_trim) %>%
+    mutate(across(.cols = contains("_id"), as.character))
   
   
   
@@ -282,7 +286,8 @@ normalize <- function(df_list){
            "effect" = str_extract_all(categories, "(?<=effect > )[^,]*"),
            "hue" = str_extract_all(categories, "(?<=hue > )[^,]*"),
            "big_cones" = str_detect(categories, "big cones"),
-           "spools" = str_detect(categories, "spools"))
+           "spools" = str_detect(categories, "spools"),
+           id = as.character(id))
   
   #------------------
   
@@ -335,11 +340,15 @@ normalize <- function(df_list){
   # join df_list$product_hue to data_norm$product
   ## in resulting data_norm$product_hue, hue will be NA for new products
   ## NAs must be filled manually assigning hue in excel by editing the ./data/product_hue.csv
-  data_norm$product_hue <- data_norm$product %>%
+  data_norm$product_hue <- data_norm$product %>% 
     left_join(df_list$product_hue,
               by = c("product_id", "variation_id")) %>%
+    rename("name" = name.x,
+         "color" = color.x) %>% 
     select(product_id, 
            variation_id,
+           name,
+           color,
            hue)  
   ##############################################################################
 
@@ -377,13 +386,19 @@ primary_key_list <- function(){
     "pk_product_effect" = data_norm$product_effect %>%
       select(everything()),
     "pk_product_hue" = data_norm$product_hue %>%
-      select(everything()),
+      select(product_id,
+             variation_id,
+             hue), # hue is not really in the PK but i want to get a message if it's null so we can manually assign the hue
     "pk_product_usage" = data_norm$product_usage %>%
       select(everything())
     )
   
   return(df_list)
 }
+
+
+# check primary keys
+#-------------------------------------------------------------
 
 check_primary_keys <- function(df_list){
   
@@ -418,20 +433,42 @@ check_empty <- function(df){
   return(df)
 }
 
-# export normalized data
+
+# denormalize data
 #-------------------------------------------------------------
-export_data_norm <- function(df_list){
-  lapply(names(df_list), function(df){
-    # write all normalized data frames to the /data/normalized directory
-    wd_data_norm <- "C:/Users/sjara/git/made-in-america-yarns/data/normalized"
-    write.csv(df_list[[df]], paste(wd_data_norm, "/", df, ".csv", sep=""), row.names = FALSE)
+
+denormalize <- function(df_list){
+  #initialize data_denorm list
+  data_denorm <- list()
+  # join order data frames
+  data_denorm$order <- df_list$order %>% 
+    left_join(df_list$order_product, by="order_id") %>%
+    left_join(df_list$order_coupon, by="order_id") %>%
+    left_join(df_list$order_usage, by="order_id") 
+  # join product data frames
+  data_denorm$product <- df_list$product %>%
+    left_join(df_list$product_hue, by=c("product_id"="product_id", "variation_id"="variation_id")) %>%
+    left_join(df_list$product_fiber, by="product_id") %>%
+    left_join(df_list$product_yarn_weight, by="product_id") %>%
+    left_join(df_list$product_effect, by="product_id") 
+  # return list of denormalized tables
+  return(data_denorm)
+}
+
+# export denormalized data
+#-------------------------------------------------------------
+export_data <- function(data_norm, data_denorm){
+  lapply(names(data_denorm), function(df){
+    # write denormalized data frames to the /data/denormalized directory
+    wd_data_denorm <- "C:/Users/sjara/git/made-in-america-yarns/data/denormalized"
+    write.csv(data_denorm[[df]], paste(wd_data_denorm, "/", df, ".csv", sep=""), row.names = FALSE)
   })
   
-  cat("Noramlized tables have been written to the data/NORMALIZED directory \n")
+  cat("denoramlized dfs written to the data/DENORMALIZED directory \n")
   
-  # write product_hue data to the /data directory AS WELL AS the /data/normalized directory
-  write.csv(df_list[["product_hue"]], "product_hue.csv", row.names = FALSE)
+  # write product_hue data to the /data directory
+  write.csv(data_norm[["product_hue"]], "product_hue.csv", row.names = FALSE)
   
-  cat("Product_hue.csv has been updated in the /DATA directory \n")
+  cat("product_hue.csv updated in the /DATA directory \n")
 }
 
