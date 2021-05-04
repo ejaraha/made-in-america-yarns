@@ -20,7 +20,7 @@ customer_user,0
 customer_email,0
 billing_first_name,0
 billing_last_name,0
-billing_company,1
+billing_company,0
 billing_email,1
 billing_phone,0
 billing_address_1,0

@@ -18,10 +18,15 @@ data_norm <- normalize(data)
 # check primary keys
 #-------------------------------------------------------------
 check_primary_keys(primary_key_list())
-
 #lapply(data, check_empty)
 
-# export normalized tables
+# denormalize data
 #-------------------------------------------------------------
-export_data_norm(data_norm)
+
+
+
+
+# export denormalized tables
+#-------------------------------------------------------------
+# export_data_norm(data_norm)
 

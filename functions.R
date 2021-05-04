@@ -155,18 +155,31 @@ normalize <- function(df_list){
     mutate("customer_id" = cur_group_id()) %>%
     ungroup()
   
+  # create role df
+  # make a list of lists to unpack users with multiple roles
+  role_list <- strsplit(df_list$role_main[["wp.capabilities"]],":true") %>%
+    # remove anything that isn't a letter
+    lapply(.,FUN = function(x){str_replace_all(x,"[^a-z]", "")})
+  # create a data frame with space for a user_id for each role
+  role_df <- data.frame("user_id" = rep(df_list$role_main[["id"]], sapply(role_list, length)),
+                        "role" = unlist(role_list)) %>%
+    # then filter to isolate wholesale buyers
+    filter(role == "wholesalebuyer")
   
   data_norm$order <- df_list$order_main %>% 
     # extract date from order_date
     mutate(order_date = as_date(ymd_hms(order_date)),
            # convert ids to character
-           order_id = as.character(order_id),
-           customer_id = as.character(customer_id)) %>%
+           order_id = as.character(order_id)) %>%
+    # join role df to make user_type column
+    left_join(role_df, by="user_id") %>% 
+    mutate("user_type" = case_when(is.na(user_id)==TRUE ~ "guest",
+                                   role=="wholesalebuyer" ~ "wholesale buyer",
+                                   is.na(user_id)==FALSE ~ "registered customer")) %>% 
     select(order_id,
            order_date,
            order_total,
-           customer_id,
-           billing_company)
+           user_type)
   
   #------------------
   
@@ -217,7 +230,7 @@ normalize <- function(df_list){
   n_0000 <- order_main_pivot %>% filter(variation_id == "0000") %>% nrow()
   p_9999 <- as.integer(n_9999/nrow(order_main_pivot)*100)
   cat(sprintf("%i rows in order_main_pivot have been assigned a variation_id of \"0000\"\nindicating a SIMPLE PRODUCT\n", n_0000))
-  cat(sprintf("%i rows in order_main_pivot have been assigned a variation_id of \"9999\"\nThat's %i percent of the rows\n*?*?*Investigate if this gets above 10 percent",n_9999, p_9999))
+  cat(sprintf("%i rows in order_main_pivot have been assigned a variation_id of \"9999\"\nThat's %i percent of the rows\n*?*?*Investigate if this getstoo high.",n_9999, p_9999))
   
   
   #------------------
@@ -244,6 +257,8 @@ normalize <- function(df_list){
     filter(is.na(meta.yarn_usage)==FALSE) %>%
     distinct()
   #------------------
+  
+  
 
   ###############
   # product_
@@ -297,6 +312,21 @@ normalize <- function(df_list){
            effect)
   
   #------------------
+  # usage_list is defined at data_norm$order_usage
+  # create a new data frame with room to insert the usages previously packed in comma-separated character strings
+  data_norm$product_usage <- data.frame(product_id = rep(order_main_pivot$product_id, sapply(usage_list, length)),
+                                        meta.yarn_usage = unlist(usage_list)) %>%
+    filter(is.na(meta.yarn_usage)==FALSE) %>%
+    # how many times was each product used for a specific usage? 
+    #*****caution - this is not really product-level data.****************
+    # usage info is gathered at checkout (order-level data).
+    # so, if a customer buys some yarn for knitting and some yarn for crocheting, this table wouldn't
+    # know which was purchased for which. to account for that, a rule has been implemented.
+    # a product must match a usage at least two times before it is recorded in this table****
+    count(product_id, meta.yarn_usage) %>% 
+    filter(n >= 2) %>%
+    select (-n)
+  
   ##############################################################################
   # int -> char (id columns in df_list$product_hue)
   df_list$product_hue <- df_list$product_hue %>%
@@ -312,41 +342,7 @@ normalize <- function(df_list){
            variation_id,
            hue)  
   ##############################################################################
-  
-  
-  ###############
-  # customer_
-  ###############
-  
-  data_norm$customer <- df_list$order_main %>%
-    group_by(customer_id) %>%
-    # get most recent info for a specific customer_id
-    mutate("max_date_by_cid"=max(order_date)) %>%
-    filter(max_date_by_cid == order_date) %>%
-    ungroup() %>%
-    select(customer_id,
-           billing_email,
-           user_id)
-  
-  #------------------
-  
-  data_norm$customer_usage <- data.frame(customer_id = rep(order_main_pivot$customer_id, sapply(usage_list, length)), 
-                                         meta.yarn_usage = unlist(usage_list)) %>%
-    filter(is.na(meta.yarn_usage)==FALSE) %>%
-    distinct()
-  
-  #------------------
-  
-  # make a list of lists to unpack users with multiple roles
-  role_list <- strsplit(df_list$role_main[["wp.capabilities"]],":true") 
-  # remove anything that isn't a letter
-  role_list <- lapply(role_list, FUN = function(x){str_replace_all(x,"[^a-z]", "")})
-  # create a data frame with an user_id for each role
-  data_norm$customer_role <- data.frame("user_id" = rep(df_list$role_main[["id"]], sapply(role_list, length)),
-                                        "role" = unlist(role_list)) %>%
-    filter(role != "") %>%
-    distinct(user_id, role)
-  
+
   #------------------
   #outut message
   
@@ -382,12 +378,9 @@ primary_key_list <- function(){
       select(everything()),
     "pk_product_hue" = data_norm$product_hue %>%
       select(everything()),
-    "pk_customer" = data_norm$customer %>%
-      select(customer_id),
-    "pk_customer_usage" = data_norm$customer_usage %>%
-      select(everything()),
-    "pk_customer_role" = data_norm$customer_role %>%
-      select(everything()))
+    "pk_product_usage" = data_norm$product_usage %>%
+      select(everything())
+    )
   
   return(df_list)
 }
