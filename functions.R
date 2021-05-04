@@ -457,18 +457,23 @@ denormalize <- function(df_list){
 
 # export denormalized data
 #-------------------------------------------------------------
-export_data <- function(data_norm, data_denorm){
+export_data <- function(data_norm, data_denorm, data){
   lapply(names(data_denorm), function(df){
     # write denormalized data frames to the /data/denormalized directory
     wd_data_denorm <- "C:/Users/sjara/git/made-in-america-yarns/data/denormalized"
     write.csv(data_denorm[[df]], paste(wd_data_denorm, "/", df, ".csv", sep=""), row.names = FALSE)
   })
-  
   cat("denoramlized dfs written to the data/DENORMALIZED directory \n")
   
   # write product_hue data to the /data directory
   write.csv(data_norm[["product_hue"]], "product_hue.csv", row.names = FALSE)
-  
   cat("product_hue.csv updated in the /DATA directory \n")
+  
+  data_main <- names(data)[grepl("_main",names(data))]
+  lapply(data_main, FUN = function(df){
+    write.csv(data[[df]], paste(df,".csv",sep=""), row.names = FALSE)
+  })
+  cat("_main.csvs updated in the /DATA directory \n")
+  
 }
 
