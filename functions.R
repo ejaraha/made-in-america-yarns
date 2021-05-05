@@ -440,17 +440,21 @@ check_empty <- function(df){
 denormalize <- function(df_list){
   #initialize data_denorm list
   data_denorm <- list()
-  # join order data frames
-  data_denorm$order <- df_list$order %>% 
-    left_join(df_list$order_product, by="order_id") %>%
-    left_join(df_list$order_coupon, by="order_id") %>%
-    left_join(df_list$order_usage, by="order_id") 
   # join product data frames
   data_denorm$product <- df_list$product %>%
     left_join(df_list$product_hue, by=c("product_id"="product_id", "variation_id"="variation_id")) %>%
     left_join(df_list$product_fiber, by="product_id") %>%
     left_join(df_list$product_yarn_weight, by="product_id") %>%
-    left_join(df_list$product_effect, by="product_id") 
+    left_join(df_list$product_effect, by="product_id")
+  # join order data frames and product data frames
+  data_denorm$order <- df_list$order %>% 
+    left_join(df_list$order_product, by="order_id") %>%
+    left_join(df_list$order_coupon, by="order_id") %>%
+    left_join(df_list$order_usage, by="order_id") %>%
+    left_join(data_denorm$product, by=c("product_id"="product_id", "variation_id"="variation_id")) %>%
+    rename("name"=name.x,
+           "color"=color.x)%>%
+    select(-c(name.y, color.y))
   # return list of denormalized tables
   return(data_denorm)
 }
