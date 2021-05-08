@@ -1,54 +1,64 @@
 library(ggplot2)
 library(plotly)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(stringr)
+library(purrr)
 
-setwd("C:/Users/sjara/git/made-in-america-yarns/data/denormalized")
+setwd("C:/Users/sjara/git/made-in-america-yarns/data")
 source("C:/Users/sjara/git/made-in-america-yarns/functions.R")
 
-order <- read.csv("order.csv", stringsAsFactors=FALSE)
-product <- read.csv("product.csv", stringsAsFactors = FALSE)
+data_denorm <- read.csv("denormalized.csv", stringsAsFactors = FALSE)
+
+glimpse(data_norm$order_product)
+
+glimpse(data_denorm)
 
 
-
-order <- order %>%
-  mutate("order_ym" = format(as.Date(order_date), "%Y-%m"),
-         "order_y" = year(as.Date(order_date)),
-         "order_m" = month(as.Date(order_date))) 
-
-
-order <- order %>% left_join(product, by=c("product_id"="product_id", "variation_id"="variation_id")) %>% 
-rename("name"=name.x,
-       "color"=color.x)%>%
-  select(-c(name.y, color.y)) 
-
-# > df %>%
-#   +   group_by(customer_name) %>%
-#   +   mutate(good_ranks = order(order(order_values, decreasing=TRUE)))
-
-top_products_by_ym_user <- order %>%
-  group_by(order_ym, user_type, product_id) %>%
-  # number of orders for each product_id/user_type/order_ym combo
-  mutate("hover.a" = n()) %>%
+top_products_by_ym <- data_denorm %>%
+  # get order-level data and all necessary fields
+  distinct(order_id, product_id, order_ym, name, quantity) %>% 
+  # get product-level info
+  group_by(order_ym, product_id) %>% 
+  # most orders placed by year/mo
+  summarize(n_orders = n(),
+  # largest quantity purchased
+         sum_quantity = sum(quantity),
+  # need this so "name" won't be dropped
+         name = max(name), 
+  # change grouping
+  .groups = "drop") %>%
+  group_by(order_ym) %>% 
+  # rank n_orders and sum_quantity (1=most orders/largest quantity)
+  mutate("rank_orders" = dense_rank(desc(n_orders)),
+         "rank_quantity" = dense_rank(desc(sum_quantity))) %>% 
+  # get top three products by n_orders
+  filter(rank_orders %in% c(1,2,3)) %>% 
+  # for repeat rank_orders, choose the record(s) with the largest quantity ordered
+  group_by(rank_orders, .add=TRUE) %>%
+  filter(rank_quantity == min(rank_quantity)) %>% 
+  arrange(order_ym) %>%
   ungroup() %>%
-  group_by(order_ym, user_type) %>%
-  # find top three products by user_type/order_ym
-  mutate("hover.b" = dense_rank(desc(hover.a))) %>%
-  filter(hover.b %in% c(1,2,3)) %>% 
-  distinct(product_id, name, user_type, order_ym) %>% 
-  select(-product_id) %>%
-  arrange(name)%>%
-  nest() %>%
-  mutate(data = str_c(unlist(data),collapse="\n")) 
+  select(order_ym,
+         name) %>%
+  group_by(order_ym) %>% 
+  nest() %>% 
+  rename("top_products"=data)%>%
+  mutate(top_products = str_c(unlist(top_products),collapse="\n"))
 
-orders_by_ym_user <- order %>%
-  # number of orders for each user_type/order_ym combo
-  distinct(order_id, order_ym, user_type) %>%
-  group_by(order_ym, user_type) %>% 
-  summarize(n_orders=n(), .groups = "keep")
-
-p <- orders_by_ym_user %>% 
-  left_join(top_products_by_ym_user, by=c("user_type"="user_type", "order_ym"="order_ym")) %>%
-  ggplot(aes(fill=user_type, x=order_ym, y=n_orders, text=data)) +
-           geom_col(position="stack") 
-
-ggplotly(p, tooltip = "text")
-
+# orders_by_ym_user <- data_denorm %>%
+#   # number of orders for each user_type/order_ym combo
+#   distinct(order_id, order_ym, user_type) %>%
+#   group_by(order_ym, user_type) %>% 
+#   summarize(n_orders=n(), .groups = "keep")
+# 
+# # plot
+# 
+# p <- orders_by_ym_user %>% 
+#   left_join(top_products_by_ym_user, by=c("user_type"="user_type", "order_ym"="order_ym")) %>%
+#   ggplot(aes(fill=user_type, x=order_ym, y=n_orders, text=data)) +
+#            geom_col(position="stack") 
+# 
+# ggplotly(p, tooltip = "text")
+# 

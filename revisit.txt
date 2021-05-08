@@ -1,0 +1,5 @@
+# no variation_id, both product_id and variation_id appear null in data_norm
+data$order_main %>% filter(order_id %in% c("22240", "22198", "22095", "22094", "21840", "21455", "21418", "21399", "21310", "21284")) %>%
+  select(line_item_1) %>% 
+  head()
+

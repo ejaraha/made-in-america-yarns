@@ -4,9 +4,9 @@
 
 # import all data
 #-------------------------------------------------------------
-import_data <- function(){
+import_data <- function(match_file_name){
   # make a list of the file names in the working directory
-  file_list <- list.files(pattern = ".csv")
+  file_list <- list.files(pattern = match_file_name)
   # read all of the files into one list
   df_list <- lapply(file_list, 
                     FUN = function(f){
@@ -81,7 +81,7 @@ drop_cols <- function(df_list){
 update <- function(data){
   # import all data (_raw.csv, _cols.csv, _main.csv)
   #--------------------------------------------------------------
-  data <- import_data() %>% sort_cols()
+  data <- import_data(".csv") %>% sort_cols()
   
   # drop unnecessary fields from raw data (_raw_drop.csv)
   #--------------------------------------------------------------
@@ -438,46 +438,48 @@ check_empty <- function(df){
 #-------------------------------------------------------------
 
 denormalize <- function(df_list){
-  #initialize data_denorm list
-  data_denorm <- list()
-  # join product data frames
-  data_denorm$product <- df_list$product %>%
+
+  # [1] join product level data as product_df
+  product <- df_list$product %>%
     left_join(df_list$product_hue, by=c("product_id"="product_id", "variation_id"="variation_id")) %>%
     left_join(df_list$product_fiber, by="product_id") %>%
     left_join(df_list$product_yarn_weight, by="product_id") %>%
     left_join(df_list$product_effect, by="product_id")
-  # join order data frames and product data frames
-  data_denorm$order <- df_list$order %>% 
+  # [2] join order level data
+  data_denorm <- df_list$order %>% 
     left_join(df_list$order_product, by="order_id") %>%
     left_join(df_list$order_coupon, by="order_id") %>%
     left_join(df_list$order_usage, by="order_id") %>%
-    left_join(data_denorm$product, by=c("product_id"="product_id", "variation_id"="variation_id")) %>%
+    # [3] rejoin product data
+    left_join(product, by=c("product_id"="product_id", "variation_id"="variation_id")) %>%
     rename("name"=name.x,
            "color"=color.x)%>%
-    select(-c(name.y, color.y))
-  # return list of denormalized tables
+    select(-c(name.y, color.y)) %>%
+    mutate("order_ym" = format(as.Date(order_date), "%Y-%m"),
+           "order_y" = year(as.Date(order_date)),
+           "order_m" = month(as.Date(order_date)))
+  # return denormalized df
   return(data_denorm)
 }
 
 # export denormalized data
 #-------------------------------------------------------------
 export_data <- function(data_norm, data_denorm, data){
-  lapply(names(data_denorm), function(df){
-    # write denormalized data frames to the /data/denormalized directory
-    wd_data_denorm <- "C:/Users/sjara/git/made-in-america-yarns/data/denormalized"
-    write.csv(data_denorm[[df]], paste(wd_data_denorm, "/", df, ".csv", sep=""), row.names = FALSE)
-  })
-  cat("denoramlized dfs written to the data/DENORMALIZED directory \n")
+
+  # write denormalized data frame to the /data directory
+  write.csv(data_denorm, "denormalized.csv", row.names = FALSE)
+
+  cat("denoramlized dfs written to the data directory \n")
   
   # write product_hue data to the /data directory
   write.csv(data_norm[["product_hue"]], "product_hue.csv", row.names = FALSE)
-  cat("product_hue.csv updated in the /DATA directory \n")
+  cat("product_hue.csv updated in the data directory \n")
   
   data_main <- names(data)[grepl("_main",names(data))]
   lapply(data_main, FUN = function(df){
     write.csv(data[[df]], paste(df,".csv",sep=""), row.names = FALSE)
   })
-  cat("_main.csvs updated in the /DATA directory \n")
+  cat("_main.csvs updated in the data directory \n")
   
 }
 

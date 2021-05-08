@@ -5,7 +5,7 @@ library(stringr)
 library(purrr)
 
 source("C:/Users/sjara/git/made-in-america-yarns/functions.R")
-setwd("C:/Users/sjara/git/made-in-america-yarns/data")
+setwd("C:/Users/sjara/git/made-in-america-yarns/data/")
 
 # update data
 #-------------------------------------------------------------
@@ -27,5 +27,5 @@ data_denorm <- denormalize(data_norm)
 
 # export denormalized tables
 #-------------------------------------------------------------
-#export_data(data_norm, data_denorm, data)
+export_data(data_norm, data_denorm, data)
 
