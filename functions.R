@@ -454,10 +454,7 @@ denormalize <- function(df_list){
     left_join(product, by=c("product_id"="product_id", "variation_id"="variation_id")) %>%
     rename("name"=name.x,
            "color"=color.x)%>%
-    select(-c(name.y, color.y)) %>%
-    mutate("order_ym" = format(as.Date(order_date), "%Y-%m"),
-           "order_y" = year(as.Date(order_date)),
-           "order_m" = month(as.Date(order_date)))
+    select(-c(name.y, color.y))
   # return denormalized df
   return(data_denorm)
 }

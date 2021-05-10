@@ -11,25 +11,28 @@ source("C:/Users/sjara/git/made-in-america-yarns/functions.R")
 
 data_denorm <- read.csv("denormalized.csv", stringsAsFactors = FALSE)
 
-glimpse(data_norm$order_product)
-
-glimpse(data_denorm)
-
-
-top_products_by_ym <- data_denorm %>%
+df <- data_denorm %>%
+  mutate("order_year" = year(order_date),
+         "order_month" = month(order_date),
+         "order_week" = week(order_date)) %>%
+  # filter according to selection
   # get order-level data and all necessary fields
-  distinct(order_id, product_id, order_ym, name, quantity) %>% 
+  distinct(order_id, product_id, order_year, order_month, name, quantity) %>% 
+  # ensure sample size of >=20
+  group_by(order_month, order_week) %>% 
+  summarise("orders_placed" = n()) %>% 
+  filter(orders_placed >= 20) %>%
   # get product-level info
-  group_by(order_ym, product_id) %>% 
-  # most orders placed by year/mo
+  group_by(order_year, order_month, product_id) %>% 
+  # n_orders = orders placed by year/mo
   summarize(n_orders = n(),
-  # largest quantity purchased
+  # sum_quantity = number of products purchased
          sum_quantity = sum(quantity),
   # need this so "name" won't be dropped
          name = max(name), 
   # change grouping
   .groups = "drop") %>%
-  group_by(order_ym) %>% 
+  group_by(order_year, order_month) %>% 
   # rank n_orders and sum_quantity (1=most orders/largest quantity)
   mutate("rank_orders" = dense_rank(desc(n_orders)),
          "rank_quantity" = dense_rank(desc(sum_quantity))) %>% 
@@ -38,27 +41,19 @@ top_products_by_ym <- data_denorm %>%
   # for repeat rank_orders, choose the record(s) with the largest quantity ordered
   group_by(rank_orders, .add=TRUE) %>%
   filter(rank_quantity == min(rank_quantity)) %>% 
-  arrange(order_ym) %>%
+  # count how many times each name appears in the top
   ungroup() %>%
-  select(order_ym,
-         name) %>%
-  group_by(order_ym) %>% 
-  nest() %>% 
-  rename("top_products"=data)%>%
-  mutate(top_products = str_c(unlist(top_products),collapse="\n"))
+  count(name)
 
-# orders_by_ym_user <- data_denorm %>%
-#   # number of orders for each user_type/order_ym combo
-#   distinct(order_id, order_ym, user_type) %>%
-#   group_by(order_ym, user_type) %>% 
-#   summarize(n_orders=n(), .groups = "keep")
-# 
-# # plot
-# 
-# p <- orders_by_ym_user %>% 
-#   left_join(top_products_by_ym_user, by=c("user_type"="user_type", "order_ym"="order_ym")) %>%
-#   ggplot(aes(fill=user_type, x=order_ym, y=n_orders, text=data)) +
-#            geom_col(position="stack") 
-# 
-# ggplotly(p, tooltip = "text")
-# 
+
+df %>%
+  # order by number of times in top three
+  arrange(n) %>%
+  mutate(name=factor(name, levels=name, ordered = TRUE)) %>%
+  # plot
+  ggplot(aes(x=name, y=n)) +
+           geom_col() +
+  coord_flip()
+
+
+
