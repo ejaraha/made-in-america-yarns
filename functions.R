@@ -1,6 +1,8 @@
-# library(dplyr)
-# library(tidyr)
-# library(lubridate)
+library(dplyr)
+library(tidyr)
+library(lubridate)
+library(stringr)
+library(purrr)
 
 # import all data
 #-------------------------------------------------------------
@@ -173,16 +175,15 @@ normalize <- function(df_list){
     mutate(order_date = as_date(ymd_hms(order_date)),
            # convert ids to character
            order_id = as.character(order_id)) %>%
-    # join role df to make user_type column
+    # join role df to make customer_type column
     left_join(role_df, by="user_id") %>% 
-    mutate("user_type" = case_when(is.na(user_id)==TRUE ~ "guest",
+    mutate("customer_type" = case_when(is.na(user_id)==TRUE ~ "guest",
                                    role=="wholesalebuyer" ~ "wholesale buyer",
                                    is.na(user_id)==FALSE ~ "registered customer")) %>%
     mutate(across(.cols = contains("_id"), as.character)) %>% 
     select(order_id,
            order_date,
-           order_total,
-           user_type)
+           customer_type)
   
   #------------------
   
@@ -257,7 +258,7 @@ normalize <- function(df_list){
   usage_list <- strsplit(order_main_pivot$meta.yarn_usage, split = ",")
   # create a new data frame with room to insert the usages previously packed in comma-separated character strings
   data_norm$order_usage <- data.frame(order_id = rep(order_main_pivot$order_id, sapply(usage_list, length)), 
-                                        meta.yarn_usage = unlist(usage_list)) %>%
+                                        meta.yarn_usage = str_trim(unlist(usage_list))) %>%
     filter(is.na(meta.yarn_usage)==FALSE) %>%
     distinct()
   #------------------
@@ -446,8 +447,8 @@ denormalize <- function(df_list){
     left_join(df_list$product_yarn_weight, by="product_id") %>%
     left_join(df_list$product_effect, by="product_id")
   # [2] join order level data
-  data_denorm <- df_list$order %>% 
-    left_join(df_list$order_product, by="order_id") %>%
+  data_denorm <- df_list$order_product %>% 
+    left_join(df_list$order, by="order_id") %>%
     left_join(df_list$order_coupon, by="order_id") %>%
     left_join(df_list$order_usage, by="order_id") %>%
     # [3] rejoin product data

@@ -1,8 +1,8 @@
-library(dplyr)
-library(tidyr)
-library(lubridate)
-library(stringr)
-library(purrr)
+# library(dplyr)
+# library(tidyr)
+# library(lubridate)
+# library(stringr)
+# library(purrr)
 
 source("C:/Users/sjara/git/made-in-america-yarns/functions.R")
 setwd("C:/Users/sjara/git/made-in-america-yarns/data/")
