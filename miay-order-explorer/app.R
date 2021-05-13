@@ -112,7 +112,7 @@ ui <- fluidPage(
             # space for plot
             mainPanel(
                verbatimTextOutput("filter_stats"),
-               plotOutput("top_prod_plot")
+               plotOutput("top_prod_plot") 
         )
     )
 ))
@@ -121,11 +121,18 @@ ui <- fluidPage(
 server <- function(input, output) {
     
     # INITIALIZE
+    df_date <- reactiveValues(data = data_denorm)
     df_select <- reactiveValues(data = data_denorm)
+    human_date <- stamp("March 19, 1995")
     
     # FILTER
     observeEvent(input$apply_selection, 
-                 {df_select$data <- data_denorm %>%
+                 {df_date$data <- data_denorm %>%
+                     # filter sidebar selections
+                     filter(order_date >= input$date_range[1],
+                            order_date <= input$date_range[2])
+                     
+                     df_select$data <- data_denorm %>%
                      # filter sidebar selections
                      filter(order_date >= input$date_range[1],
                             order_date <= input$date_range[2],
@@ -134,6 +141,7 @@ server <- function(input, output) {
                             fiber %in% input$yarn_fiber,
                             yarn_weight %in% input$yarn_weight,
                             effect %in% input$yarn_effect)
+                                    
                  })
     
     observeEvent(input$reset_selection,
@@ -158,29 +166,29 @@ server <- function(input, output) {
                                    selected = unique(data_denorm$effect))
                  })
     
-    output$filter_stats <- renderPrint({
-        n_filter <- nrow(df_select$data)
-        coupons <- unique(df_select$data["coupon"])
-        n_denorm <- nrow(df_select$data)/nrow(data_denorm)*100
-        from <- input$date_range[1]
+    output$filter_stats <- renderText({
         
-        sprintf("There were %i orders placed from %s to %s")
+        paste(
+            # number of orders placedin the date range
+            as.character(nrow(distinct(df_date$data["order_id"]))),
+              " orders were placed between ", 
+            # start date
+              human_date(ymd(input$date_range[1])),
+              " and ", 
+            # end date
+              human_date(ymd(input$date_range[2])),
+              ".","\n",
+            # percentage of orders in the date range that fulfill the filters
+              as.character(as.integer(nrow(distinct(df_select$data))/nrow(distinct(df_date$data))*100)),
+              "% of those orders fulfill the filters and are plotted below.",
+              "\n", "\n",
+            # coupons used in the date range
+              "The following coupons were used during that time:",
+              "\n", 
+              unique(df_select$data["coupon"]), 
+              sep="")
     })
     
-    # df_filter <- data_denorm %>%
-    #     distinct(order_id, order_year, order_month) %>%
-    #     # ensure sample size of >=20
-    #     group_by(order_year, order_month) %>%
-    #         summarize("orders_placed" = n()) %>%
-    #         filter(orders_placed >= 20)
-    #
-
-    # # CONTEXTUAL STATS
-    # output$contextual_stats <- renderText({
-    #     
-    #     
-    #     paste("There were ", )
-    # })
     
     
     # PLOT
