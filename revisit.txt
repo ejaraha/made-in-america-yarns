@@ -9,3 +9,6 @@ data$order_main %>% filter(order_id %in% c("22240", "22198", "22095", "22094", "
 
 The following coupons were used during that time:
 c("hello2021", "goodbye2020|amount:129.54;code:hello2021",
+
+
+nulls in color for variations = yes
