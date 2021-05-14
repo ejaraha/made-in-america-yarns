@@ -1,14 +1,14 @@
 library(shiny)
 library(shinythemes)
 library(ggplot2)
+library(dplyr)
 
 # to do: test row counts and groupings against wpAdmin
 
 setwd("C:/Users/sjara/git/made-in-america-yarns/data")
 source("C:/Users/sjara/git/made-in-america-yarns/functions.R")
 
-
-
+# get data
 data_denorm <- read.csv("denormalized.csv", stringsAsFactors = FALSE) %>%
     mutate("order_year" = year(order_date),
            "order_month" = month(order_date),
@@ -18,7 +18,28 @@ data_denorm <- read.csv("denormalized.csv", stringsAsFactors = FALSE) %>%
                                                          TRUE ~ as.character(.x)))) %>%
     # handle strange missing data
     filter(is.na(quantity)==FALSE) 
-    # mutate(effect = rep_len(c("test", "testing", "123"), 3248))
+
+
+# define theme for plots
+theme_style <- theme(plot.title = element_text(face = "bold", size = 15),
+               plot.subtitle = element_text(face = "plain", size = 13),
+               axis.title = element_text(size = 13, face="italic"),
+               axis.text.y = element_blank(),
+               axis.text.x = element_text(size = 13),
+               legend.text = element_text(size = 13),
+               legend.title = element_text(face = "bold", size = 13),
+               legend.position = "right",
+               panel.background = element_rect(fill = "slategray3"),
+               panel.grid.major = element_line(colour = NA),
+               panel.grid.minor = element_line(colour = NA),
+               axis.ticks = element_line(color=NA),
+               axis.title.y = element_blank(),
+               axis.title.x = element_text(margin = margin(t = 20, r = 0, b = 0, l = 0)))
+
+# define labels for plots
+plot_labels <- labs(title = "Frequency of Each Product in the Top-Product-Ranking",
+                    y = "number of times ranked as a top product")
+
 
 # Define UI 
 ui <- fluidPage(
@@ -94,12 +115,12 @@ ui <- fluidPage(
                     width = NULL,
                     size = 3
                 ),
-                h4("Variations:"),
-                checkboxInput(inputId = "include_variations", label= "include variations?", value=FALSE),
-                h4("Popularity Ranking:"),
+                h4("Product Granularity:"),
+                checkboxInput(inputId = "include_variations", label= "include colors?", value=FALSE),
+                h4("Top Products by ___:"),
                 radioButtons(
                     inputId = "interval",
-                    label = "calculate top products by ____:",
+                    label = element_blank(),
                     choices = c("week", "month", "year"),
                     selected = "week",
                     width = NULL,
@@ -145,6 +166,7 @@ server <- function(input, output) {
                             fiber %in% input$yarn_fiber,
                             yarn_weight %in% input$yarn_weight,
                             effect %in% input$yarn_effect)
+                     from <- input$date_range[1]
                                     
                  })
     
@@ -152,8 +174,10 @@ server <- function(input, output) {
                  {df_filter$data <- data_denorm
                  df_date$data <- data_denorm
                  updateDateRangeInput(inputId = "date_range",
-                                      start = paste(year(Sys.Date()), month(Sys.Date()), "1", sep="-"),
-                                      end = Sys.Date())
+                                      start = paste(year(Sys.Date()), "1", "1", sep="-"),
+                                      end = max(data_denorm$order_date),
+                                      max = max(data_denorm$order_date),
+                                      min = min(data_denorm$order_date))
                  updateSelectInput(inputId = "customer_type",
                                    choices = unique(data_denorm$customer_type),
                                    selected = unique(data_denorm$customer_type))
@@ -185,13 +209,15 @@ server <- function(input, output) {
               " and ", 
             # end date
               human_date(ymd(input$date_range[2])),
-              ".","\n",
+              ".","\n", 
+            as.character(as.integer(nrow(distinct(df_filter$data["order_id"])))),
+            " of those orders (",
             # percentage of orders in the date range that fulfill the filters
-              as.character(as.integer(nrow(distinct(df_filter$data))/nrow(distinct(df_date$data))*100)),
-              "% of those orders fulfill the filters and are plotted below.",
+              as.character(as.integer(nrow(distinct(df_filter$data["order_id"]))/nrow(distinct(df_date$data["order_id"]))*100)),
+              "%) fulfill the filters (in the sidepanel), and are plotted below.",
               "\n", "\n",
             # coupons used in the date range
-              "The following coupons were used during that time:",
+              "Also, the following coupons were used during that time:",
               "\n", 
               unique(df_filter$data["coupon"]), 
               sep="")
@@ -237,10 +263,18 @@ server <- function(input, output) {
             df_plot <- df %>% 
                 arrange(n) %>%
                 mutate(name=factor(name, levels=name, ordered = TRUE))
-            df_plot %>%
-                ggplot(aes(x=name, y=n)) +
-                geom_col() +
-                coord_flip()
+
+            # plot
+            df_plot %>% ggplot(aes(x=name, y=n, label = name)) +
+                geom_col(fill="lightskyblue4") +
+                geom_text(hjust= 0, nudge_y = -df_plot$n+.05, colour="white") +
+                coord_flip() + 
+                theme_style +
+                plot_labels +
+                scale_y_continuous(expand = c(0,0), breaks=integer_breaks())
+            
+            
+            
         ## PRODUCT / MONTH
         }else if(input$include_variations == FALSE &
               input$interval == "month"){
@@ -274,12 +308,17 @@ server <- function(input, output) {
             df_plot <- df %>% 
                 arrange(n) %>%
                 mutate(name=factor(name, levels=name, ordered = TRUE))
-            
+
             df_plot %>%
-                ggplot(aes(x=name, y=n)) +
-                geom_col() +
-                coord_flip()
-            ## PRODUCT / YEAR
+                ggplot(aes(x=name, y=n, label = name)) +
+                geom_col(fill="lightskyblue4") +
+                geom_text(hjust= 0, nudge_y = -df_plot$n+.05, colour="white") +
+                coord_flip() + 
+                theme_style +
+                plot_labels +
+                scale_y_continuous(expand = c(0,0), breaks=integer_breaks())
+            
+            # PRODUCT / YEAR
         } else if(input$include_variations == FALSE &
                   input$interval == "year"){
             df <- df_filter$data %>% 
@@ -313,9 +352,13 @@ server <- function(input, output) {
                 arrange(n) %>%
                 mutate(name=factor(name, levels=name, ordered = TRUE))
             df_plot %>%
-                ggplot(aes(x=name, y=n)) +
-                geom_col() +
-                coord_flip()
+                ggplot(aes(x=name, y=n, label = name)) +
+                geom_col(fill="lightskyblue4") +
+                geom_text(hjust= 0, nudge_y = -df_plot$n+.05, colour="white") +
+                coord_flip() + 
+                theme_style +
+                plot_labels +
+                scale_y_continuous(expand = c(0,0), breaks=integer_breaks())
         ## VARIATION / WEEK
         }else if(input$include_variations == TRUE &
               input$interval == "week"){
@@ -351,9 +394,13 @@ server <- function(input, output) {
                 arrange(n) %>%
                 mutate(label=factor(label, levels=label, ordered = TRUE))
             df_plot %>%
-                ggplot(aes(x=label, y=n)) +
-                geom_col() +
-                coord_flip()
+                ggplot(aes(x=label, y=n, label = label)) +
+                geom_col(fill="lightskyblue4") +
+                geom_text(hjust= 0, nudge_y = -df_plot$n+.05, colour="white") +
+                coord_flip() + 
+                theme_style +
+                plot_labels +
+                scale_y_continuous(expand = c(0,0), breaks=integer_breaks())
         ## VARIATION / MONTH
         }else if(input$include_variations == TRUE &
                  input$interval == "month"){
@@ -389,9 +436,13 @@ server <- function(input, output) {
                 arrange(n) %>%
                 mutate(label=factor(label, levels=label, ordered = TRUE))
             df_plot %>%
-                ggplot(aes(x=label, y=n)) +
-                geom_col() +
-                coord_flip()
+                ggplot(aes(x=label, y=n, label = label)) +
+                geom_col(fill="lightskyblue4") +
+                geom_text(hjust= 0, nudge_y = -df_plot$n+.05, colour="white") +
+                coord_flip() + 
+                theme_style +
+                plot_labels +
+                scale_y_continuous(expand = c(0,0), breaks=integer_breaks())
             
         # VARIATION / YEAR
         }else if(input$include_variations == TRUE &
@@ -421,16 +472,21 @@ server <- function(input, output) {
                 filter(rank_quantity == min(rank_quantity)) %>%
                 # count how many times each name appears in the top
                 ungroup() %>%
-                count(label)
+                count(label) 
             
             # order by number of times in top three
             df_plot <- df %>% 
                 arrange(n) %>%
                 mutate(label=factor(label, levels=label, ordered = TRUE))
             df_plot %>%
-                ggplot(aes(x=label, y=n)) +
-                geom_col() +
-                coord_flip()
+                ggplot(aes(x=label, y=n, label = label)) +
+                geom_col(fill="lightskyblue4") +
+                geom_text(hjust= 0, nudge_y = -df_plot$n+.05, colour="white") +
+                coord_flip() + 
+                theme_style +
+                plot_labels +
+                scale_y_continuous(expand = c(0,0), breaks=integer_breaks())
+
         }
         
     })

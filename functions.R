@@ -214,7 +214,7 @@ normalize <- function(df_list){
     ## for these instances, swap the contents of product_id and variation_id
     mutate(product_id = case_when(product_id == "0" & is.na(variation_id) == FALSE ~ variation_id,
                                   TRUE ~ as.character(product_id)),
-           # variation_id = "9999" indicates a missing variation_id
+           # variation_id = "9999" indicates a missing variation_id as a result of issue [1]
            # this is likely due to data loss
            variation_id = case_when(product_id == variation_id ~"9999",
                                     TRUE ~ as.character(variation_id))
@@ -479,5 +479,18 @@ export_data <- function(data_norm, data_denorm, data){
   })
   cat("_main.csvs updated in the data directory \n")
   
+}
+
+# integer breaks for y axis
+#-------------------------------------------------------------
+# A function factory for getting integer y-axis values.
+# https://www.r-bloggers.com/2019/11/setting-axes-to-integer-values-in-ggplot2/
+integer_breaks <- function(n = 5, ...) {
+  fxn <- function(x) {
+    breaks <- floor(pretty(x, n, ...))
+    names(breaks) <- attr(breaks, "labels")
+    breaks
+  }
+  return(fxn)
 }
 
