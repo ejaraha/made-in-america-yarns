@@ -201,14 +201,19 @@ normalize <- function(df_list){
            "color" = str_extract(item_description, "(?<=color:|colors:)[:alpha:]*[:space:]*[:alpha:]*[:space:]*[:alpha:]*")) %>%
     separate(name, into = c("name", "detail"), sep = "-", extra="merge", fill="right") %>%
     mutate_at(c("name", "detail"), str_trim) %>%
+    mutate(color = case_when(is.na(color) == TRUE ~detail,
+                             TRUE ~color)) %>%
     mutate(across(.cols = contains("_id"), as.character))
-  
   
   
   # handle three scenarios of product_id == "0" and/or variation_id == NA
   
   order_main_pivot <- order_main_pivot %>% 
-    # [1] when there's a variation_id but no product_id:
+    # [1] product_id != "0" & variation_id is.na indicated a simple product
+    ## for simple products, variation_id will be replaced with "1111" to explicitly indicate simple products
+    mutate(variation_id = case_when(is.na(variation_id)==TRUE & product_id !=0 ~ "1111",
+                                    TRUE ~ as.character(variation_id))) %>%
+    # [2] when there's a variation_id but no product_id:
     ## WooCommerce' mistake? the id listed as variation_id should actually be in the product_id column 
     ## comparing against wcSmartManager plugin shows this
     ## for these instances, swap the contents of product_id and variation_id
@@ -219,32 +224,29 @@ normalize <- function(df_list){
            variation_id = case_when(product_id == variation_id ~"9999",
                                     TRUE ~ as.character(variation_id))
     ) %>%
-    # [2] when product_id == "0" & variation_id is.na 
+    # [3] when product_id == "0" & variation_id is.na 
     ## these are products that have since been deleted
     ## these products will also be deleted from the database from this date on
-    filter(product_id != "0" & is.na(variation_id)!=TRUE) %>%   
-    # [3] for the remaining records, is.na(variation_id)=TRUE indicates a simple product
-    ## all NAs in variation_id will be replaced with "0000" to explicitly indicate simple products
-    mutate(variation_id = case_when(is.na(variation_id)==TRUE ~ "0000",
-                                    TRUE ~ as.character(variation_id)))
+    filter(product_id != "0" & is.na(variation_id)==FALSE)  
+   
   
   #------------------
   # output message
   
-  n_9999 <- order_main_pivot %>% filter(variation_id == "9999") %>% nrow()
-  n_0000 <- order_main_pivot %>% filter(variation_id == "0000") %>% nrow()
-  p_9999 <- as.integer(n_9999/nrow(order_main_pivot)*100)
-  cat(sprintf("%i rows in order_main_pivot have been assigned a variation_id of \"0000\"\nindicating a SIMPLE PRODUCT\n", n_0000))
-  cat(sprintf("%i rows in order_main_pivot have been assigned a variation_id of \"9999\"\nThat's %i percent of the rows\n*?*?*Investigate if this getstoo high.",n_9999, p_9999))
+  n_9999 <- order_main_pivot %>% filter(variation_id == "9999") %>% distinct(product_id) %>% nrow()
+  n_1111 <- order_main_pivot %>% filter(variation_id == "1111") %>% distinct(order_id) %>% nrow()
+  p_9999 <- as.integer(n_9999/length(unique(order_main_pivot$order_id))*100)
+  cat(sprintf("%i products have been assigned a variation_id of \"1111\"indicating a SIMPLE PRODUCT\n", n_1111))
+  cat(sprintf("%i orders (%i%% of all orders) in order_main_pivot have products that have been assigned a variation_id of \"9999\". Investigate if this gets too high.",n_9999, p_9999))
   
   
   #------------------
-  ##############################################################################
+  
   data_norm$order_product <- order_main_pivot %>%
     group_by(order_id, product_id, variation_id) %>% 
     summarise("quantity" = sum(quantity), .groups = "keep") %>%
     as.data.frame()
-  ##############################################################################
+  
   #------------------
   
   data_norm$order_coupon <- df_list$order_main %>%
@@ -252,6 +254,7 @@ normalize <- function(df_list){
     filter(is.na(coupon)==FALSE) %>%
     select(order_id,
            coupon)
+  
   #------------------
   
   # unpack meta.yarn_usage with multiple usages
@@ -268,7 +271,7 @@ normalize <- function(df_list){
   ###############
   # product_
   ###############
-  ##############################################################################
+  
   data_norm$product <- order_main_pivot %>%
     group_by(product_id,
              variation_id) %>% 
@@ -278,7 +281,7 @@ normalize <- function(df_list){
     # for orders on the same date/time with more than one color/name (usually because of 9999 variation_id)
     summarize(across(c(name, color), max), .groups = "keep") %>%
     ungroup()
-  ##############################################################################
+  
   #------------------
   
   product_category <- df_list$product_main %>% 
@@ -351,7 +354,7 @@ normalize <- function(df_list){
            name,
            color,
            hue)  
-  ##############################################################################
+  
 
   #------------------
   #outut message

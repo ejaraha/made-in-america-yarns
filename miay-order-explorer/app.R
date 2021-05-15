@@ -12,13 +12,14 @@ source("C:/Users/sjara/git/made-in-america-yarns/functions.R")
 data_denorm <- read.csv("denormalized.csv", stringsAsFactors = FALSE) %>%
     mutate("order_year" = year(order_date),
            "order_month" = month(order_date),
-           "order_week" = week(order_date)) %>%
-    # replace NA values in usage and effect with "unassigned" so that filtering will work
+           "order_week" = week(order_date),
+           color = case_when(variation_id == "1111" ~"simple",
+                             TRUE ~ color)) %>%
+    # replace NA values in usage & effect with "unassigned" so that filtering will work
     mutate(across(c(meta.yarn_usage, effect), ~case_when(is.na(.x)==TRUE ~"unassigned",
                                                          TRUE ~ as.character(.x)))) %>%
     # handle strange missing data
     filter(is.na(quantity)==FALSE) 
-
 
 # define theme for plots
 theme_style <- theme(plot.title = element_text(face = "bold", size = 15),
@@ -39,7 +40,6 @@ theme_style <- theme(plot.title = element_text(face = "bold", size = 15),
 # define labels for plots
 plot_labels <- labs(title = "Frequency of Each Product in the Top-Product-Ranking",
                     y = "number of times ranked as a top product")
-
 
 # Define UI 
 ui <- fluidPage(
@@ -116,7 +116,7 @@ ui <- fluidPage(
                     size = 3
                 ),
                 h4("Product Granularity:"),
-                checkboxInput(inputId = "include_variations", label= "include colors?", value=FALSE),
+                checkboxInput(inputId = "include_variations", label= "include variations?", value=FALSE),
                 h4("Top Products by ___:"),
                 radioButtons(
                     inputId = "interval",
