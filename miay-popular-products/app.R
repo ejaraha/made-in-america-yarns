@@ -3,23 +3,11 @@ library(shinythemes)
 library(ggplot2)
 library(dplyr)
 
-# to do: test row counts and groupings against wpAdmin
-
 setwd("C:/Users/sjara/git/made-in-america-yarns/data")
 source("C:/Users/sjara/git/made-in-america-yarns/functions.R")
 
 # get data
-data_denorm <- read.csv("denormalized.csv", stringsAsFactors = FALSE) %>%
-    mutate("order_year" = year(order_date),
-           "order_month" = month(order_date),
-           "order_week" = week(order_date),
-           color = case_when(variation_id == "1111" ~"simple",
-                             TRUE ~ color)) %>%
-    # replace NA values in usage & effect with "unassigned" so that filtering will work
-    mutate(across(c(meta.yarn_usage, effect), ~case_when(is.na(.x)==TRUE ~"unassigned",
-                                                         TRUE ~ as.character(.x)))) %>%
-    # handle strange missing data
-    filter(is.na(quantity)==FALSE) 
+data_denorm <- read.csv("denormalized.csv", stringsAsFactors = FALSE)# %>%
 
 # define theme for plots
 theme_style <- theme(plot.title = element_text(face = "bold", size = 15),
@@ -41,7 +29,7 @@ theme_style <- theme(plot.title = element_text(face = "bold", size = 15),
 plot_labels <- labs(title = "Frequency of Each Product in the Top-Product-Ranking",
                     y = "number of times ranked as a top product")
 
-# Define UI 
+# define UI 
 ui <- fluidPage(
     navbarPage(
         theme = shinytheme("spacelab"),
@@ -122,7 +110,7 @@ ui <- fluidPage(
                     inputId = "interval",
                     label = element_blank(),
                     choices = c("week", "month", "year"),
-                    selected = "week",
+                    selected = "month",
                     width = NULL,
                     choiceNames = NULL,
                     choiceValues = NULL
@@ -139,7 +127,7 @@ ui <- fluidPage(
     )
 ))
 
-# Define server logic
+# define server logic
 server <- function(input, output) {
     
     # INITIALIZE
@@ -214,12 +202,12 @@ server <- function(input, output) {
             " of those orders (",
             # percentage of orders in the date range that fulfill the filters
               as.character(as.integer(nrow(distinct(df_filter$data["order_id"]))/nrow(distinct(df_date$data["order_id"]))*100)),
-              "%) fulfill the filters (in the sidepanel), and are plotted below.",
+              "%) fulfill the filters (in the side panel), and are plotted below.",
               "\n", "\n",
             # coupons used in the date range
               "Also, the following coupons were used during that time:",
               "\n", 
-              unique(df_filter$data["coupon"]), 
+              unique(df_filter$data["coupon"] %>% filter(is.na(coupon)==FALSE)), 
               sep="")
     })
     
@@ -228,36 +216,30 @@ server <- function(input, output) {
     # PLOT
     output$top_prod_plot <- renderPlot({
         
-        # CALCULATE
-        
         ## PRODUCT / WEEK
         if(input$include_variations == FALSE &
            input$interval == "week"){
             df <- df_filter$data %>% 
                 # get order-level data and all necessary fields
-                distinct(order_id, product_id, order_year, order_week, name, quantity) %>%
+                distinct(order_id, product_id, order_year, order_week, name, color, quantity) %>%
                 # get item-level info
                 group_by(order_year, order_week, product_id) %>%
              # n_orders = orders placed by year/mo
-             summarize(n_orders = n(),
+             summarize(n_orders = length(unique(order_id)),
                        # sum_quantity = number purchased per period
                        sum_quantity = sum(quantity),
                        # need this so "name" won't be dropped
                        name = max(name),
                        # change grouping
-                       .groups = "drop") %>%      
+                       .groups = "drop") %>%  
+            # rank
             group_by(order_year, order_week) %>%
-            # rank n_orders and sum_quantity (1=most orders/largest quantity)
-            mutate("rank_orders" = dense_rank(desc(n_orders)),
-                   "rank_quantity" = dense_rank(desc(sum_quantity))) %>%
-            # get top three items
-            filter(rank_orders %in% c(1,2,3)) %>%
-            # for repeat rank_orders, choose the record(s) with the largest quantity ordered
-            group_by(order_year, order_week, rank_orders, .add=TRUE) %>%
-            filter(rank_quantity == min(rank_quantity)) %>%
-            # count how many times each name appears in the top
+            arrange(desc(n_orders, sum_quantity)) %>%
+            mutate("rank" = 1:n()) %>% 
+            filter(rank %in% c(1,2,3)) %>% 
             ungroup() %>%
-            count(name)
+            count(name) %>%
+            glimpse()
             
             # order by number of times in top three
             df_plot <- df %>% 
@@ -280,27 +262,22 @@ server <- function(input, output) {
               input$interval == "month"){
             df <- df_filter$data %>% 
                 # get order-level data and all necessary fields
-                distinct(order_id, product_id, order_year, order_month, name, quantity) %>%
+                distinct(order_id, product_id, order_year, order_month, name, color, quantity) %>%
                 # get item-level info
                 group_by(order_year, order_month, product_id) %>%
                 # n_orders = orders placed by year/mo
-                summarize(n_orders = n(),
+                summarize(n_orders = length(unique(order_id)),
                           # sum_quantity = number purchased per period
                           sum_quantity = sum(quantity),
                           # need this so "name" won't be dropped
                           name = max(name),
                           # change grouping
-                          .groups = "drop") %>%      
+                          .groups = "drop") %>%
+                # rank
                 group_by(order_year, order_month) %>%
-                # rank n_orders and sum_quantity (1=most orders/largest quantity)
-                mutate("rank_orders" = dense_rank(desc(n_orders)),
-                       "rank_quantity" = dense_rank(desc(sum_quantity))) %>%
-                # get top three items
-                filter(rank_orders %in% c(1,2,3)) %>%
-                # for repeat rank_orders, choose the record(s) with the largest quantity ordered
-                group_by(order_year, order_month, rank_orders, .add=TRUE) %>%
-                filter(rank_quantity == min(rank_quantity)) %>%
-                # count how many times each name appears in the top
+                arrange(desc(n_orders, sum_quantity)) %>%
+                mutate("rank" = 1:n()) %>% 
+                filter(rank %in% c(1,2,3)) %>% 
                 ungroup() %>%
                 count(name)
             
@@ -323,29 +300,25 @@ server <- function(input, output) {
                   input$interval == "year"){
             df <- df_filter$data %>% 
                 # get order-level data and all necessary fields
-                distinct(order_id, product_id, order_year, name, quantity) %>%
+                distinct(order_id, product_id, order_year, name, color, quantity) %>%
                 # get item-level info
                 group_by(order_year, product_id) %>%
                 # n_orders = orders placed by year/mo
-                summarize(n_orders = n(),
+                summarize(n_orders = length(unique(order_id)),
                           # sum_quantity = number purchased per period
                           sum_quantity = sum(quantity),
                           # need this so "name" won't be dropped
                           name = max(name),
                           # change grouping
                           .groups = "drop") %>%      
+                # rank
                 group_by(order_year) %>%
-                # rank n_orders and sum_quantity (1=most orders/largest quantity)
-                mutate("rank_orders" = dense_rank(desc(n_orders)),
-                       "rank_quantity" = dense_rank(desc(sum_quantity))) %>%
-                # get top three items
-                filter(rank_orders %in% c(1,2,3)) %>%
-                # for repeat rank_orders, choose the record(s) with the largest quantity ordered
-                group_by(order_year, rank_orders, .add=TRUE) %>%
-                filter(rank_quantity == min(rank_quantity)) %>%
-                # count how many times each name appears in the top
+                arrange(desc(n_orders, sum_quantity)) %>%
+                mutate("rank" = 1:n()) %>% 
+                filter(rank %in% c(1,2,3)) %>% 
                 ungroup() %>%
-                count(name)
+                count(name) %>%
+                glimpse()
             
             # order by number of times in top three
             df_plot <- df %>% 
@@ -364,30 +337,26 @@ server <- function(input, output) {
               input$interval == "week"){
             df <- df_filter$data %>% 
                 # get order-level data and all necessary fields
-                mutate("label" = paste(name, color, sep= "-")) %>%
+                mutate("label" = paste(name, color, sep= " - ")) %>%
                 distinct(order_id, product_id,variation_id, order_year, order_week, label, quantity) %>%
                 # get item-level info
                 group_by(order_year, order_week, product_id, variation_id) %>%
                 # n_orders = orders placed by year/mo
-                summarize(n_orders = n(),
+                summarize(n_orders = length(unique(order_id)),
                           # sum_quantity = number purchased per period
                           sum_quantity = sum(quantity),
                           # need this so "name" won't be dropped
                           label = max(label),
                           # change grouping
-                          .groups = "drop") %>%      
+                          .groups = "drop") %>%     
+                # rank
                 group_by(order_year, order_week) %>%
-                # rank n_orders and sum_quantity (1=most orders/largest quantity)
-                mutate("rank_orders" = dense_rank(desc(n_orders)),
-                       "rank_quantity" = dense_rank(desc(sum_quantity))) %>%
-                # get top three items
-                filter(rank_orders %in% c(1,2,3)) %>%
-                # for repeat rank_orders, choose the record(s) with the largest quantity ordered
-                group_by(order_year, order_week, rank_orders, .add=TRUE) %>%
-                filter(rank_quantity == min(rank_quantity)) %>%
-                # count how many times each name appears in the top
+                arrange(desc(n_orders, sum_quantity)) %>%
+                mutate("rank" = 1:n()) %>% 
+                filter(rank %in% c(1,2,3)) %>% 
                 ungroup() %>%
-                count(label)
+                count(label) %>%
+                glimpse()
             
             # order by number of times in top three
             df_plot <- df %>% 
@@ -406,30 +375,26 @@ server <- function(input, output) {
                  input$interval == "month"){
             df <- df_filter$data %>% 
                 # get order-level data and all necessary fields
-                mutate("label" = paste(name, color, sep= "-")) %>%
+                mutate("label" = paste(name, color, sep= " - ")) %>%
                 distinct(order_id, product_id,variation_id, order_year, order_month, label, quantity) %>%
                 # get item-level info
                 group_by(order_year, order_month, product_id, variation_id) %>%
                 # n_orders = orders placed by year/mo
-                summarize(n_orders = n(),
+                summarize(n_orders = length(unique(order_id)),
                           # sum_quantity = number purchased per period
                           sum_quantity = sum(quantity),
                           # need this so "name" won't be dropped
                           label = max(label),
                           # change grouping
-                          .groups = "drop") %>%      
+                          .groups = "drop") %>%  
+                # rank
                 group_by(order_year, order_month) %>%
-                # rank n_orders and sum_quantity (1=most orders/largest quantity)
-                mutate("rank_orders" = dense_rank(desc(n_orders)),
-                       "rank_quantity" = dense_rank(desc(sum_quantity))) %>%
-                # get top three items
-                filter(rank_orders %in% c(1,2,3)) %>%
-                # for repeat rank_orders, choose the record(s) with the largest quantity ordered
-                group_by(order_year, order_month, rank_orders, .add=TRUE) %>%
-                filter(rank_quantity == min(rank_quantity)) %>%
-                # count how many times each name appears in the top
+                arrange(desc(n_orders, sum_quantity)) %>%
+                mutate("rank" = 1:n()) %>% 
+                filter(rank %in% c(1,2,3)) %>% 
                 ungroup() %>%
-                count(label)
+                count(label) %>%
+                glimpse()
             
             # order by number of times in top three
             df_plot <- df %>% 
@@ -449,30 +414,26 @@ server <- function(input, output) {
                  input$interval == "year"){
             df <- df_filter$data %>% 
                 # get order-level data and all necessary fields
-                mutate("label" = paste(name, color, sep= "-")) %>%
+                mutate("label" = paste(name, color, sep= " - ")) %>%
                 distinct(order_id, product_id,variation_id, order_year, label, quantity) %>%
                 # get item-level info
                 group_by(order_year, product_id, variation_id) %>%
                 # n_orders = orders placed by year/mo
-                summarize(n_orders = n(),
+                summarize(n_orders = length(unique(order_id)),
                           # sum_quantity = number purchased per period
                           sum_quantity = sum(quantity),
                           # need this so "name" won't be dropped
                           label = max(label),
                           # change grouping
-                          .groups = "drop") %>%      
+                          .groups = "drop") %>%  
+                # rank
                 group_by(order_year) %>%
-                # rank n_orders and sum_quantity (1=most orders/largest quantity)
-                mutate("rank_orders" = dense_rank(desc(n_orders)),
-                       "rank_quantity" = dense_rank(desc(sum_quantity))) %>%
-                # get top three items
-                filter(rank_orders %in% c(1,2,3)) %>%
-                # for repeat rank_orders, choose the record(s) with the largest quantity ordered
-                group_by(order_year, rank_orders, .add=TRUE) %>%
-                filter(rank_quantity == min(rank_quantity)) %>%
-                # count how many times each name appears in the top
+                arrange(desc(n_orders, sum_quantity)) %>%
+                mutate("rank" = 1:n()) %>% 
+                filter(rank %in% c(1,2,3)) %>% 
                 ungroup() %>%
-                count(label) 
+                count(label) %>%
+                glimpse()
             
             # order by number of times in top three
             df_plot <- df %>% 

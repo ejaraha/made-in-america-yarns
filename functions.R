@@ -249,11 +249,16 @@ normalize <- function(df_list){
   
   #------------------
   
-  data_norm$order_coupon <- df_list$order_main %>%
-    mutate("coupon" = str_sub(str_trim(str_extract(coupon_items, "(?<=code:).*(?=amount:)")), start=1, end=-2)) %>%
+  # unpack orders with multiple coupons
+  coupon_list <- strsplit(order_main_pivot$coupon_items, split = ";")
+  
+  # create a new data frame with room to insert the coupons previously packed in comma-separated character strings
+  data_norm$order_coupon <- data.frame(order_id = rep(order_main_pivot$order_id, sapply(coupon_list, length)), 
+                                      "coupon" = unlist(coupon_list)) %>%
+    mutate(coupon = str_sub(str_trim(str_extract(coupon, "(?<=code:).*(?=amount:)")), start=1, end=-2)) %>%
     filter(is.na(coupon)==FALSE) %>%
-    select(order_id,
-           coupon)
+    distinct(order_id,
+             coupon)
   
   #------------------
   
@@ -289,25 +294,31 @@ normalize <- function(df_list){
            "yarn_weight" = str_extract_all(categories, "(?<=yarn weight > )[^,]*"),
            "effect" = str_extract_all(categories, "(?<=effect > )[^,]*"),
            "hue" = str_extract_all(categories, "(?<=hue > )[^,]*"),
-           "big_cones" = str_detect(categories, "big cones"),
-           "spools" = str_detect(categories, "spools"),
+           "big_cones" = case_when(str_detect(categories, "big cones")==TRUE ~"big cones",
+                                   TRUE ~ NA_character_),
+           "spools" = case_when(str_detect(categories, "spools")==TRUE ~"spools",
+                                TRUE ~ NA_character_),
            id = as.character(id))
   
-  #------------------
+  #------------------ 
   
   data_norm$product_fiber <- product_category %>%
-    filter(type == "variable") %>%
+    #filter(type == "variable") %>%
     rename("product_id"=id) %>%
     unnest(fiber) %>% 
+    # strange... these ids are not in product_category
+    filter(product_id %notin% c("22215", "22210", "22211", "22211", "22213", "12386", "12384")) %>%
     select(product_id,
            fiber) 
   
   #------------------
   
   data_norm$product_yarn_weight <- product_category %>%
-    filter(type == "variable") %>%
+    #filter(type == "variable") %>%
     rename("product_id"=id) %>% 
     unnest(yarn_weight) %>% 
+    # strange... these ids are not in product_category
+    filter(product_id %notin% c("22215", "22210", "22211", "22211", "22213", "12386", "12384")) %>%
     select(product_id,
            yarn_weight) 
   
@@ -336,7 +347,8 @@ normalize <- function(df_list){
     filter(n >= 2) %>%
     select (-n)
   
-  ##############################################################################
+  #------------------
+  
   # int -> char (id columns in df_list$product_hue)
   df_list$product_hue <- df_list$product_hue %>%
     mutate(across(.cols = contains("_id"), as.character)) 
@@ -443,22 +455,38 @@ check_empty <- function(df){
 
 denormalize <- function(df_list){
 
-  # [1] join product level data as product_df
-  product <- df_list$product %>%
-    left_join(df_list$product_hue, by=c("product_id"="product_id", "variation_id"="variation_id")) %>%
-    left_join(df_list$product_fiber, by="product_id") %>%
-    left_join(df_list$product_yarn_weight, by="product_id") %>%
-    left_join(df_list$product_effect, by="product_id")
-  # [2] join order level data
-  data_denorm <- df_list$order_product %>% 
+  # [1] join order level data
+  data_denorm <- df_list$order_product %>%
     left_join(df_list$order, by="order_id") %>%
     left_join(df_list$order_coupon, by="order_id") %>%
     left_join(df_list$order_usage, by="order_id") %>%
-    # [3] rejoin product data
-    left_join(product, by=c("product_id"="product_id", "variation_id"="variation_id")) %>%
+    # [2] join product data
+    left_join(df_list$product, by=c("product_id"="product_id", "variation_id"="variation_id")) %>%
+    left_join(df_list$product_hue, by=c("product_id"="product_id", "variation_id"="variation_id")) %>%
+    left_join(df_list$product_fiber, by="product_id") %>%
+    left_join(df_list$product_yarn_weight, by="product_id") %>%
+    left_join(df_list$product_effect, by="product_id") %>%
+    # handle duplicate fields
     rename("name"=name.x,
            "color"=color.x)%>%
-    select(-c(name.y, color.y))
+    select(-c(name.y, color.y)) %>% 
+    # adjust date & handle NAs for app
+    mutate("order_year" = year(order_date),
+           "order_month" = month(order_date),
+           "order_week" = week(order_date),
+           color = case_when(variation_id == "1111" ~"simple",
+                             TRUE ~ color),
+           #for these products, yarn_weight and fiber are irrelevant (ex. vintage textile bobbins). replace with "not applicable" so filtering works
+           yarn_weight = case_when(product_id %in% c("2985", "19963", "19955", "3263", "1956") ~"not applicable",
+                                   TRUE ~ yarn_weight),
+           fiber = case_when(product_id %in% c("2985", "19963", "19955", "3263") ~"not applicable",
+                             TRUE ~ fiber)) %>%
+    # replace NA values in usage & effect with "unassigned" so that filtering will work
+    mutate(across(c(meta.yarn_usage, effect), ~case_when(is.na(.x)==TRUE ~"unassigned",
+                                                         TRUE ~ as.character(.x)))) %>%
+    # handle strange missing data
+    filter(is.na(quantity)==FALSE) 
+  
   # return denormalized df
   return(data_denorm)
 }
@@ -497,3 +525,4 @@ integer_breaks <- function(n = 5, ...) {
   return(fxn)
 }
 
+"%notin%" <- Negate("%in%")
