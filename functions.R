@@ -512,17 +512,4 @@ export_data <- function(data_norm, data_denorm, data){
   
 }
 
-# integer breaks for y axis
-#-------------------------------------------------------------
-# A function factory for getting integer y-axis values.
-# https://www.r-bloggers.com/2019/11/setting-axes-to-integer-values-in-ggplot2/
-integer_breaks <- function(n = 5, ...) {
-  fxn <- function(x) {
-    breaks <- floor(pretty(x, n, ...))
-    names(breaks) <- attr(breaks, "labels")
-    breaks
-  }
-  return(fxn)
-}
 
-"%notin%" <- Negate("%in%")

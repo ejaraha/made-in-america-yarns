@@ -2,12 +2,11 @@ library(shiny)
 library(shinythemes)
 library(ggplot2)
 library(dplyr)
-
-setwd("C:/Users/sjara/git/made-in-america-yarns/miay-popular-products")
-source("functions.R")
+library(lubridate)
 
 # get data
-data_denorm <- read.csv("denormalized.csv", stringsAsFactors = FALSE)
+data_denorm <- read.csv("https://raw.githubusercontent.com/sjaraha/made-in-america-yarns/master/miay-popular-products/denormalized.csv", stringsAsFactors = FALSE)
+
 
 # define theme for plots
 theme_style <- theme(plot.title = element_text(face = "bold", size = 15),
@@ -155,6 +154,21 @@ server <- function(input, output) {
     ## format for printing dates
     human_date <- stamp("March 19, 1995")
     
+    # load function
+    # integer breaks for y axis
+    #-------------------------------------------------------------
+    # A function factory for getting integer y-axis values.
+    # https://www.r-bloggers.com/2019/11/setting-axes-to-integer-values-in-ggplot2/
+    integer_breaks <- function(n = 5, ...) {
+        fxn <- function(x) {
+            breaks <- floor(pretty(x, n, ...))
+            names(breaks) <- attr(breaks, "labels")
+            breaks
+        }
+        return(fxn)
+    }
+    
+    
     # FILTER
     observeEvent(input$apply, 
                  {df_date$data <- data_denorm %>%
@@ -255,8 +269,7 @@ server <- function(input, output) {
             mutate("rank" = 1:n()) %>% 
             filter(rank %in% c(1,2,3)) %>% 
             ungroup() %>%
-            count(name) %>%
-            glimpse()
+            count(name) 
             
             # order by number of times in top three
             df_plot <- df %>% 
@@ -334,8 +347,7 @@ server <- function(input, output) {
                 mutate("rank" = 1:n()) %>% 
                 filter(rank %in% c(1,2,3)) %>% 
                 ungroup() %>%
-                count(name) %>%
-                glimpse()
+                count(name)
             
             # order by number of times in top three
             df_plot <- df %>% 
@@ -372,8 +384,7 @@ server <- function(input, output) {
                 mutate("rank" = 1:n()) %>% 
                 filter(rank %in% c(1,2,3)) %>% 
                 ungroup() %>%
-                count(label) %>%
-                glimpse()
+                count(label) 
             
             # order by number of times in top three
             df_plot <- df %>% 
@@ -410,8 +421,7 @@ server <- function(input, output) {
                 mutate("rank" = 1:n()) %>% 
                 filter(rank %in% c(1,2,3)) %>% 
                 ungroup() %>%
-                count(label) %>%
-                glimpse()
+                count(label)
             
             # order by number of times in top three
             df_plot <- df %>% 
@@ -449,8 +459,7 @@ server <- function(input, output) {
                 mutate("rank" = 1:n()) %>% 
                 filter(rank %in% c(1,2,3)) %>% 
                 ungroup() %>%
-                count(label) %>%
-                glimpse()
+                count(label) 
             
             # order by number of times in top three
             df_plot <- df %>% 
