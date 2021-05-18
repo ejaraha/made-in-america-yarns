@@ -498,7 +498,7 @@ export_data <- function(data_norm, data_denorm, data){
   # write denormalized data frame to the /data directory
   write.csv(data_denorm, "denormalized.csv", row.names = FALSE)
 
-  cat("denoramlized dfs written to the data directory \n")
+  cat("denoramlized dfs written to the app directory \n")
   
   # write product_hue data to the /data directory
   write.csv(data_norm[["product_hue"]], "product_hue.csv", row.names = FALSE)

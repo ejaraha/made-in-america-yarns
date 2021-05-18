@@ -4,7 +4,7 @@
 # library(stringr)
 # library(purrr)
 
-source("C:/Users/sjara/git/made-in-america-yarns/functions.R")
+source("C:/Users/sjara/git/made-in-america-yarns/miay-popular-products/functions.R")
 setwd("C:/Users/sjara/git/made-in-america-yarns/data/")
 
 # update data

@@ -3,11 +3,11 @@ library(shinythemes)
 library(ggplot2)
 library(dplyr)
 
-setwd("C:/Users/sjara/git/made-in-america-yarns/data")
-source("C:/Users/sjara/git/made-in-america-yarns/functions.R")
+setwd("C:/Users/sjara/git/made-in-america-yarns/miay-popular-products")
+source("functions.R")
 
 # get data
-data_denorm <- read.csv("denormalized.csv", stringsAsFactors = FALSE)# %>%
+data_denorm <- read.csv("denormalized.csv", stringsAsFactors = FALSE)
 
 # define theme for plots
 theme_style <- theme(plot.title = element_text(face = "bold", size = 15),
@@ -105,24 +105,41 @@ ui <- fluidPage(
                 ),
                 h4("Product Granularity:"),
                 checkboxInput(inputId = "include_variations", label= "include variations?", value=FALSE),
-                h4("Top Products by ___:"),
+                h4("Scope:"),
                 radioButtons(
                     inputId = "interval",
-                    label = element_blank(),
+                    label = "top products by ___:",
                     choices = c("week", "month", "year"),
                     selected = "month",
                     width = NULL,
                     choiceNames = NULL,
                     choiceValues = NULL
                 )
-                
             ),
     
             # space for plot
             mainPanel(
                verbatimTextOutput("filter_stats"),
                plotOutput("top_prod_plot") ,
-               verbatimTextOutput("test2")
+               verbatimTextOutput("test2"),
+               br(),
+               p(h4("About This Tool")),
+               br(),
+               p("This tool can be used to ", strong("identify popular products")," for specific subgroups and date ranges."),
+               br(),
+               p("The ",strong("bar chart"), " shows the number of times each product appears in the ", tags$u("top three"), " for the chosen ", strong("scope"), " (week, month, or year).
+                 The top three products (for the chosen filters) are first ranked by the number of orders placed for each product, then ranked by the quantity sold of each product."),
+               br(),
+               p("The ", strong("filters"), " section allows you to analyze a specific subset of all available data. 
+                 If you choose 'metallic' from the \"yarn fiber\" filter and set the \"date range\" filter to '2021-01-01 to 2021-01-31', then the bar chart will only show results for metallic products in January 2021.",
+                 em("Notes on filters: 'not applicable' indicates non-yarn items (textile bobbins) or group items (mystery box). 'unassigned' marks products that have not yet been assigned an attribute.")),
+               br(),
+               p("The ", strong("product granularity"), " section allows you to rank products at the product level (ex. american lamb yarn) or the variation level (ex. american lamb yarn - wineglass)."),
+               br(),
+               p("The ", strong("scope"), " section allows you to choose the scope of the ranking. If ", strong("scope"), " is 'week' and \"date range\" is '2021-01-01 to 2021-01-31', then the ", tags$u("top three"), " products will be calculated for each week in January 2021.
+                 Then, the ",strong("bar chart"), " will display the number of times top products appear in the top ranking."),
+               br(),br(),br()
+
         )
     )
 ))
@@ -451,8 +468,6 @@ server <- function(input, output) {
         }
         
     })
-    
-    
 }
 
 # Run the application 
