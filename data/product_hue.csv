@@ -17,14 +17,17 @@
 "1085","1095","florafil super soft cotton yarn | bulky","green chrysanthemum","green"
 "1085","1096","florafil super soft cotton yarn | bulky","helenium mardi gras","blue"
 "1085","1097","florafil super soft cotton yarn | bulky","indian paintbrush","red"
+"1085","1100","florafil super soft cotton yarn | bulky","pink coneflower",NA
 "1085","1101","florafil super soft cotton yarn | bulky","pink phlox","yellow"
 "1085","1102","florafil super soft cotton yarn | bulky","red hibiscus","green"
 "1085","1103","florafil super soft cotton yarn | bulky","yellow cinquefoil","blue"
 "1085","1383","florafil super soft cotton yarn | bulky","white lily","red"
 "1085","1384","florafil super soft cotton yarn | bulky","navy bellflower","yellow"
 "1085","19731","florafil super soft cotton yarn | bulky","natural cotton","green"
+"1085","22300","florafil super soft cotton yarn | bulky","blue flag iris",NA
 "1085","2517","florafil super soft cotton yarn | bulky","marigold","blue"
 "10855","13050","shades of sunset","sunset blue","red"
+"10855","13051","shades of sunset","sunset red",NA
 "10855","14306","shades of sunset","sunset purple","yellow"
 "10855","14805","shades of sunset","sunset green","green"
 "10855","19861","shades of sunset","sunset red","blue"
@@ -38,6 +41,8 @@
 "11161","19367","mini dina","light copper","blue"
 "11161","19654","mini dina","cascade navy","red"
 "11161","19655","mini dina","lime","yellow"
+"11180","12635","seeded ratton (avanti)","sunflower",NA
+"11180","12638","seeded ratton (avanti)","soft blue",NA
 "11180","12639","seeded ratton (avanti)","natural","green"
 "11180","13992","seeded ratton (avanti)","dark navy","blue"
 "11180","13994","seeded ratton (avanti)","black","red"
@@ -53,6 +58,7 @@
 "12357","21663","fiesta wool","stone","green"
 "12399","12400","cotton rayon yarn","bark","blue"
 "12399","12401","cotton rayon yarn","indigo","red"
+"12399","12402","cotton rayon yarn","suede",NA
 "12399","12403","cotton rayon yarn","sade","yellow"
 "12408","1111","oreo seed yarn",NA,"green"
 "12680","12713","shimmer yarn","blue cornflower","blue"
@@ -71,11 +77,12 @@
 "13312","19595","jewels","white silver","red"
 "13638","1111","huge black cone",NA,"yellow"
 "13654","16071","4/4 cotton yarn (worsted cotton)","black","green"
-"13654","16074","4/4 cotton yarn","cotton candy","blue"
+"13654","16074","4/4 cotton yarn (worsted cotton)","cotton candy","blue"
 "13654","16715","4/4 cotton yarn","denim","red"
 "13654","17244","4/4 cotton yarn","burgundy","yellow"
 "13654","17275","4/4 cotton yarn (worsted cotton)","berry","green"
 "13654","17329","4/4 cotton yarn","bright purple","blue"
+"13654","17399","4/4 cotton yarn (worsted cotton)","sky blue",NA
 "13654","18329","4/4 cotton yarn","burnt auburn","red"
 "13654","18331","4/4 cotton yarn","lavender","yellow"
 "13654","18333","4/4 cotton yarn (worsted cotton)","khaki","green"
@@ -99,13 +106,23 @@
 "14587","14591","softball skein metallic","gold","red"
 "15032","18591","twister","custard","yellow"
 "15032","19210","twister","natural","green"
+"15530","18039","worsted wool mini skeins *bundle special*","blue",NA
 "15530","18044","worsted wool mini skeins *bundle special*","bundle","blue"
 "15558","15580","cotton rayon chain yarn","natural","red"
+"15558","16666","cotton rayon chain yarn","fire red",NA
+"15558","16668","cotton rayon chain yarn","bright green",NA
+"15558","16670","cotton rayon chain yarn","hot pink",NA
 "15587","15593","cotton rayon seed yarn","natural","yellow"
+"15587","15594","cotton rayon seed yarn","peach",NA
 "15649","1111","wool crepe funfair",NA,"green"
+"1572","1575","florafil shimmer yarn","lady",NA
 "1572","1580","florafil shimmer yarn","white lily","blue"
 "1572","19758","florafil shimmer yarn","rose","red"
+"1572","22110","florafil shimmer yarn","natural",NA
 "15805","15822","hiking trail","marshmallow","yellow"
+"15805","15824","hiking trail","marshmallow",NA
+"15805","15828","hiking trail","tree bark",NA
+"15805","15833","hiking trail","wine berry",NA
 "16047","19877","autumn leaves","5802","green"
 "16047","19878","autumn leaves","ribbon chain","blue"
 "16047","19879","autumn leaves","1610","red"
@@ -187,6 +204,8 @@
 "1739","15495","wool crepe yarn","porcelain","red"
 "1739","16189","wool crepe yarn","custard","yellow"
 "1739","16191","wool crepe yarn","coral","green"
+"1739","16925","wool crepe yarn","suede",NA
+"1739","17057","wool crepe yarn","true red",NA
 "1739","17063","wool crepe yarn","majorka","blue"
 "1739","17325","wool crepe yarn","brilliant orange","red"
 "1739","17408","wool crepe yarn","midnight navy","yellow"
@@ -249,6 +268,7 @@
 "18199","18201","jetty sun yarn","algae","green"
 "18199","21173","jetty sun yarn","platinum","blue"
 "18281","18282","8/4 unmercerized cotton (merry maid)","berry","red"
+"18281","18283","8/4 unmercerized cotton (merry maid)","khaki",NA
 "18281","18284","8/4 unmercerized cotton (merry maid)","lavender","yellow"
 "18281","18288","8/4 unmercerized cotton (merry maid)","sky","green"
 "18281","18289","8/4 unmercerized cotton (merry maid)","cotton candy","blue"
@@ -264,7 +284,7 @@
 "18281","21138","8/4 unmercerized cotton (merry maid)","indigo","yellow"
 "18281","21139","8/4 unmercerized cotton (merry maid)","tin","green"
 "18281","21140","8/4 unmercerized cotton (merry maid)","spring","blue"
-"18281","21190","8/4 unmercerized cotton (merry maid)","bravado red","red"
+"18281","21190","8/4 unmercerized cotton (merry maid)","bravado","red"
 "18281","21192","8/4 unmercerized cotton (merry maid)","gulfstream","yellow"
 "18354","18355","wool crepe confetti","natural","green"
 "18354","18356","wool crepe confetti","tan","blue"
@@ -277,12 +297,12 @@
 "18961","1111","big rayon rope twist",NA,"green"
 "18963","18964","soft cotton roving","rose","blue"
 "18963","18965","soft cotton roving: baby colors","buttercup","red"
-"18963","18966","soft cotton roving","lavender","yellow"
+"18963","18966","soft cotton roving: baby colors","lavender","yellow"
 "18963","18967","soft cotton roving: baby colors","sage","green"
-"18963","18968","soft cotton roving","blue eyes","blue"
+"18963","18968","soft cotton roving: baby colors","blue eyes","blue"
 "18963","18969","soft cotton roving with seed","natural","red"
 "18963","22036","soft cotton roving","rose","yellow"
-"18963","22037","soft cotton roving","blue eyes","green"
+"18963","22037","soft cotton roving: baby colors","blue eyes","green"
 "18963","22159","soft cotton roving","blue flag iris","blue"
 "18963","22161","soft cotton roving","lavender","red"
 "18963","22162","soft cotton roving","buttercup","yellow"
@@ -294,6 +314,7 @@
 "18977","18979","big wool crepe yarn","seal brown","blue"
 "18977","19481","big wool crepe yarn","hot coral","red"
 "18977","19482","big wool crepe yarn","light blue","yellow"
+"18977","19483","big wool crepe yarn","hydrangea",NA
 "18977","19484","big wool crepe yarn","blue cloud","green"
 "18977","19485","big wool crepe yarn","flax","blue"
 "18977","19486","big wool crepe yarn","eggshell","red"
@@ -301,6 +322,10 @@
 "18977","19488","big wool crepe yarn","emerald","green"
 "18977","21160","big wool crepe yarn","black","blue"
 "18977","22446","big wool crepe yarn","lavender","red"
+"18977","22532","big wool crepe yarn","lilac",NA
+"18977","22533","big wool crepe yarn","red",NA
+"18977","22534","big wool crepe yarn","eggplant",NA
+"18977","22535","big wool crepe yarn","hot pink",NA
 "19035","1111","big rayon ribbon",NA,"yellow"
 "19036","1111","big lumpy cotton rayon",NA,"green"
 "19043","19044","cotton bash macrame","salmon","blue"
@@ -376,6 +401,7 @@
 "19708","19715","thick and thin cotton with linen","sea foam","yellow"
 "19708","19716","thick and thin cotton with linen","sunshine","green"
 "19708","22270","thick and thin cotton with linen","coal","blue"
+"19708","22514","thick and thin cotton with linen","natural",NA
 "19846","19854","fun mini accents","polka dot","red"
 "19846","19855","fun mini accents","jems","yellow"
 "19846","19856","fun mini accents","truffle","green"
@@ -443,6 +469,7 @@
 "20986","20989","lana loopy","twilight grey","red"
 "20986","20990","lana loopy","brass","yellow"
 "20986","20991","lana loopy","cream puff","green"
+"21000","21001","lustrous loopy","ivory",NA
 "21000","21002","lustrous loopy","cascade","blue"
 "21000","21003","lustrous loopy","verde","red"
 "21000","21004","lustrous loopy","platinum","yellow"
@@ -461,10 +488,12 @@
 "21017","21023","stormy yarn","tin reflection","green"
 "21017","21025","stormy yarn","bravado red","blue"
 "21017","21026","stormy yarn","forever lilac","red"
+"21017","21027","stormy yarn","beeswax",NA
 "21017","21028","stormy yarn","very berry","yellow"
 "21017","21029","stormy yarn","gulfstream","green"
 "21048","21049","8/2 unmercerized cotton","garden spot green","blue"
 "21048","21050","8/2 unmercerized cotton","garden spot green","red"
+"21048","21051","8/2 unmercerized cotton","pine forest",NA
 "21048","21052","8/2 unmercerized cotton","pine forest","yellow"
 "21048","21053","8/2 unmercerized cotton","steel serpent","green"
 "21048","21054","8/2 unmercerized cotton","steel serpent","blue"
@@ -481,6 +510,7 @@
 "21048","21067","8/2 unmercerized cotton","beeswax","green"
 "21048","21068","8/2 unmercerized cotton","beeswax","blue"
 "21048","21070","8/2 unmercerized cotton","very berry","red"
+"21048","21071","8/2 unmercerized cotton","gulfstream",NA
 "21048","21072","8/2 unmercerized cotton","gulfstream","yellow"
 "21095","21096","soft cotton roving with seed","garden spot green","green"
 "21095","21097","soft cotton roving with seed","pine forest","blue"
@@ -494,6 +524,7 @@
 "21095","21105","soft cotton roving with seed","beeswax","blue"
 "21095","21106","soft cotton roving with seed","very berry","red"
 "21095","21107","soft cotton roving with seed","gulfstream","yellow"
+"21095","22523","soft cotton roving with seed","sage powder",NA
 "21429","21435","cloud yarn","cone","green"
 "21429","21436","cloud yarn","skein","blue"
 "21551","21552","radiant wool rayon","lilac luster","red"
@@ -511,10 +542,18 @@
 "22247","22249","silky sparkle","natural","red"
 "22261","22262","crimped cotton flax","black","yellow"
 "22264","1111","scallop rayon",NA,"green"
+"22322","1111","big mini lumpy cotton rayon",NA,NA
 "22323","1111","big worsted rayon boucle",NA,"blue"
 "22371","22372","cat combo twist","sphynx","red"
+"22371","22373","cat combo twist","siamese",NA
 "22371","22374","cat combo twist","balinese","yellow"
 "22371","22376","cat combo twist","chartreux","green"
+"22432","22433","thick rayon chenille","cream",NA
+"22487","22488","space dyed soft roving","green chrysanthemum",NA
+"22487","22489","space dyed soft roving","blue hyacinth",NA
+"22493","22496","ripple yarn","royal",NA
+"22493","22497","ripple yarn","crocus",NA
+"22493","22498","ripple yarn","chartreuse",NA
 "2260","16330","3 ply silky rayon yarn","silver","blue"
 "2260","6710","3 ply silky rayon yarn","jade","red"
 "2260","6711","3 ply silky rayon yarn","royal","yellow"
@@ -561,12 +600,24 @@
 "2985","1111","metallic yarn grab bag","large","green"
 "3263","1111","textile bobbins with metal tips",NA,"blue"
 "3512","6901","metallic tape yarn","silver","red"
+"3680","13154","rayon boucle yarn 3792","gold",NA
 "3680","13155","rayon boucle yarn 3792","natural","yellow"
+"3680","21770","rayon boucle yarn 3792","black",NA
+"3680","21771","rayon boucle yarn 3792","charcoal",NA
 "3680","21772","rayon boucle yarn 3792","cayenne","green"
+"3680","21773","rayon boucle yarn 3792","deep lilac",NA
+"3680","21774","rayon boucle yarn 3792","liquid blue",NA
+"3680","21775","rayon boucle yarn 3792","red wine",NA
+"3680","21886","rayon boucle yarn 3792","lime",NA
+"3680","21887","rayon boucle yarn 3792","dandelion",NA
 "3680","21888","rayon boucle yarn 3792","silver","blue"
+"3680","21889","rayon boucle yarn 3792","emerald",NA
 "3680","22138","rayon boucle yarn 3792","kale","red"
+"3680","22139","rayon boucle yarn 3792","soft rose",NA
 "3680","22140","rayon boucle yarn 3792","dark purple","yellow"
 "3680","22141","rayon boucle yarn 3792","mauve","green"
+"3680","3688","rayon boucle yarn 3792","lychee",NA
+"3680","9980","rayon boucle yarn 3792","taupe",NA
 "3680","9999","rayon boucle yarn 3792","black","blue"
 "5605","5680","duet yarns","jade ","red"
 "605","1046","american lamb yarn","pink elephant","yellow"
@@ -599,9 +650,11 @@
 "6854","21149","sun soft linen","very berry","red"
 "6854","21150","sun soft linen","gulfstream","yellow"
 "6854","21151","sun soft linen","bravado red","green"
+"6854","22529","sun soft linen","sage powder",NA
 "6854","7124","sun soft linen","plain","blue"
 "6854","7126","sun soft linen","metallic","red"
 "7173","1111","raw silk rayon yarn",NA,"yellow"
+"7447","1111","combo twist chenille",NA,NA
 "7709","16827","wool crepe with metallic twist","black ","green"
 "7709","16834","wool crepe with metallic twist","black on black","blue"
 "7709","7710","wool crepe with metallic twist","snow silver","red"
@@ -616,6 +669,7 @@
 "9357","16154","rayon ribbon","ocean","yellow"
 "9357","16156","rayon ribbon","lava","green"
 "9357","16158","rayon ribbon","natural","blue"
+"9357","17515","rayon ribbon","gold pan",NA
 "9357","17520","rayon ribbon","purple night","red"
 "9367","15773","flax cotton rayon blend yarn","garnet","yellow"
 "9367","15787","flax cotton rayon blend yarn","golden khaki","green"
@@ -638,9 +692,10 @@
 "9625","13172","super fine wool***super special price***","epic orange","blue"
 "9824","9825","fun multi","berries","red"
 "9824","9826","fun multi","spices","yellow"
-"9824","9827","fun multi","truffle","green"
+"9824","9827","fun multicolored seeds","truffle","green"
 "9824","9828","fun multi","butternut","blue"
-"9824","9829","fun multi","confetti","red"
+"9824","9829","fun multicolored seeds","confetti","red"
+"9824","9830","fun multicolored seeds","salt   pepper",NA
 "9841","9842","viscose stretch yarn","black","yellow"
 "9841","9845","viscose stretch yarn","natural","green"
 "9850","14824","skinny majesty","lava","blue"

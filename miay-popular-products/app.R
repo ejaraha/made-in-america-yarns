@@ -5,8 +5,10 @@ library(dplyr)
 library(lubridate)
 
 # get data
-data_denorm <- read.csv("https://raw.githubusercontent.com/sjaraha/made-in-america-yarns/master/miay-popular-products/denormalized.csv", stringsAsFactors = FALSE)
+#data_denorm <- read.csv("https://raw.githubusercontent.com/sjaraha/made-in-america-yarns/master/miay-popular-products/denormalized.csv", stringsAsFactors = FALSE)
 
+setwd("C:/Users/sjara/git/made-in-america-yarns/data/")
+data_denorm <- read.csv("denormalized.csv", stringsAsFactors = FALSE)
 
 # define theme for plots
 theme_style <- theme(plot.title = element_text(face = "bold", size = 15),
