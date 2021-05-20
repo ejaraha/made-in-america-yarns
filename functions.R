@@ -97,14 +97,14 @@ update <- function(data){
   ## add the _raw_drop files to the data list
   data <- append(data, drop_cols(data))
   
-  # output message: number of rows BEFORE update
-  nrow_om_before <- as.integer(nrow(data$order_main))
-  nrow_pm_before <- as.integer(nrow(data$product_main))
-  nrow_rm_before <- as.integer(nrow(data$role_main))
+  # output message: number of orders/products/users BEFORE update
+  nrow_om_before <- as.integer(n_distinct(data$order_main["order_id"]))
+  nrow_pm_before <- data$product_main %>% filter(type != "variation") %>% n_distinct("id") %>% as.integer()
+  nrow_rm_before <- as.integer(n_distinct(data$role_main["id"]))
   cat(sprintf("\n\nThe _main data frames will now be updated with _raw_drop data frames
               \n-----------------------------------------------------------------------
-              \n...nrows in _main data frames BEFORE the update:
-              \ndata$order_main %i\ndata$product_main %i\ndata$role_main %i",
+              \n..._main counts BEFORE the update:
+              \norders: %i\nproducts: %i\nusers: %i",
               nrow_om_before, 
               nrow_pm_before,
               nrow_rm_before))
@@ -124,11 +124,11 @@ update <- function(data){
   data$role_main <- rows_upsert(data$role_main, data$role_raw_drop, by="id")
   
   # output message: number of rows AFTER update
-  cat(sprintf("\n\n...nrows ADDED TO _main data frames during the update:
-              \ndata$order_main %i\ndata$product_main %i\ndata$role_main %i\n",
-              as.integer(nrow(data$order_main) - nrow_om_before),
-              as.integer(nrow(data$product_main)) - nrow_pm_before,
-              as.integer(nrow(data$role_main)) - nrow_rm_before))
+  cat(sprintf("\n\n..._main counts AFTER the update:
+              \nnew orders: %i\nnew products: %i\nnew users: %i\n",
+              as.integer(n_distinct(data$order_main["order_id"])) - nrow_om_before,
+              data$product_main %>% filter(type != "variation") %>% n_distinct("id") %>% as.integer() - nrow_pm_before,
+              as.integer(n_distinct(data$role_main["id"])) - nrow_rm_before))
   
   return(data)
 }
@@ -305,34 +305,29 @@ normalize <- function(df_list){
                                    TRUE ~ NA_character_),
            "spools" = case_when(str_detect(categories, "spools")==TRUE ~"spools",
                                 TRUE ~ NA_character_),
-           id = as.character(id))
+           id = as.character(id)) %>%
+    # categories are assigned at the product level
+    filter(type != "variation")
   
   #------------------ 
   
   data_norm$product_fiber <- product_category %>%
-    #filter(type == "variable") %>%
     rename("product_id"=id) %>%
     unnest(fiber) %>% 
-    # strange... these ids are not in product_category
-    filter(product_id %notin% c("22215", "22210", "22211", "22211", "22213", "12386", "12384")) %>%
     select(product_id,
            fiber) 
   
   #------------------
   
   data_norm$product_yarn_weight <- product_category %>%
-    #filter(type == "variable") %>%
     rename("product_id"=id) %>% 
     unnest(yarn_weight) %>% 
-    # strange... these ids are not in product_category
-    filter(product_id %notin% c("22215", "22210", "22211", "22211", "22213", "12386", "12384")) %>%
     select(product_id,
            yarn_weight) 
   
   #------------------
   
   data_norm$product_effect <- product_category %>%
-    filter(type == "variable") %>%
     rename("product_id"=id) %>%
     unnest(effect) %>% 
     select(product_id,

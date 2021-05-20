@@ -18,11 +18,9 @@ data_norm <- normalize(data)
 # check primary keys
 #-------------------------------------------------------------
 check_primary_keys(primary_key_list())
-#lapply(data, check_empty)
 
 # denormalize data
 #-------------------------------------------------------------
-
 data_denorm <- denormalize(data_norm)
 
 # export denormalized tables

@@ -237,7 +237,7 @@ server <- function(input, output) {
             # coupons used in the date range
               "Also, the following coupons were used during that time:",
               "\n", 
-              unique(df_filter$data["coupon"] %>% filter(is.na(coupon)==FALSE)), 
+              unique(df_date$data["coupon"] %>% filter(is.na(coupon)==FALSE)), 
               sep="")
     })
     
