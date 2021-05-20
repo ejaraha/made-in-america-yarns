@@ -214,6 +214,10 @@ server <- function(input, output) {
                  updateCheckboxInput(inputId = "include_variations",
                                      label = "include variations?",
                                      value = FALSE)
+                 updateRadioButtons(inputId = "interval",
+                                    label = "top products by ___:",
+                                    choices = c("week", "month", "year"),
+                                    selected = "month")
                  })
     
     output$filter_stats <- renderText({
