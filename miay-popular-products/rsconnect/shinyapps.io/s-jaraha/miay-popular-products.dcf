@@ -5,9 +5,9 @@ account: s-jaraha
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 4137930
-bundleId: 4610397
+bundleId: 4621056
 url: https://s-jaraha.shinyapps.io/miay-popular-products/
-when: 1621322286.25633
-lastSyncTime: 1621322286.25633
+when: 1621529951.04621
+lastSyncTime: 1621529951.04621
 asMultiple: FALSE
 asStatic: FALSE
