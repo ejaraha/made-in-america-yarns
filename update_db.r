@@ -23,7 +23,11 @@ check_primary_keys(primary_key_list())
 #-------------------------------------------------------------
 data_denorm <- denormalize(data_norm)
 
+# get wholesale emails for mailchimp
+#-------------------------------------------------------------
+wholesale_emails <- get_wholesale_emails()
+
 # export denormalized tables
 #-------------------------------------------------------------
-export_data(data_norm, data_denorm, data)
+export_data(data_norm, data_denorm, data, wholesale_emails)
 

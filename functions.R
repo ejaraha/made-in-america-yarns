@@ -171,11 +171,11 @@ normalize <- function(df_list){
     # remove anything that isn't a letter
     lapply(.,FUN = function(x){str_replace_all(x,"[^a-z]", "")})
   # create a data frame with space for a user_id for each role
-  role_df <- data.frame("user_id" = rep(df_list$role_main[["id"]], sapply(role_list, length)),
+  data_norm$wholesale_df <- data.frame("user_id" = rep(df_list$role_main[["id"]], sapply(role_list, length)),
                         "role" = unlist(role_list)) %>%
     mutate(across(.cols = contains("_id"), as.character)) %>% 
     # then filter to isolate wholesale buyers
-    filter(role == "wholesalebuyer")
+    filter(role == "ignitelevelwholesalebuyer")
   
   data_norm$order <- df_list$order_main %>% 
     # extract date from order_date
@@ -183,9 +183,9 @@ normalize <- function(df_list){
            # convert ids to character
            order_id = as.character(order_id)) %>%
     # join role df to make customer_type column
-    left_join(role_df, by="user_id") %>% 
+    left_join(data_norm$wholesale_df, by="user_id") %>% 
     mutate("customer_type" = case_when(is.na(user_id)==TRUE ~ "guest",
-                                   role=="wholesalebuyer" ~ "wholesale buyer",
+                                   role=="ignitelevelwholesalebuyer" ~ "wholesale buyer",
                                    is.na(user_id)==FALSE ~ "registered customer")) %>%
     mutate(across(.cols = contains("_id"), as.character)) %>% 
     select(order_id,
@@ -493,14 +493,33 @@ denormalize <- function(df_list){
   return(data_denorm)
 }
 
+# wholesaler emails for mailchimp
+#---------------------------------------------------------------------
+get_wholesale_emails <- function(role_df, email_df){
+  # this df contains user_ids of wholesale buyers
+  wholesale_df <- data_norm$wholesale_df
+  # this df contains emails and user_ids of all users
+  email_df <- data$role_main
+  # do an inner join to get emails of only wholesale buyers
+  wholesale_emails <- email_df %>% 
+    mutate(id = as.character(id)) %>%
+    inner_join(wholesale_df, by = c("id"="user_id")) %>% 
+    select(user.email)
+  # return list of wholesaler emails
+  return(wholesale_emails)
+}
+
 # export denormalized data
 #-------------------------------------------------------------
-export_data <- function(data_norm, data_denorm, data){
+export_data <- function(data_norm, data_denorm, data, wholesale_emails){
 
   # write denormalized data frame to the /data directory
   write.csv(data_denorm, "denormalized.csv", row.names = FALSE)
-
-  cat("denoramlized dfs written to the app directory \n")
+  cat("denoramlized dfs written to the data directory \n")
+  
+  # write wholesale_email_df to the /data directory
+  write.csv(wholesale_emails, "wholesale_emails.csv", row.names = FALSE)
+  cat("wholesale email df written to the data directory \n")
   
   # write product_hue data to the /data directory
   write.csv(data_norm[["product_hue"]], "product_hue.csv", row.names = FALSE)
@@ -515,3 +534,6 @@ export_data <- function(data_norm, data_denorm, data){
 }
 
 "%notin%" <- Negate("%in%")
+
+
+
