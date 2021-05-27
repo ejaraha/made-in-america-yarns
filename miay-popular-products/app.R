@@ -6,6 +6,7 @@ library(lubridate)
 
 # get data
 data_denorm <- read.csv("https://raw.githubusercontent.com/sjaraha/made-in-america-yarns/master/miay-popular-products/denormalized.csv", stringsAsFactors = FALSE)
+#data_denorm <- read.csv("C:/Users/sjara/git/made-in-america-yarns/data/denormalized.csv")
 
 # define theme for plots
 theme_style <- theme(plot.title = element_text(face = "bold", size = 15),
@@ -54,7 +55,7 @@ ui <- fluidPage(
                 selectInput(
                     inputId = "customer_type",
                     label = "customer type:",
-                    choices = unique(data_denorm$customer_type),
+                    choices = sort(unique(data_denorm$customer_type)),
                     selected = unique(data_denorm$customer_type),
                     multiple = TRUE,
                     selectize = FALSE,
@@ -64,7 +65,7 @@ ui <- fluidPage(
                 selectInput(
                     inputId = "customer_usage",
                     label = "customer usage:",
-                    choices= unique(data_denorm$meta.yarn_usage),
+                    choices= sort(unique(data_denorm$meta.yarn_usage)),
                     selected = unique(data_denorm$meta.yarn_usage),
                     multiple = TRUE,
                     selectize = FALSE,
@@ -74,7 +75,7 @@ ui <- fluidPage(
                 selectInput(
                     inputId = "yarn_fiber",
                     label = "yarn fiber:",
-                    choices= unique(data_denorm$fiber),
+                    choices= sort(unique(data_denorm$fiber)),
                     selected= unique(data_denorm$fiber),
                     multiple = TRUE,
                     selectize = FALSE,
@@ -84,7 +85,7 @@ ui <- fluidPage(
                 selectInput(
                     inputId = "yarn_weight",
                     label = "yarn weight:",
-                    choices= unique(data_denorm$yarn_weight),
+                    choices= sort(unique(data_denorm$yarn_weight)),
                     selected = unique(data_denorm$yarn_weight),
                     multiple = TRUE,
                     selectize = FALSE,
@@ -94,12 +95,22 @@ ui <- fluidPage(
                 selectInput(
                     inputId = "yarn_effect",
                     label = "yarn effect:",
-                    choices= unique(data_denorm$effect),
+                    choices= sort(unique(data_denorm$effect)),
                     selected = unique(data_denorm$effect),
                     multiple = TRUE,
                     selectize = FALSE,
                     width = NULL,
                     size = 3
+                ),
+                selectInput(
+                  inputId = "yarn_hue",
+                  label = "yarn hue",
+                  choices = sort(unique(data_denorm$hue1)),
+                  selected = unique(data_denorm$hue1),
+                  multiple = TRUE,
+                  selectize = FALSE,
+                  width = NULL,
+                  size = 3
                 ),
                 h4("Product Granularity:"),
                 checkboxInput(inputId = "include_variations", label= "include variations?", value=FALSE),
@@ -183,9 +194,9 @@ server <- function(input, output) {
                             meta.yarn_usage %in% input$customer_usage,
                             fiber %in% input$yarn_fiber,
                             yarn_weight %in% input$yarn_weight,
-                            effect %in% input$yarn_effect)
+                            effect %in% input$yarn_effect) %>%
+                     filter(if_any(.cols= contains("hue"), ~. %in% input$yarn_hue))
                      from <- input$date_range[1]
-                                    
                  })
     
     observeEvent(input$reset,
@@ -197,20 +208,23 @@ server <- function(input, output) {
                                       max = max(data_denorm$order_date),
                                       min = min(data_denorm$order_date))
                  updateSelectInput(inputId = "customer_type",
-                                   choices = unique(data_denorm$customer_type),
+                                   choices = sort(unique(data_denorm$customer_type)),
                                    selected = unique(data_denorm$customer_type))
                  updateSelectInput(inputId = "customer_usage",
-                                   choices = unique(data_denorm$meta.yarn_usage),
+                                   choices = sort(unique(data_denorm$meta.yarn_usage)),
                                    selected = unique(data_denorm$meta.yarn_usage))
                  updateSelectInput(inputId = "yarn_fiber", 
-                                   choices = unique(data_denorm$fiber),
+                                   choices = sort(unique(data_denorm$fiber)),
                                    selected = unique(data_denorm$fiber))
                  updateSelectInput(inputId = "yarn_weight",
-                                    choices = unique(data_denorm$yarn_weight),
+                                    choices = sort(unique(data_denorm$yarn_weight)),
                                     selected = unique(data_denorm$yarn_weight))
                  updateSelectInput(inputId = "yarn_effect",
-                                   choices = unique(data_denorm$effect),
+                                   choices = sort(unique(data_denorm$effect)),
                                    selected = unique(data_denorm$effect))
+                 updateSelectInput(inputId = "yarn_hue",
+                                   choices = sort(unique(data_denorm$hue1)),
+                                   selected = unique(data_denorm$hue1))
                  updateCheckboxInput(inputId = "include_variations",
                                      label = "include variations?",
                                      value = FALSE)

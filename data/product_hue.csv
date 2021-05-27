@@ -1,702 +1,702 @@
-"product_id","variation_id","name","color","hue"
-"10060","10061","memory yarn","cotton memory",NA
-"10060","10073","memory yarn","wool chain",NA
-"10078","18075","speck","coffee and cream",NA
-"10078","18190","speck","oreo cookie",NA
-"10285","10863","swirl yarn","oreo",NA
-"10496","10718","worsted rayon boucle","blueberry",NA
-"10496","10726","worsted rayon boucle","fuchsia",NA
-"10496","10727","worsted rayon boucle","purple",NA
-"1058","3382","florafil yarn super soft cotton | worsted","brown galingale",NA
-"1069","1071","florafil metallic yarn | bulky","coral hibiscus with",NA
-"1085","1086","florafil super soft cotton yarn | bulky","aster",NA
-"1085","1088","florafil super soft cotton yarn | bulky","brown galingale",NA
-"1085","1089","florafil super soft cotton yarn | bulky","blue hyacinth",NA
-"1085","1091","florafil super soft cotton yarn | bulky","coral hibiscus",NA
-"1085","1092","florafil super soft cotton yarn | bulky","chocolate lily",NA
-"1085","1095","florafil super soft cotton yarn | bulky","green chrysanthemum",NA
-"1085","1096","florafil super soft cotton yarn | bulky","helenium mardi gras",NA
-"1085","1097","florafil super soft cotton yarn | bulky","indian paintbrush",NA
-"1085","1100","florafil super soft cotton yarn | bulky","pink coneflower",NA
-"1085","1101","florafil super soft cotton yarn | bulky","pink phlox",NA
-"1085","1102","florafil super soft cotton yarn | bulky","red hibiscus",NA
-"1085","1103","florafil super soft cotton yarn | bulky","yellow cinquefoil",NA
-"1085","1383","florafil super soft cotton yarn | bulky","white lily",NA
-"1085","1384","florafil super soft cotton yarn | bulky","navy bellflower",NA
-"1085","19731","florafil super soft cotton yarn | bulky","natural cotton",NA
-"1085","22300","florafil super soft cotton yarn | bulky","blue flag iris",NA
-"1085","2517","florafil super soft cotton yarn | bulky","marigold",NA
-"10855","13050","shades of sunset","sunset blue",NA
-"10855","13051","shades of sunset","sunset red",NA
-"10855","14306","shades of sunset","sunset purple",NA
-"10855","14805","shades of sunset","sunset green",NA
-"10855","19861","shades of sunset","sunset red",NA
-"10855","19862","shades of sunset","sunset purple",NA
-"11161","11162","mini dina","natural",NA
-"11161","11163","mini dina","white",NA
-"11161","12660","mini dina","soft blue",NA
-"11161","12661","mini dina","sunflower",NA
-"11161","12676","mini dina","red",NA
-"11161","19366","mini dina","silver",NA
-"11161","19367","mini dina","light copper",NA
-"11161","19654","mini dina","cascade navy",NA
-"11161","19655","mini dina","lime",NA
-"11180","12635","seeded ratton (avanti)","sunflower",NA
-"11180","12638","seeded ratton (avanti)","soft blue",NA
-"11180","12639","seeded ratton (avanti)","natural",NA
-"11180","13992","seeded ratton (avanti)","dark navy",NA
-"11180","13994","seeded ratton (avanti)","black",NA
-"11180","19883","seeded ratton (avanti)","purple plum",NA
-"12357","12362","fiesta wool","natural",NA
-"12357","12363","fiesta wool","limestone",NA
-"12357","12364","fiesta wool","sombrero",NA
-"12357","17799","fiesta wool","red pepper",NA
-"12357","17800","fiesta wool","purple pinata",NA
-"12357","17801","fiesta wool","cactus",NA
-"12357","17802","fiesta wool","blue agave",NA
-"12357","17803","fiesta wool","jalapeno",NA
-"12357","21663","fiesta wool","stone",NA
-"12399","12400","cotton rayon yarn","bark",NA
-"12399","12401","cotton rayon yarn","indigo",NA
-"12399","12402","cotton rayon yarn","suede",NA
-"12399","12403","cotton rayon yarn","sade",NA
-"12408","1111","oreo seed yarn",NA,NA
-"12680","12713","shimmer yarn","blue cornflower",NA
-"12680","12714","shimmer yarn","blue hyacinth",NA
-"12680","12718","shimmer yarn","lavender",NA
-"12680","12720","shimmer yarn","yellow cinquefoil",NA
-"12680","19742","shimmer yarn","rose",NA
-"12680","22024","shimmer yarn","pink coneflower",NA
-"12680","22025","shimmer yarn","aster",NA
-"12680","22026","shimmer yarn","green chrysanthemum",NA
-"12680","22113","shimmer yarn","natural",NA
-"12984","15701","macaw yarn","cockatoo",NA
-"12984","15704","macaw yarn","african gray",NA
-"13312","19591","jewels","black black",NA
-"13312","19592","jewels","black silver",NA
-"13312","19595","jewels","white silver",NA
-"13638","1111","huge black cone",NA,NA
-"13654","16071","4/4 cotton yarn (worsted cotton)","black",NA
-"13654","16074","4/4 cotton yarn (worsted cotton)","cotton candy",NA
-"13654","16715","4/4 cotton yarn","denim",NA
-"13654","17244","4/4 cotton yarn","burgundy",NA
-"13654","17275","4/4 cotton yarn (worsted cotton)","berry",NA
-"13654","17329","4/4 cotton yarn","bright purple",NA
-"13654","17399","4/4 cotton yarn (worsted cotton)","sky blue",NA
-"13654","18329","4/4 cotton yarn","burnt auburn",NA
-"13654","18331","4/4 cotton yarn","lavender",NA
-"13654","18333","4/4 cotton yarn (worsted cotton)","khaki",NA
-"13654","18568","4/4 cotton yarn (worsted cotton)","denim",NA
-"13654","19015","4/4 cotton yarn (worsted cotton)","stone",NA
-"13654","19016","4/4 cotton yarn (worsted cotton)","stone",NA
-"13654","19023","4/4 cotton yarn","lilac",NA
-"13654","21091","4/4 cotton yarn (worsted cotton)","bravado red",NA
-"13654","21092","4/4 cotton yarn","beeswax",NA
-"13654","21128","4/4 cotton yarn","tin reflection",NA
-"13654","21129","4/4 cotton yarn (worsted cotton)","spring water",NA
-"13654","21136","4/4 cotton yarn (worsted cotton)","gulfstream",NA
-"13654","21188","4/4 cotton yarn (worsted cotton)","steel serpent",NA
-"13790","13797","hank or cone","spider cone",NA
-"13790","13800","hank or cone","butterfly cone",NA
-"13894","1111","fun loopy yarn",NA,NA
-"14007","14014","nature walk","dawn",NA
-"14587","14588","softball skein metallic","silver",NA
-"14587","14589","softball skein metallic","rainbow",NA
-"14587","14590","softball skein metallic","copper",NA
-"14587","14591","softball skein metallic","gold",NA
-"15032","18591","twister","custard",NA
-"15032","19210","twister","natural",NA
-"15530","18039","worsted wool mini skeins *bundle special*","blue",NA
-"15530","18044","worsted wool mini skeins *bundle special*","bundle",NA
-"15558","15580","cotton rayon chain yarn","natural",NA
-"15558","16666","cotton rayon chain yarn","fire red",NA
-"15558","16668","cotton rayon chain yarn","bright green",NA
-"15558","16670","cotton rayon chain yarn","hot pink",NA
-"15587","15593","cotton rayon seed yarn","natural",NA
-"15587","15594","cotton rayon seed yarn","peach",NA
-"15649","1111","wool crepe funfair",NA,NA
-"1572","1575","florafil shimmer yarn","lady",NA
-"1572","1580","florafil shimmer yarn","white lily",NA
-"1572","19758","florafil shimmer yarn","rose",NA
-"1572","22110","florafil shimmer yarn","natural",NA
-"15805","15822","hiking trail","marshmallow",NA
-"15805","15824","hiking trail","marshmallow",NA
-"15805","15828","hiking trail","tree bark",NA
-"15805","15833","hiking trail","wine berry",NA
-"16047","19877","autumn leaves","5802",NA
-"16047","19878","autumn leaves","ribbon chain",NA
-"16047","19879","autumn leaves","1610",NA
-"16234","18816","5/1 spun rayon","0.8 lbs per cone",NA
-"16246","16248","new mix","a",NA
-"16246","16250","new mix","b",NA
-"16246","16252","new mix","c",NA
-"16246","16254","new mix","d",NA
-"16287","16288","wool boucle","natural",NA
-"16287","16290","wool boucle","navy",NA
-"16306","1111","rayon chain yarn",NA,NA
-"16347","1111","blue metallic yarn",NA,NA
-"16440","16448","cotton bash thick and thin","bleach white",NA
-"16440","16726","cotton bash thick and thin","hot pink",NA
-"16440","19374","cotton bash thick and thin","sand",NA
-"16440","19446","cotton bash thick and thin","sunflower",NA
-"16440","19691","cotton bash thick and thin","eros",NA
-"16440","19692","cotton bash thick and thin","denim",NA
-"16495","16496","fun mini skeins","jade",NA
-"16495","16498","fun mini skeins","salmon",NA
-"16495","16500","fun mini skeins","pearl",NA
-"16495","16502","fun mini skeins","seagrass",NA
-"16546","16548","curaã§ao cotton boucle","sea glass",NA
-"16546","16556","curaã§ao cotton boucle","mango",NA
-"16546","19635","curaã§ao cotton boucle","papaya",NA
-"16614","16615","nature's wool","citrine",NA
-"16614","16617","nature's wool","amethyst",NA
-"16614","16619","nature's wool","calcite",NA
-"16614","16621","nature's wool","limestone",NA
-"16614","16623","nature's wool","fern",NA
-"16614","16625","nature's wool","celestine",NA
-"16614","16627","nature's wool","sandstone",NA
-"16614","16629","nature's wool","onyx",NA
-"16614","16631","nature's wool","red jasper",NA
-"16614","16633","nature's wool","terracotta",NA
-"16614","18687","nature's wool","chestnut",NA
-"16614","18688","nature's wool","safari",NA
-"16614","18689","nature's wool","sapphire",NA
-"16614","19254","nature's wool","purple rain",NA
-"16614","19276","nature's wool","clear lake",NA
-"16614","19277","nature's wool","blue canoe",NA
-"16614","19278","nature's wool","pink heart",NA
-"16614","19348","nature's wool","sky blue",NA
-"16614","20466","nature's wool","petunia",NA
-"16756","16757","wavy 100% bamboo yarn","aubergine",NA
-"16756","16766","wavy 100% bamboo yarn","licorice",NA
-"16756","16768","wavy 100% bamboo yarn","zest",NA
-"16934","21583","organic cotton wool soy linen combo","pollen",NA
-"16934","21584","organic cotton wool soy linen combo","freshwater",NA
-"16934","21585","organic cotton wool soy linen combo","waterfall",NA
-"16934","21586","organic cotton wool soy linen combo","night owl",NA
-"16934","21587","organic cotton wool soy linen combo","natural",NA
-"16934","21588","organic cotton wool soy linen combo","rustic red",NA
-"16934","21589","organic cotton wool soy linen combo","wisteria",NA
-"16934","9999","soy wool combo yarn","3-pack bundle",NA
-"16999","17003","luxury fine wool","0.6 lb per cone",NA
-"16999","17004","luxury fine wool","1.2 - 1.4 lb per cone",NA
-"17016","1111","variegated seed yarn",NA,NA
-"17032","18373","eyelash rayon chenille","white",NA
-"17032","18374","eyelash rayon chenille","hot pink",NA
-"17032","18375","eyelash rayon chenille","dark purple",NA
-"17088","22272","poly oreo yarn","single stuffed",NA
-"17088","22273","poly oreo yarn","double stuffed",NA
-"17088","9999","poly oreo yarn",NA,NA
-"17166","17199","metallic diva yarn","rhythm red",NA
-"17166","17200","metallic diva yarn","groovy green",NA
-"17166","17201","metallic diva yarn","poppy purple",NA
-"17166","17202","metallic diva yarn","pretty pink",NA
-"17166","17203","metallic diva yarn","curvy copper",NA
-"17166","17204","metallic diva yarn","banging blue",NA
-"17166","17355","metallic diva yarn","passion purple",NA
-"17166","17356","metallic diva yarn","funky fuschia",NA
-"17166","17357","metallic diva yarn","midnight disco",NA
-"17166","17359","metallic diva yarn","pearl",NA
-"17166","17362","metallic diva yarn","black pearl",NA
-"1739","12346","wool crepe yarn","dew",NA
-"1739","12987","wool crepe yarn","polar ice",NA
-"1739","12989","wool crepe yarn","royal blue",NA
-"1739","15495","wool crepe yarn","porcelain",NA
-"1739","16189","wool crepe yarn","custard",NA
-"1739","16191","wool crepe yarn","coral",NA
-"1739","16925","wool crepe yarn","suede",NA
-"1739","17057","wool crepe yarn","true red",NA
-"1739","17063","wool crepe yarn","majorka",NA
-"1739","17325","wool crepe yarn","brilliant orange",NA
-"1739","17408","wool crepe yarn","midnight navy",NA
-"1739","2245","wool crepe yarn","pompeii",NA
-"1739","2248","wool crepe yarn","blossom",NA
-"1739","2524","wool crepe yarn","burgundy",NA
-"1739","2527","wool crepe yarn","kelly green",NA
-"1739","2532","wool crepe yarn","black",NA
-"1739","2559","wool crepe yarn","australian white",NA
-"1739","2560","wool crepe yarn","tan",NA
-"1739","5600","wool crepe yarn","champagne",NA
-"1739","6050","wool crepe yarn","plum",NA
-"1739","6054","wool crepe yarn","inca sky",NA
-"1739","8620","wool crepe yarn","seal brown",NA
-"17410","17412","rayon swirl","wine swirl",NA
-"17410","17413","rayon swirl","olive swirl",NA
-"17410","17414","rayon swirl","silver swirl",NA
-"1749","18081","rayon chenille yarn 1850 ypp","red cherry",NA
-"1749","18083","rayon chenille yarn 1850 ypp","almond",NA
-"1749","18086","rayon chenille yarn 1850 ypp","hazelnut",NA
-"17551","17559","matte skinny majesty","licorice",NA
-"17551","17933","matte skinny majesty","natural",NA
-"17551","18157","matte skinny majesty","bark",NA
-"17702","17708","persian rug yarn","blue lotus",NA
-"17702","17709","persian rug yarn","borage petal",NA
-"17702","17710","persian rug yarn","green tea",NA
-"17702","17711","persian rug yarn","green curry",NA
-"17702","17712","persian rug yarn","paprika",NA
-"17702","17716","persian rug yarn","green tea",NA
-"17702","17717","persian rug yarn","paprika",NA
-"17702","19895","persian rug yarn","natural",NA
-"17702","22439","persian rug yarn","toast",NA
-"17702","22440","persian rug yarn","sugar plum",NA
-"17848","18106","classic combo duo","violet cotton",NA
-"17848","18107","classic combo duo","violet cotton rayon",NA
-"17848","18108","classic combo duo","willow cotton",NA
-"17848","18109","classic combo duo","willow cotton rayon",NA
-"17848","18110","classic combo duo","silver birch cotton",NA
-"17848","18111","classic combo duo","silver birch cotton",NA
-"17848","18950","classic combo duo","purple orchid cotton",NA
-"17848","18951","classic combo duo","purple orchid cotton",NA
-"17848","19363","classic combo duo","light violet cotton",NA
-"1790","1111","gold gimp yarn",NA,NA
-"1791","1792","silver & gold metallic yarn spools","silver",NA
-"1791","1793","silver & gold metallic yarn spools","gold",NA
-"17948","1111","bamboo boucle",NA,NA
-"17955","17956","popcorn yarn","green apple",NA
-"17955","17957","popcorn yarn","rainbow gourmet",NA
-"17955","18233","popcorn yarn","pop punk",NA
-"17955","18237","popcorn yarn","purple kernel",NA
-"17955","19607","popcorn yarn","candy corn",NA
-"17955","19608","popcorn yarn","seeded watermelon",NA
-"17955","19802","popcorn yarn","bungalow blue",NA
-"17955","19909","popcorn yarn","red apple",NA
-"17955","20202","popcorn yarn","bubblegum",NA
-"17955","20226","popcorn yarn","light rainbow gourmet",NA
-"18165","18166","enchanted yarn (unmercerized cotton)","fire red",NA
-"18165","18167","enchanted yarn (unmercerized cotton)","deep purple",NA
-"18199","18200","jetty sun yarn","stone",NA
-"18199","18201","jetty sun yarn","algae",NA
-"18199","21173","jetty sun yarn","platinum",NA
-"18281","18282","8/4 unmercerized cotton (merry maid)","berry",NA
-"18281","18283","8/4 unmercerized cotton (merry maid)","khaki",NA
-"18281","18284","8/4 unmercerized cotton (merry maid)","lavender",NA
-"18281","18288","8/4 unmercerized cotton (merry maid)","sky",NA
-"18281","18289","8/4 unmercerized cotton (merry maid)","cotton candy",NA
-"18281","18561","8/4 unmercerized cotton (merry maid)","lilac",NA
-"18281","19029","8/4 unmercerized cotton (merry maid)","sienna",NA
-"18281","19730","8/4 unmercerized cotton (merry maid)","natural",NA
-"18281","20200","8/4 unmercerized cotton (merry maid)","lime",NA
-"18281","20569","8/4 unmercerized cotton (merry maid)","aquatic",NA
-"18281","20570","8/4 unmercerized cotton (merry maid)","barberry",NA
-"18281","20571","8/4 unmercerized cotton (merry maid)","barberry",NA
-"18281","20572","8/4 unmercerized cotton (merry maid)","aquatic",NA
-"18281","21137","8/4 unmercerized cotton (merry maid)","beeswax",NA
-"18281","21138","8/4 unmercerized cotton (merry maid)","indigo",NA
-"18281","21139","8/4 unmercerized cotton (merry maid)","tin",NA
-"18281","21140","8/4 unmercerized cotton (merry maid)","spring",NA
-"18281","21190","8/4 unmercerized cotton (merry maid)","bravado",NA
-"18281","21192","8/4 unmercerized cotton (merry maid)","gulfstream",NA
-"18354","18355","wool crepe confetti","natural",NA
-"18354","18356","wool crepe confetti","tan",NA
-"18814","1111","cotton flake slub yarn 5.5/1",NA,NA
-"18952","18953","cotton rayon twist","moss",NA
-"18952","18954","cotton rayon twist","steel",NA
-"18952","18955","cotton rayon twist","natural",NA
-"18952","20082","cotton rayon twist","barnacle",NA
-"18958","1111","big cotton memory yarn",NA,NA
-"18961","1111","big rayon rope twist",NA,NA
-"18963","18964","soft cotton roving","rose",NA
-"18963","18965","soft cotton roving: baby colors","buttercup",NA
-"18963","18966","soft cotton roving: baby colors","lavender",NA
-"18963","18967","soft cotton roving: baby colors","sage",NA
-"18963","18968","soft cotton roving: baby colors","blue eyes",NA
-"18963","18969","soft cotton roving with seed","natural",NA
-"18963","22036","soft cotton roving","rose",NA
-"18963","22037","soft cotton roving: baby colors","blue eyes",NA
-"18963","22159","soft cotton roving","blue flag iris",NA
-"18963","22161","soft cotton roving","lavender",NA
-"18963","22162","soft cotton roving","buttercup",NA
-"18963","9999","soft cotton roving","sage",NA
-"18970","18971","super soft cotton metallic","copper",NA
-"18970","18972","super soft cotton metallic","gold",NA
-"18970","18973","super soft cotton metallic","rainbow",NA
-"18970","18974","super soft cotton metallic","silver",NA
-"18977","18979","big wool crepe yarn","seal brown",NA
-"18977","19481","big wool crepe yarn","hot coral",NA
-"18977","19482","big wool crepe yarn","light blue",NA
-"18977","19483","big wool crepe yarn","hydrangea",NA
-"18977","19484","big wool crepe yarn","blue cloud",NA
-"18977","19485","big wool crepe yarn","flax",NA
-"18977","19486","big wool crepe yarn","eggshell",NA
-"18977","19487","big wool crepe yarn","fern",NA
-"18977","19488","big wool crepe yarn","emerald",NA
-"18977","21160","big wool crepe yarn","black",NA
-"18977","22446","big wool crepe yarn","lavender",NA
-"18977","22532","big wool crepe yarn","lilac",NA
-"18977","22533","big wool crepe yarn","red",NA
-"18977","22534","big wool crepe yarn","eggplant",NA
-"18977","22535","big wool crepe yarn","hot pink",NA
-"19035","1111","big rayon ribbon",NA,NA
-"19036","1111","big lumpy cotton rayon",NA,NA
-"19043","19044","cotton bash macrame","salmon",NA
-"19043","19441","cotton bash macrame","green tea ice",NA
-"19043","19658","cotton bash macrame","denim",NA
-"19099","19100","big macrame twist","vanilla cream",NA
-"19099","19101","big macrame twist","shitake",NA
-"19099","19102","big macrame twist","truffle",NA
-"19107","19108","bulky merino wool","arctic",NA
-"19107","19109","bulky merino wool","barn red",NA
-"19107","19110","bulky merino wool","crow",NA
-"19107","19111","bulky merino wool","egyptian",NA
-"19107","19113","bulky merino wool","sapphire",NA
-"19107","19114","bulky merino wool","toasted pecan",NA
-"19107","19115","bulky merino wool","violet",NA
-"19107","19116","bulky merino wool","wisteria",NA
-"19107","20080","bulky merino wool","roasted pumpkin",NA
-"19107","20451","bulky merino wool","honey mustard",NA
-"19107","20452","bulky merino wool","olive",NA
-"19107","20453","bulky merino wool","jewel blue",NA
-"19107","20455","bulky merino wool","gladiolus",NA
-"19107","20456","bulky merino wool","bubble gum",NA
-"19107","20457","bulky merino wool","candy twist",NA
-"19107","20458","bulky merino wool","stone",NA
-"19175","19176","variegated rayon chenille","berry chill",NA
-"19175","19177","variegated rayon chenille","blue hawaiian",NA
-"19175","19178","variegated rayon chenille","mint mojito",NA
-"19175","19179","variegated rayon chenille","sunset spritz",NA
-"19175","19180","variegated rayon chenille","watermelon rose",NA
-"19203","1111","wayfarer skein bundle",NA,NA
-"19204","1111","worsted wool bundle",NA,NA
-"19205","1111","duo tone skein",NA,NA
-"19207","21415","5/2 spun rayon","natural",NA
-"19207","21807","5/2 spun rayon","cayenne",NA
-"19207","21808","5/2 spun rayon","deep lilac",NA
-"19207","21809","5/2 spun rayon","liquid blue",NA
-"19207","21810","5/2 spun rayon","red wine",NA
-"19207","21907","5/2 spun rayon","blue jay",NA
-"19207","21908","5/2 spun rayon","dandelion",NA
-"19207","21909","5/2 spun rayon","emerald",NA
-"19207","9999","5/2 spun rayon","skein",NA
-"19216","1111","sterling wool bundle",NA,NA
-"1946","14334","rayon chenille yarn 1300 ypp","golden peach",NA
-"1946","14816","rayon chenille yarn 1300 ypp","brick",NA
-"1946","15014","rayon chenille yarn 1300 ypp","white",NA
-"1946","15021","rayon chenille yarn 1300 ypp","navy",NA
-"1946","17534","rayon chenille yarn 1300 ypp","white",NA
-"1946","18368","rayon chenille yarn 1300 ypp","hot pink",NA
-"1946","1947","rayon chenille yarn 1300 ypp","black",NA
-"1946","21723","rayon chenille yarn 1300 ypp","red wine",NA
-"1946","21724","rayon chenille yarn 1300 ypp","charcoal",NA
-"1946","21725","rayon chenille yarn 1300 ypp","deep lilac",NA
-"1946","21726","rayon chenille yarn 1300 ypp","cayenne",NA
-"1946","21852","rayon chenille yarn 1300 ypp","blue jay",NA
-"1946","21854","rayon chenille yarn 1300 ypp","dandelion",NA
-"1946","21855","rayon chenille yarn 1300 ypp","emerald green",NA
-"1946","22124","rayon chenille yarn 1300 ypp","soft rose",NA
-"1946","2265","rayon chenille yarn 1300 ypp","silver",NA
-"1946","2267","rayon chenille yarn 1300 ypp","cream",NA
-"1946","3289","rayon chenille yarn 1300 ypp","soft rose",NA
-"1946","3631","rayon chenille yarn 1300 ypp","burgundy",NA
-"1946","3633","rayon chenille yarn 1300 ypp","dark purple",NA
-"19543","1111","big finest rayon boucle",NA,NA
-"19548","1111","big polyester tape yarn",NA,NA
-"19551","9999","big rayon boucle",NA,NA
-"1956","1111","4 pound yarn mystery box",NA,NA
-"19708","19709","thick and thin cotton with linen","bright white",NA
-"19708","19710","thick and thin cotton with linen","midnight navy",NA
-"19708","19711","thick and thin cotton with linen","lime",NA
-"19708","19712","thick and thin cotton with linen","pewter",NA
-"19708","19713","thick and thin cotton with linen","sand dune",NA
-"19708","19714","thick and thin cotton with linen","scarlet",NA
-"19708","19715","thick and thin cotton with linen","sea foam",NA
-"19708","19716","thick and thin cotton with linen","sunshine",NA
-"19708","22270","thick and thin cotton with linen","coal",NA
-"19708","22514","thick and thin cotton with linen","natural",NA
-"19846","19854","fun mini accents","polka dot",NA
-"19846","19855","fun mini accents","jems",NA
-"19846","19856","fun mini accents","truffle",NA
-"1987","11442","wayfarer yarn","pink elephant",NA
-"1987","19420","wayfarer yarn","soft blue",NA
-"1987","19421","wayfarer yarn","bright red",NA
-"1987","2005","wayfarer yarn","natural",NA
-"1987","2006","wayfarer yarn","sand dune",NA
-"1987","2007","wayfarer yarn","mud puddle",NA
-"1987","2008","wayfarer yarn","gravel",NA
-"1987","2009","wayfarer yarn","iron bridge",NA
-"1987","2010","wayfarer yarn","hiking trail",NA
-"1987","2011","wayfarer yarn","hot spring",NA
-"1987","2012","wayfarer yarn","harbor",NA
-"1987","2013","wayfarer yarn","pine forest",NA
-"1987","2014","wayfarer yarn","meadow",NA
-"1987","2015","wayfarer yarn","prairie",NA
-"1987","2016","wayfarer yarn","camp fire",NA
-"1987","2017","wayfarer yarn","cranberry harvest",NA
-"1987","2018","wayfarer yarn","coral reef",NA
-"1987","21164","wayfarer yarn","honey mustard",NA
-"1987","2507","wayfarer yarn","bordeaux",NA
-"1987","3082","wayfarer yarn","briny deep",NA
-"1987","3083","wayfarer yarn","rose garden",NA
-"19955","1111","textile bobbins with waxed tips",NA,NA
-"19963","1111","vintage textile tubes",NA,NA
-"20204","20205","big chenille 1750 ypp","mint",NA
-"20204","20206","big chenille 1750 ypp","dark olive",NA
-"20204","20207","big chenille 1750 ypp","mushroom",NA
-"20214","20215","sunburst yarn","ribbon chain",NA
-"20214","20216","sunburst yarn","boucle",NA
-"20214","20217","sunburst yarn","twist",NA
-"20223","1111","big scallop rayon yarn",NA,NA
-"20232","1111","milky way yarn",NA,NA
-"20468","20472","single ply metallic yarn","black silver",NA
-"20468","20474","single ply metallic yarn","gold",NA
-"20468","20475","single ply metallic yarn","white",NA
-"20468","20540","single ply metallic yarn","black copper",NA
-"20468","20686","single ply metallic yarn","silver natural",NA
-"20468","21994","single ply metallic yarn","blue",NA
-"20468","21995","single ply metallic yarn","black rainbow",NA
-"20468","9999","single ply metallic yarn","rose",NA
-"20497","20503","two ply metallic yarn","silver",NA
-"20497","20504","two ply metallic yarn","light blue",NA
-"20497","9999","two ply metallic yarn","light gold",NA
-"20506","20515","three ply metallic yarn","red",NA
-"20506","21483","three ply metallic yarn","purple",NA
-"20506","21484","three ply metallic yarn","gold",NA
-"20506","21485","three ply metallic yarn","black",NA
-"20506","21486","three ply metallic yarn","black copper",NA
-"20506","21487","three ply metallic yarn","copper",NA
-"20506","21491","three ply metallic yarn","green",NA
-"20506","21492","three ply metallic yarn","pink",NA
-"20506","21493","three ply metallic yarn","silver",NA
-"20506","21494","three ply metallic yarn","silver black",NA
-"20506","21495","three ply metallic yarn","turquoise",NA
-"20506","21961","three ply metallic yarn","fuschia black",NA
-"20506","9999","three ply metallic yarn","copper black",NA
-"20525","20528","four ply metallic yarn","kelly green",NA
-"20525","20529","four ply metallic yarn","rainbow",NA
-"20525","20531","four ply metallic yarn","green",NA
-"20525","20532","four ply metallic yarn","red",NA
-"20986","20987","lana loopy","caviar",NA
-"20986","20988","lana loopy","honeycomb",NA
-"20986","20989","lana loopy","twilight grey",NA
-"20986","20990","lana loopy","brass",NA
-"20986","20991","lana loopy","cream puff",NA
-"21000","21001","lustrous loopy","ivory",NA
-"21000","21002","lustrous loopy","cascade",NA
-"21000","21003","lustrous loopy","verde",NA
-"21000","21004","lustrous loopy","platinum",NA
-"21000","21782","lustrous loopy","red wine",NA
-"21000","21783","lustrous loopy","cayenne",NA
-"21000","21785","lustrous loopy","liquid blue",NA
-"21000","21786","lustrous loopy","deep lilac",NA
-"21000","21895","lustrous loopy","blue jay",NA
-"21000","21896","lustrous loopy","dandelion",NA
-"21000","21897","lustrous loopy","emerald",NA
-"21017","21018","stormy yarn","garden spot green",NA
-"21017","21019","stormy yarn","pine forest",NA
-"21017","21020","stormy yarn","steel serpent",NA
-"21017","21021","stormy yarn","sienna",NA
-"21017","21022","stormy yarn","indigo",NA
-"21017","21023","stormy yarn","tin reflection",NA
-"21017","21025","stormy yarn","bravado red",NA
-"21017","21026","stormy yarn","forever lilac",NA
-"21017","21027","stormy yarn","beeswax",NA
-"21017","21028","stormy yarn","very berry",NA
-"21017","21029","stormy yarn","gulfstream",NA
-"21048","21049","8/2 unmercerized cotton","garden spot green",NA
-"21048","21050","8/2 unmercerized cotton","garden spot green",NA
-"21048","21051","8/2 unmercerized cotton","pine forest",NA
-"21048","21052","8/2 unmercerized cotton","pine forest",NA
-"21048","21053","8/2 unmercerized cotton","steel serpent",NA
-"21048","21054","8/2 unmercerized cotton","steel serpent",NA
-"21048","21055","8/2 unmercerized cotton","sienna",NA
-"21048","21056","8/2 unmercerized cotton","sienna",NA
-"21048","21058","8/2 unmercerized cotton","indigo",NA
-"21048","21059","8/2 unmercerized cotton","tin reflection",NA
-"21048","21060","8/2 unmercerized cotton","tin reflection",NA
-"21048","21062","8/2 unmercerized cotton","spring water",NA
-"21048","21063","8/2 unmercerized cotton","bravado red",NA
-"21048","21064","8/2 unmercerized cotton","bravado red",NA
-"21048","21065","8/2 unmercerized cotton","forever lilac",NA
-"21048","21066","8/2 unmercerized cotton","forever lilac",NA
-"21048","21067","8/2 unmercerized cotton","beeswax",NA
-"21048","21068","8/2 unmercerized cotton","beeswax",NA
-"21048","21070","8/2 unmercerized cotton","very berry",NA
-"21048","21071","8/2 unmercerized cotton","gulfstream",NA
-"21048","21072","8/2 unmercerized cotton","gulfstream",NA
-"21095","21096","soft cotton roving with seed","garden spot green",NA
-"21095","21097","soft cotton roving with seed","pine forest",NA
-"21095","21098","soft cotton roving with seed","steel serpent",NA
-"21095","21099","soft cotton roving with seed","sienna",NA
-"21095","21100","soft cotton roving with seed","indigo",NA
-"21095","21101","soft cotton roving with seed","tin reflection",NA
-"21095","21102","soft cotton roving with seed","spring water",NA
-"21095","21103","soft cotton roving with seed","bravado red",NA
-"21095","21104","soft cotton roving with seed","forever lilac",NA
-"21095","21105","soft cotton roving with seed","beeswax",NA
-"21095","21106","soft cotton roving with seed","very berry",NA
-"21095","21107","soft cotton roving with seed","gulfstream",NA
-"21095","22523","soft cotton roving with seed","sage powder",NA
-"21429","21435","cloud yarn","cone",NA
-"21429","21436","cloud yarn","skein",NA
-"21551","21552","radiant wool rayon","lilac luster",NA
-"21551","21562","radiant wool rayon","vigorous violet",NA
-"21551","21564","radiant wool rayon","honey crystal",NA
-"21551","21566","radiant wool rayon","gala garnet",NA
-"21998","21999","tweedy twin wool","foggy evening",NA
-"21998","22002","tweedy twin wool","chateau brown",NA
-"21998","22003","tweedy twin wool","purple galaxy",NA
-"21998","22004","tweedy twin wool","purple galaxy",NA
-"21998","22005","tweedy twin wool","dusty feather",NA
-"21998","22007","tweedy twin wool","brick oven",NA
-"21998","22009","tweedy twin wool","gold finch",NA
-"21998","22010","tweedy twin wool","gold finch",NA
-"22247","22249","silky sparkle","natural",NA
-"22261","22262","crimped cotton flax","black",NA
-"22264","1111","scallop rayon",NA,NA
-"22322","1111","big mini lumpy cotton rayon",NA,NA
-"22323","1111","big worsted rayon boucle",NA,NA
-"22371","22372","cat combo twist","sphynx",NA
-"22371","22373","cat combo twist","siamese",NA
-"22371","22374","cat combo twist","balinese",NA
-"22371","22376","cat combo twist","chartreux",NA
-"22432","22433","thick rayon chenille","cream",NA
-"22487","22488","space dyed soft roving","green chrysanthemum",NA
-"22487","22489","space dyed soft roving","blue hyacinth",NA
-"22493","22496","ripple yarn","royal",NA
-"22493","22497","ripple yarn","crocus",NA
-"22493","22498","ripple yarn","chartreuse",NA
-"2260","16330","3 ply silky rayon yarn","silver",NA
-"2260","6710","3 ply silky rayon yarn","jade",NA
-"2260","6711","3 ply silky rayon yarn","royal",NA
-"2260","6734","3 ply silky rayon yarn","light berry",NA
-"2260","6735","3 ply silky rayon yarn","dark berry",NA
-"2260","6736","3 ply silky rayon yarn","red bull",NA
-"2260","6737","3 ply silky rayon yarn","cactus",NA
-"2382","15874","super soft worsted cotton yarn","plum",NA
-"2382","15921","super soft worsted cotton yarn","chocolate lily",NA
-"2382","17136","super soft worsted cotton yarn","dark coal",NA
-"2382","17138","super soft worsted cotton yarn","ruby magnolia",NA
-"2382","18317","super soft worsted cotton yarn","navy",NA
-"2382","19788","super soft worsted cotton yarn","yellow corn",NA
-"2382","19789","super soft worsted cotton yarn","honeydew",NA
-"2382","19790","super soft worsted cotton yarn","milky",NA
-"2382","19791","super soft worsted cotton yarn","misty rose",NA
-"2382","2384","super soft worsted cotton yarn","natural",NA
-"2563","9200","fine rayon boucle yarn","black",NA
-"2563","9213","fine rayon boucle yarn","natural",NA
-"2563","9216","fine rayon boucle yarn","navy",NA
-"2563","9217","fine rayon boucle yarn","periwinkle",NA
-"2563","9219","fine rayon boucle yarn","caramel",NA
-"2563","9222","fine rayon boucle yarn","brazil",NA
-"2582","1111","craft string",NA,NA
-"2586","18004","fine metallic gimp yarn","gold",NA
-"2586","18005","fine metallic gimp yarn","chrome",NA
-"2586","19976","fine metallic gimp yarn","matte gold",NA
-"2586","19977","fine metallic gimp yarn","red",NA
-"2698","14848","duo tone rayon yarn","hanna",NA
-"2698","14849","duo tone rayon yarn","cinnamon",NA
-"2698","17886","duo tone rayon yarn","pearl",NA
-"2698","17924","duo tone rayon yarn","golden",NA
-"2698","17929","duo tone rayon yarn","sheen",NA
-"2698","18389","duo tone rayon yarn","dark purple",NA
-"2698","21791","duo tone rayon yarn","red wine",NA
-"2698","21901","duo tone rayon yarn","blue jay",NA
-"2698","21903","duo tone rayon yarn","emerald",NA
-"2698","2700","duo tone rayon yarn","aqua",NA
-"2698","2701","duo tone rayon yarn","celadon",NA
-"2698","2929","duo tone rayon yarn","pearl",NA
-"2698","9962","duo tone rayon yarn","sand",NA
-"2783","1111","rayon chenille yarn 2800 ypp",NA,NA
-"2938","16171","seeded rayon yarn","black ",NA
-"2985","1111","metallic yarn grab bag","large",NA
-"3263","1111","textile bobbins with metal tips",NA,NA
-"3512","6901","metallic tape yarn","silver",NA
-"3680","13154","rayon boucle yarn 3792","gold",NA
-"3680","13155","rayon boucle yarn 3792","natural",NA
-"3680","21770","rayon boucle yarn 3792","black",NA
-"3680","21771","rayon boucle yarn 3792","charcoal",NA
-"3680","21772","rayon boucle yarn 3792","cayenne",NA
-"3680","21773","rayon boucle yarn 3792","deep lilac",NA
-"3680","21774","rayon boucle yarn 3792","liquid blue",NA
-"3680","21775","rayon boucle yarn 3792","red wine",NA
-"3680","21886","rayon boucle yarn 3792","lime",NA
-"3680","21887","rayon boucle yarn 3792","dandelion",NA
-"3680","21888","rayon boucle yarn 3792","silver",NA
-"3680","21889","rayon boucle yarn 3792","emerald",NA
-"3680","22138","rayon boucle yarn 3792","kale",NA
-"3680","22139","rayon boucle yarn 3792","soft rose",NA
-"3680","22140","rayon boucle yarn 3792","dark purple",NA
-"3680","22141","rayon boucle yarn 3792","mauve",NA
-"3680","3688","rayon boucle yarn 3792","lychee",NA
-"3680","9980","rayon boucle yarn 3792","taupe",NA
-"3680","9999","rayon boucle yarn 3792","black",NA
-"5605","5680","duet yarns","jade ",NA
-"605","1046","american lamb yarn","pink elephant",NA
-"605","1048","american lamb yarn","wineglass",NA
-"605","1049","american lamb yarn","blue moon",NA
-"605","1050","american lamb yarn","curry powder",NA
-"605","1051","american lamb yarn","natural",NA
-"605","1052","american lamb yarn","black onyx",NA
-"605","11431","american lamb yarn","hot spring",NA
-"605","11432","american lamb yarn","meadow",NA
-"605","11433","american lamb yarn","zengari",NA
-"605","15117","american lamb yarn","navy",NA
-"605","15120","american lamb yarn","periwinkle",NA
-"605","1882","american lamb yarn","olive jar",NA
-"605","1883","american lamb yarn","delft blue",NA
-"605","1884","american lamb yarn","granite",NA
-"605","1885","american lamb yarn","pumpkin",NA
-"605","1886","american lamb yarn","grape juice",NA
-"605","1887","american lamb yarn","brownies",NA
-"6342","15536","shiny worsted rayon boucle","copper",NA
-"6342","15537","shiny worsted rayon boucle","golden",NA
-"6342","16873","shiny worsted rayon boucle","vanilla",NA
-"6342","16875","shiny worsted rayon boucle","clay",NA
-"6854","20770","sun soft linen","pine bristle",NA
-"6854","20771","sun soft linen","steel serpent",NA
-"6854","20772","sun soft linen","sienna",NA
-"6854","20773","sun soft linen","indigo",NA
-"6854","20774","sun soft linen","tin reflection",NA
-"6854","20775","sun soft linen","spring water",NA
-"6854","21149","sun soft linen","very berry",NA
-"6854","21150","sun soft linen","gulfstream",NA
-"6854","21151","sun soft linen","bravado red",NA
-"6854","22529","sun soft linen","sage powder",NA
-"6854","7124","sun soft linen","plain",NA
-"6854","7126","sun soft linen","metallic",NA
-"7173","1111","raw silk rayon yarn",NA,NA
-"7447","1111","combo twist chenille",NA,NA
-"7709","16827","wool crepe with metallic twist","black ",NA
-"7709","16834","wool crepe with metallic twist","black on black",NA
-"7709","7710","wool crepe with metallic twist","snow silver",NA
-"7860","9245","fine wool crepe","pink",NA
-"7860","9246","fine wool crepe","orchid",NA
-"7860","9247","fine wool crepe","teal",NA
-"7860","9248","fine wool crepe","sky blue",NA
-"7860","9249","fine wool crepe","natural",NA
-"8165","17664","wool tweed yarn","denim blue",NA
-"8165","17668","wool tweed yarn","raspberry",NA
-"9226","9231","fancy twist cotton yarns","cotton boucle",NA
-"9357","16154","rayon ribbon","ocean",NA
-"9357","16156","rayon ribbon","lava",NA
-"9357","16158","rayon ribbon","natural",NA
-"9357","17515","rayon ribbon","gold pan",NA
-"9357","17520","rayon ribbon","purple night",NA
-"9367","15773","flax cotton rayon blend yarn","garnet",NA
-"9367","15787","flax cotton rayon blend yarn","golden khaki",NA
-"9367","17127","flax cotton rayon blend yarn","jet black",NA
-"9367","17130","flax cotton rayon blend yarn","ruby",NA
-"9367","9417","flax cotton rayon blend yarn","natural",NA
-"9421","1111","wool loopy yarn",NA,NA
-"9581","10493","skinny majesty","rust",NA
-"9581","13184","skinny majesty","bleached white",NA
-"9581","21799","skinny majesty","cayenne",NA
-"9581","21800","skinny majesty","deep lilac",NA
-"9581","21801","skinny majesty","liquid blue",NA
-"9581","21913","skinny majesty","blue jay",NA
-"9581","21914","skinny majesty","dandelion",NA
-"9581","21915","skinny majesty","emerald",NA
-"9581","9613","skinny majesty","baby blue",NA
-"9581","9617","skinny majesty","natural",NA
-"9581","9832","skinny majesty","mimosa",NA
-"9625","13165","super fine wool***super special price***","neon",NA
-"9625","13172","super fine wool***super special price***","epic orange",NA
-"9824","9825","fun multi","berries",NA
-"9824","9826","fun multi","spices",NA
-"9824","9827","fun multicolored seeds","truffle",NA
-"9824","9828","fun multi","butternut",NA
-"9824","9829","fun multicolored seeds","confetti",NA
-"9824","9830","fun multicolored seeds","salt   pepper",NA
-"9841","9842","viscose stretch yarn","black",NA
-"9841","9845","viscose stretch yarn","natural",NA
-"9850","14824","skinny majesty","lava",NA
-"9850","15526","skinny majesty","sunbeam",NA
+"product_id","variation_id","name","color","hue1","hue2","hue3","hue4","hue5","hue6"
+"10060","10061","memory yarn","cotton memory","natural","","","","",NA
+"10060","10073","memory yarn","wool chain","natural","","","","",NA
+"10078","18075","speck","coffee and cream","brown","","","","",NA
+"10078","18190","speck","oreo cookie","natural","","","","",NA
+"10285","10863","swirl yarn","oreo","black","white","","","",NA
+"10496","10718","worsted rayon boucle","blueberry","blue","","","","",NA
+"10496","10726","worsted rayon boucle","fuchsia","pink","","","","",NA
+"10496","10727","worsted rayon boucle","purple","purple","","","","",NA
+"1058","3382","florafil yarn super soft cotton | worsted","brown galingale","black","brown","purple","white","pink",NA
+"1069","1071","florafil metallic yarn | bulky","coral hibiscus with","pink","red","green","","",NA
+"1085","1086","florafil super soft cotton yarn | bulky","aster","pink","purple","blue","","",NA
+"1085","1088","florafil super soft cotton yarn | bulky","brown galingale","black","brown","purple","white","pink",NA
+"1085","1089","florafil super soft cotton yarn | bulky","blue hyacinth","blue","","","","",NA
+"1085","1091","florafil super soft cotton yarn | bulky","coral hibiscus","pink","red","green","","",NA
+"1085","1092","florafil super soft cotton yarn | bulky","chocolate lily","blue","","","","",NA
+"1085","1095","florafil super soft cotton yarn | bulky","green chrysanthemum","green","","","","",NA
+"1085","1096","florafil super soft cotton yarn | bulky","helenium mardi gras","brown","yellow","orange","","",NA
+"1085","1097","florafil super soft cotton yarn | bulky","indian paintbrush","red","","","","",NA
+"1085","1100","florafil super soft cotton yarn | bulky","pink coneflower","pink","","","","",NA
+"1085","1101","florafil super soft cotton yarn | bulky","pink phlox","pink","","","","",NA
+"1085","1102","florafil super soft cotton yarn | bulky","red hibiscus","red","pink","","","",NA
+"1085","1103","florafil super soft cotton yarn | bulky","yellow cinquefoil","yellow","","","","",NA
+"1085","1383","florafil super soft cotton yarn | bulky","white lily","white","","","","",NA
+"1085","1384","florafil super soft cotton yarn | bulky","navy bellflower","blue","","","","",NA
+"1085","19731","florafil super soft cotton yarn | bulky","natural cotton","natural","","","","",NA
+"1085","22300","florafil super soft cotton yarn | bulky","blue flag iris","pink","white","yellow","green","purple",NA
+"1085","2517","florafil super soft cotton yarn | bulky","marigold","orange","","","","",NA
+"10855","13050","shades of sunset","sunset blue","blue","","","","",NA
+"10855","13051","shades of sunset","sunset red","red","","","","",NA
+"10855","14306","shades of sunset","sunset purple","purple","","","","",NA
+"10855","14805","shades of sunset","sunset green","green","","","","",NA
+"10855","19861","shades of sunset","sunset red","red","","","","",NA
+"10855","19862","shades of sunset","sunset purple","purple","","","","",NA
+"11161","11162","mini dina","natural","natural","","","","",NA
+"11161","11163","mini dina","white","white","","","","",NA
+"11161","12660","mini dina","soft blue","blue","","","","",NA
+"11161","12661","mini dina","sunflower","yellow","","","","",NA
+"11161","12676","mini dina","red","red","","","","",NA
+"11161","19366","mini dina","silver","gray","","","","",NA
+"11161","19367","mini dina","light copper","orange","","","","",NA
+"11161","19654","mini dina","cascade navy","blue","","","","",NA
+"11161","19655","mini dina","lime","green","","","","",NA
+"11180","12635","seeded ratton (avanti)","sunflower","yellow","","","","",NA
+"11180","12638","seeded ratton (avanti)","soft blue","blue","","","","",NA
+"11180","12639","seeded ratton (avanti)","natural","natural","","","","",NA
+"11180","13992","seeded ratton (avanti)","dark navy","blue","","","","",NA
+"11180","13994","seeded ratton (avanti)","black","black","","","","",NA
+"11180","19883","seeded ratton (avanti)","purple plum","purple","","","","",NA
+"12357","12362","fiesta wool","natural","natural","","","","",NA
+"12357","12363","fiesta wool","limestone","brown","","","","",NA
+"12357","12364","fiesta wool","sombrero","yellow","","","","",NA
+"12357","17799","fiesta wool","red pepper","red","","","","",NA
+"12357","17800","fiesta wool","purple pinata","purple","","","","",NA
+"12357","17801","fiesta wool","cactus","green","","","","",NA
+"12357","17802","fiesta wool","blue agave","blue","","","","",NA
+"12357","17803","fiesta wool","jalapeno","green","","","","",NA
+"12357","21663","fiesta wool","stone","gray","","","","",NA
+"12399","12400","cotton rayon yarn","bark","brown","","","","",NA
+"12399","12401","cotton rayon yarn","indigo","blue","purple","","","",NA
+"12399","12402","cotton rayon yarn","suede","yellow","brown","","","",NA
+"12399","12403","cotton rayon yarn","sade","orange","brown","","","",NA
+"12408","1111","oreo seed yarn",NA,"black","white","","","",NA
+"12680","12713","shimmer yarn","blue cornflower","blue","","","","",NA
+"12680","12714","shimmer yarn","blue hyacinth","blue","","","","",NA
+"12680","12718","shimmer yarn","lavender","purple","","","","",NA
+"12680","12720","shimmer yarn","yellow cinquefoil","yellow","","","","",NA
+"12680","19742","shimmer yarn","rose","pink","","","","",NA
+"12680","22024","shimmer yarn","pink coneflower","pink","","","","",NA
+"12680","22025","shimmer yarn","aster","purple","","","","",NA
+"12680","22026","shimmer yarn","green chrysanthemum","green","","","","",NA
+"12680","22113","shimmer yarn","natural","natural","","","","",NA
+"12984","15701","macaw yarn","cockatoo","black","white","","","",NA
+"12984","15704","macaw yarn","african gray","black","gray","","","",NA
+"13312","19591","jewels","black black","black","","","","",NA
+"13312","19592","jewels","black silver","black","gray","","","",NA
+"13312","19595","jewels","white silver","white","gray","","","",NA
+"13638","1111","huge black cone",NA,"black","","","","",NA
+"13654","16071","4/4 cotton yarn (worsted cotton)","black","black","","","","",NA
+"13654","16074","4/4 cotton yarn (worsted cotton)","cotton candy","purple","pink","","","",NA
+"13654","16715","4/4 cotton yarn","denim","blue","","","","",NA
+"13654","17244","4/4 cotton yarn","burgundy","red","","","","",NA
+"13654","17275","4/4 cotton yarn (worsted cotton)","berry","purple","","","","",NA
+"13654","17329","4/4 cotton yarn","bright purple","purple","","","","",NA
+"13654","17399","4/4 cotton yarn (worsted cotton)","sky blue","blue","","","","",NA
+"13654","18329","4/4 cotton yarn","burnt auburn","red","","","","",NA
+"13654","18331","4/4 cotton yarn","lavender","purple","","","","",NA
+"13654","18333","4/4 cotton yarn (worsted cotton)","khaki","green","","","","",NA
+"13654","18568","4/4 cotton yarn (worsted cotton)","denim","blue","","","","",NA
+"13654","19015","4/4 cotton yarn (worsted cotton)","stone","gray","","","","",NA
+"13654","19016","4/4 cotton yarn (worsted cotton)","stone","gray","","","","",NA
+"13654","19023","4/4 cotton yarn","lilac","purple","","","","",NA
+"13654","21091","4/4 cotton yarn (worsted cotton)","bravado red","red","","","","",NA
+"13654","21092","4/4 cotton yarn","beeswax","yellow","","","","",NA
+"13654","21128","4/4 cotton yarn","tin reflection","gray","","","","",NA
+"13654","21129","4/4 cotton yarn (worsted cotton)","spring water","blue","","","","",NA
+"13654","21136","4/4 cotton yarn (worsted cotton)","gulfstream","green","blue","","","",NA
+"13654","21188","4/4 cotton yarn (worsted cotton)","steel serpent","gray","","","","",NA
+"13790","13797","hank or cone","spider cone","black","white","","","",NA
+"13790","13800","hank or cone","butterfly cone","natural","","","","",NA
+"13894","1111","fun loopy yarn",NA,"natural","","","","",NA
+"14007","14014","nature walk","dawn","blue","orange","black","","",NA
+"14587","14588","softball skein metallic","silver","natural","","","","",NA
+"14587","14589","softball skein metallic","rainbow","natural","","","","",NA
+"14587","14590","softball skein metallic","copper","natural","","","","",NA
+"14587","14591","softball skein metallic","gold","natural","","","","",NA
+"15032","18591","twister","custard","brown","yellow","","","",NA
+"15032","19210","twister","natural","natural","","","","",NA
+"15530","18039","worsted wool mini skeins *bundle special*","blue","blue","","","","",NA
+"15530","18044","worsted wool mini skeins *bundle special*","bundle","green","purple","natural","red","blue",NA
+"15558","15580","cotton rayon chain yarn","natural","natural","","","","",NA
+"15558","16666","cotton rayon chain yarn","fire red","red","","","","",NA
+"15558","16668","cotton rayon chain yarn","bright green","green","","","","",NA
+"15558","16670","cotton rayon chain yarn","hot pink","pink","","","","",NA
+"15587","15593","cotton rayon seed yarn","natural","natural","","","","",NA
+"15587","15594","cotton rayon seed yarn","peach","pink","orange","","","",NA
+"15649","1111","wool crepe funfair",NA,"blue","","","","",NA
+"1572","1575","florafil shimmer yarn","lady","green","","","","",NA
+"1572","1580","florafil shimmer yarn","white lily","white","","","","",NA
+"1572","19758","florafil shimmer yarn","rose","pink","","","","",NA
+"1572","22110","florafil shimmer yarn","natural","natural","","","","",NA
+"15805","15822","hiking trail","marshmallow","white","","","","",NA
+"15805","15824","hiking trail","marshmallow","white","","","","",NA
+"15805","15828","hiking trail","tree bark","brown","","","","",NA
+"15805","15833","hiking trail","wine berry","purple","red","","","",NA
+"16047","19877","autumn leaves","5802","brown","red","orange","yellow","green",NA
+"16047","19878","autumn leaves","ribbon chain","brown","red","orange","yellow","green",NA
+"16047","19879","autumn leaves","1610","brown","red","orange","yellow","green",NA
+"16234","18816","5/1 spun rayon","0.8 lbs per cone","natural","","","","",NA
+"16246","16248","new mix","a","red","orange","brown","","",NA
+"16246","16250","new mix","b","gray","yellow","","","",NA
+"16246","16252","new mix","c","yellow","black","pink","purple","",NA
+"16246","16254","new mix","d","orange","white","black","","",NA
+"16287","16288","wool boucle","natural","natural","","","","",NA
+"16287","16290","wool boucle","navy","blue","","","","",NA
+"16306","1111","rayon chain yarn",NA,"natural","","","","",NA
+"16347","1111","blue metallic yarn",NA,"blue","","","","",NA
+"16440","16448","cotton bash thick and thin","bleach white","white","","","","",NA
+"16440","16726","cotton bash thick and thin","hot pink","pink","","","","",NA
+"16440","19374","cotton bash thick and thin","sand","orange","","","","",NA
+"16440","19446","cotton bash thick and thin","sunflower","yellow","","","","",NA
+"16440","19691","cotton bash thick and thin","eros","red","","","","",NA
+"16440","19692","cotton bash thick and thin","denim","blue","","","","",NA
+"16495","16496","fun mini skeins","jade","green","blue","","","",NA
+"16495","16498","fun mini skeins","salmon","pink","","","","",NA
+"16495","16500","fun mini skeins","pearl","white","","","","",NA
+"16495","16502","fun mini skeins","seagrass","green","","","","",NA
+"16546","16548","curaã§ao cotton boucle","sea glass","blue","","","","",NA
+"16546","16556","curaã§ao cotton boucle","mango","orange","pink","","","",NA
+"16546","19635","curaã§ao cotton boucle","papaya","orange","","","","",NA
+"16614","16615","nature's wool","citrine","yellow","","","","",NA
+"16614","16617","nature's wool","amethyst","purple","","","","",NA
+"16614","16619","nature's wool","calcite","brown","","","","",NA
+"16614","16621","nature's wool","limestone","green","","","","",NA
+"16614","16623","nature's wool","fern","green","blue","","","",NA
+"16614","16625","nature's wool","celestine","blue","purple","","","",NA
+"16614","16627","nature's wool","sandstone","brown","","","","",NA
+"16614","16629","nature's wool","onyx","black","","","","",NA
+"16614","16631","nature's wool","red jasper","red","","","","",NA
+"16614","16633","nature's wool","terracotta","brown","orange","","","",NA
+"16614","18687","nature's wool","chestnut","brown","red","","","",NA
+"16614","18688","nature's wool","safari","brown","","","","",NA
+"16614","18689","nature's wool","sapphire","blue","","","","",NA
+"16614","19254","nature's wool","purple rain","purple","","","","",NA
+"16614","19276","nature's wool","clear lake","blue","","","","",NA
+"16614","19277","nature's wool","blue canoe","blue","","","","",NA
+"16614","19278","nature's wool","pink heart","pink","","","","",NA
+"16614","19348","nature's wool","sky blue","blue","","","","",NA
+"16614","20466","nature's wool","petunia","purple","","","","",NA
+"16756","16757","wavy 100% bamboo yarn","aubergine","purple","","","","",NA
+"16756","16766","wavy 100% bamboo yarn","licorice","black","","","","",NA
+"16756","16768","wavy 100% bamboo yarn","zest","yellow","","","","",NA
+"16934","21583","organic cotton wool soy linen combo","pollen","yellow","","","","",NA
+"16934","21584","organic cotton wool soy linen combo","freshwater","blue","","","","",NA
+"16934","21585","organic cotton wool soy linen combo","waterfall","blue","","","","",NA
+"16934","21586","organic cotton wool soy linen combo","night owl","gray","","","","",NA
+"16934","21587","organic cotton wool soy linen combo","natural","natural","","","","",NA
+"16934","21588","organic cotton wool soy linen combo","rustic red","red","","","","",NA
+"16934","21589","organic cotton wool soy linen combo","wisteria","purple","","","","",NA
+"16934","9999","soy wool combo yarn","3-pack bundle","not applicable","","","","",NA
+"16999","17003","luxury fine wool","0.6 lb per cone","black","","","","",NA
+"16999","17004","luxury fine wool","1.2 - 1.4 lb per cone","black","","","","",NA
+"17016","1111","variegated seed yarn",NA,"blue","black","","","",NA
+"17032","18373","eyelash rayon chenille","white","white","","","","",NA
+"17032","18374","eyelash rayon chenille","hot pink","pink","","","","",NA
+"17032","18375","eyelash rayon chenille","dark purple","purple","","","","",NA
+"17088","22272","poly oreo yarn","single stuffed","black","white","","","",NA
+"17088","22273","poly oreo yarn","double stuffed","black","white","","","",NA
+"17088","9999","poly oreo yarn",NA,"black","white","","","",NA
+"17166","17199","metallic diva yarn","rhythm red","red","","","","",NA
+"17166","17200","metallic diva yarn","groovy green","green","","","","",NA
+"17166","17201","metallic diva yarn","poppy purple","purple","pink","","","",NA
+"17166","17202","metallic diva yarn","pretty pink","pink","","","","",NA
+"17166","17203","metallic diva yarn","curvy copper","orange","","","","",NA
+"17166","17204","metallic diva yarn","banging blue","blue","","","","",NA
+"17166","17355","metallic diva yarn","passion purple","purple","pink","","","",NA
+"17166","17356","metallic diva yarn","funky fuschia","purple","pink","","","",NA
+"17166","17357","metallic diva yarn","midnight disco","blue","pink","orange","","",NA
+"17166","17359","metallic diva yarn","pearl","white","","","","",NA
+"17166","17362","metallic diva yarn","black pearl","black","","","","",NA
+"1739","12346","wool crepe yarn","dew","green","","","","",NA
+"1739","12987","wool crepe yarn","polar ice","blue","","","","",NA
+"1739","12989","wool crepe yarn","royal blue","blue","","","","",NA
+"1739","15495","wool crepe yarn","porcelain","pink","","","","",NA
+"1739","16189","wool crepe yarn","custard","yellow","","","","",NA
+"1739","16191","wool crepe yarn","coral","orange","","","","",NA
+"1739","16925","wool crepe yarn","suede","brown","","","","",NA
+"1739","17057","wool crepe yarn","true red","red","","","","",NA
+"1739","17063","wool crepe yarn","majorka","pink","","","","",NA
+"1739","17325","wool crepe yarn","brilliant orange","orange","","","","",NA
+"1739","17408","wool crepe yarn","midnight navy","blue","","","","",NA
+"1739","2245","wool crepe yarn","pompeii","pink","","","","",NA
+"1739","2248","wool crepe yarn","blossom","pink","","","","",NA
+"1739","2524","wool crepe yarn","burgundy","red","","","","",NA
+"1739","2527","wool crepe yarn","kelly green","green","","","","",NA
+"1739","2532","wool crepe yarn","black","black","","","","",NA
+"1739","2559","wool crepe yarn","australian white","white","","","","",NA
+"1739","2560","wool crepe yarn","tan","brown","","","","",NA
+"1739","5600","wool crepe yarn","champagne","brown","","","","",NA
+"1739","6050","wool crepe yarn","plum","pink","purple","","","",NA
+"1739","6054","wool crepe yarn","inca sky","blue","","","","",NA
+"1739","8620","wool crepe yarn","seal brown","brown","","","","",NA
+"17410","17412","rayon swirl","wine swirl","purple","black","gray","","",NA
+"17410","17413","rayon swirl","olive swirl","green","brown","","","",NA
+"17410","17414","rayon swirl","silver swirl","gray","black","white","","",NA
+"1749","18081","rayon chenille yarn 1850 ypp","red cherry","red","purple","","","",NA
+"1749","18083","rayon chenille yarn 1850 ypp","almond","brown","","","","",NA
+"1749","18086","rayon chenille yarn 1850 ypp","hazelnut","brown","","","","",NA
+"17551","17559","matte skinny majesty","licorice","black","","","","",NA
+"17551","17933","matte skinny majesty","natural","natural","","","","",NA
+"17551","18157","matte skinny majesty","bark","red","brown","","","",NA
+"17702","17708","persian rug yarn","blue lotus","blue","","","","",NA
+"17702","17709","persian rug yarn","borage petal","purple","","","","",NA
+"17702","17710","persian rug yarn","green tea","green","","","","",NA
+"17702","17711","persian rug yarn","green curry","green","","","","",NA
+"17702","17712","persian rug yarn","paprika","red","","","","",NA
+"17702","17716","persian rug yarn","green tea","green","","","","",NA
+"17702","17717","persian rug yarn","paprika","red","","","","",NA
+"17702","19895","persian rug yarn","natural","natural","","","","",NA
+"17702","22439","persian rug yarn","toast","orange","","","","",NA
+"17702","22440","persian rug yarn","sugar plum","blue","purple","","","",NA
+"17848","18106","classic combo duo","violet cotton","pink","purple","","","",NA
+"17848","18107","classic combo duo","violet cotton rayon","pink","purple","","","",NA
+"17848","18108","classic combo duo","willow cotton","green","","","","",NA
+"17848","18109","classic combo duo","willow cotton rayon","green","","","","",NA
+"17848","18110","classic combo duo","silver birch cotton","gray","","","","",NA
+"17848","18111","classic combo duo","silver birch cotton","gray","","","","",NA
+"17848","18950","classic combo duo","purple orchid cotton","purple","","","","",NA
+"17848","18951","classic combo duo","purple orchid cotton","purple","","","","",NA
+"17848","19363","classic combo duo","light violet cotton","pink","","","","",NA
+"1790","1111","gold gimp yarn",NA,"yellow","","","","",NA
+"1791","1792","silver & gold metallic yarn spools","silver","gray","","","","",NA
+"1791","1793","silver & gold metallic yarn spools","gold","brown","yellow","","","",NA
+"17948","1111","bamboo boucle",NA,"gray","","","","",NA
+"17955","17956","popcorn yarn","green apple","green","","","","",NA
+"17955","17957","popcorn yarn","rainbow gourmet","purple","pink","","","",NA
+"17955","18233","popcorn yarn","pop punk","pink","","","","",NA
+"17955","18237","popcorn yarn","purple kernel","blue","purple","","","",NA
+"17955","19607","popcorn yarn","candy corn","orange","yellow","brown","","",NA
+"17955","19608","popcorn yarn","seeded watermelon","green","pink","orange","","",NA
+"17955","19802","popcorn yarn","bungalow blue","blue","","","","",NA
+"17955","19909","popcorn yarn","red apple","red","orange","pink","","",NA
+"17955","20202","popcorn yarn","bubblegum","pink","","","","",NA
+"17955","20226","popcorn yarn","light rainbow gourmet","blue","pink","purple","","",NA
+"18165","18166","enchanted yarn (unmercerized cotton)","fire red","red","","","","",NA
+"18165","18167","enchanted yarn (unmercerized cotton)","deep purple","purple","","","","",NA
+"18199","18200","jetty sun yarn","stone","gray","","","","",NA
+"18199","18201","jetty sun yarn","algae","green","","","","",NA
+"18199","21173","jetty sun yarn","platinum","gray","","","","",NA
+"18281","18282","8/4 unmercerized cotton (merry maid)","berry","pink","","","","",NA
+"18281","18283","8/4 unmercerized cotton (merry maid)","khaki","green","","","","",NA
+"18281","18284","8/4 unmercerized cotton (merry maid)","lavender","purple","","","","",NA
+"18281","18288","8/4 unmercerized cotton (merry maid)","sky","blue","","","","",NA
+"18281","18289","8/4 unmercerized cotton (merry maid)","cotton candy","pink","","","","",NA
+"18281","18561","8/4 unmercerized cotton (merry maid)","lilac","purple","","","","",NA
+"18281","19029","8/4 unmercerized cotton (merry maid)","sienna","orange","","","","",NA
+"18281","19730","8/4 unmercerized cotton (merry maid)","natural","natural","","","","",NA
+"18281","20200","8/4 unmercerized cotton (merry maid)","lime","green","","","","",NA
+"18281","20569","8/4 unmercerized cotton (merry maid)","aquatic","blue","","","","",NA
+"18281","20570","8/4 unmercerized cotton (merry maid)","barberry","red","","","","",NA
+"18281","20571","8/4 unmercerized cotton (merry maid)","barberry","red","","","","",NA
+"18281","20572","8/4 unmercerized cotton (merry maid)","aquatic","blue","","","","",NA
+"18281","21137","8/4 unmercerized cotton (merry maid)","beeswax","yellow","","","","",NA
+"18281","21138","8/4 unmercerized cotton (merry maid)","indigo","blue","","","","",NA
+"18281","21139","8/4 unmercerized cotton (merry maid)","tin","gray","","","","",NA
+"18281","21140","8/4 unmercerized cotton (merry maid)","spring","blue","","","","",NA
+"18281","21190","8/4 unmercerized cotton (merry maid)","bravado","red","","","","",NA
+"18281","21192","8/4 unmercerized cotton (merry maid)","gulfstream","blue","green","","","",NA
+"18354","18355","wool crepe confetti","natural","brown","natural","","","",NA
+"18354","18356","wool crepe confetti","tan","brown","","","","",NA
+"18814","1111","cotton flake slub yarn 5.5/1",NA,"natural","","","","",NA
+"18952","18953","cotton rayon twist","moss","green","","","","",NA
+"18952","18954","cotton rayon twist","steel","gray","","","","",NA
+"18952","18955","cotton rayon twist","natural","natural","","","","",NA
+"18952","20082","cotton rayon twist","barnacle","green","","","","",NA
+"18958","1111","big cotton memory yarn",NA,"white","","","","",NA
+"18961","1111","big rayon rope twist",NA,"brown","white","","","",NA
+"18963","18964","soft cotton roving","rose","pink","","","","",NA
+"18963","18965","soft cotton roving: baby colors","buttercup","yellow","","","","",NA
+"18963","18966","soft cotton roving: baby colors","lavender","purple","","","","",NA
+"18963","18967","soft cotton roving: baby colors","sage","green","","","","",NA
+"18963","18968","soft cotton roving: baby colors","blue eyes","blue","","","","",NA
+"18963","18969","soft cotton roving with seed","natural","natural","","","","",NA
+"18963","22036","soft cotton roving","rose","pink","","","","",NA
+"18963","22037","soft cotton roving: baby colors","blue eyes","blue","","","","",NA
+"18963","22159","soft cotton roving","blue flag iris","pink","purple","blue","green","",NA
+"18963","22161","soft cotton roving","lavender","purple","","","","",NA
+"18963","22162","soft cotton roving","buttercup","yellow","","","","",NA
+"18963","9999","soft cotton roving","sage","green","","","","",NA
+"18970","18971","super soft cotton metallic","copper","natural","","","","",NA
+"18970","18972","super soft cotton metallic","gold","natural","","","","",NA
+"18970","18973","super soft cotton metallic","rainbow","natural","","","","",NA
+"18970","18974","super soft cotton metallic","silver","natural","","","","",NA
+"18977","18979","big wool crepe yarn","seal brown","brown","","","","",NA
+"18977","19481","big wool crepe yarn","hot coral","red","","","","",NA
+"18977","19482","big wool crepe yarn","light blue","blue","","","","",NA
+"18977","19483","big wool crepe yarn","hydrangea","blue","","","","",NA
+"18977","19484","big wool crepe yarn","blue cloud","blue","purple","","","",NA
+"18977","19485","big wool crepe yarn","flax","yellow","","","","",NA
+"18977","19486","big wool crepe yarn","eggshell","brown","white","","","",NA
+"18977","19487","big wool crepe yarn","fern","green","","","","",NA
+"18977","19488","big wool crepe yarn","emerald","green","","","","",NA
+"18977","21160","big wool crepe yarn","black","black","","","","",NA
+"18977","22446","big wool crepe yarn","lavender","purple","","","","",NA
+"18977","22532","big wool crepe yarn","lilac","purple","","","","",NA
+"18977","22533","big wool crepe yarn","red","red","","","","",NA
+"18977","22534","big wool crepe yarn","eggplant","purple","","","","",NA
+"18977","22535","big wool crepe yarn","hot pink","pink","","","","",NA
+"19035","1111","big rayon ribbon",NA,"white","","","","",NA
+"19036","1111","big lumpy cotton rayon",NA,"natural","","","","",NA
+"19043","19044","cotton bash macrame","salmon","pink","","","","",NA
+"19043","19441","cotton bash macrame","green tea ice","green","","","","",NA
+"19043","19658","cotton bash macrame","denim","blue","","","","",NA
+"19099","19100","big macrame twist","vanilla cream","white","natural","","","",NA
+"19099","19101","big macrame twist","shitake","white","brown","","","",NA
+"19099","19102","big macrame twist","truffle","black","white","","","",NA
+"19107","19108","bulky merino wool","arctic","blue","","","","",NA
+"19107","19109","bulky merino wool","barn red","red","","","","",NA
+"19107","19110","bulky merino wool","crow","black","brown","","","",NA
+"19107","19111","bulky merino wool","egyptian","blue","","","","",NA
+"19107","19113","bulky merino wool","sapphire","blue","","","","",NA
+"19107","19114","bulky merino wool","toasted pecan","brown","","","","",NA
+"19107","19115","bulky merino wool","violet","purple","","","","",NA
+"19107","19116","bulky merino wool","wisteria","purple","","","","",NA
+"19107","20080","bulky merino wool","roasted pumpkin","orange","","","","",NA
+"19107","20451","bulky merino wool","honey mustard","yellow","","","","",NA
+"19107","20452","bulky merino wool","olive","green","","","","",NA
+"19107","20453","bulky merino wool","jewel blue","blue","","","","",NA
+"19107","20455","bulky merino wool","gladiolus","purple","pink","","","",NA
+"19107","20456","bulky merino wool","bubble gum","pink","","","","",NA
+"19107","20457","bulky merino wool","candy twist","pink","purple","","","",NA
+"19107","20458","bulky merino wool","stone","gray","","","","",NA
+"19175","19176","variegated rayon chenille","berry chill","purple","pink","","","",NA
+"19175","19177","variegated rayon chenille","blue hawaiian","blue","","","","",NA
+"19175","19178","variegated rayon chenille","mint mojito","green","","","","",NA
+"19175","19179","variegated rayon chenille","sunset spritz","orange","yellow","brown","","",NA
+"19175","19180","variegated rayon chenille","watermelon rose","red","pink","","","",NA
+"19203","1111","wayfarer skein bundle",NA,"natural","","","","",NA
+"19204","1111","worsted wool bundle",NA,"natural","","","","",NA
+"19205","1111","duo tone skein",NA,"natural","","","","",NA
+"19207","21415","5/2 spun rayon","natural","natural","","","","",NA
+"19207","21807","5/2 spun rayon","cayenne","orange","","","","",NA
+"19207","21808","5/2 spun rayon","deep lilac","purple","","","","",NA
+"19207","21809","5/2 spun rayon","liquid blue","blue","","","","",NA
+"19207","21810","5/2 spun rayon","red wine","red","","","","",NA
+"19207","21907","5/2 spun rayon","blue jay","blue","","","","",NA
+"19207","21908","5/2 spun rayon","dandelion","yellow","","","","",NA
+"19207","21909","5/2 spun rayon","emerald","green","","","","",NA
+"19207","9999","5/2 spun rayon","skein","natural","","","","",NA
+"19216","1111","sterling wool bundle",NA,"natural","","","","",NA
+"1946","14334","rayon chenille yarn 1300 ypp","golden peach","brown","pink","","","",NA
+"1946","14816","rayon chenille yarn 1300 ypp","brick","red","","","","",NA
+"1946","15014","rayon chenille yarn 1300 ypp","white","white","","","","",NA
+"1946","15021","rayon chenille yarn 1300 ypp","navy","blue","","","","",NA
+"1946","17534","rayon chenille yarn 1300 ypp","white","white","","","","",NA
+"1946","18368","rayon chenille yarn 1300 ypp","hot pink","pink","","","","",NA
+"1946","1947","rayon chenille yarn 1300 ypp","black","black","","","","",NA
+"1946","21723","rayon chenille yarn 1300 ypp","red wine","red","","","","",NA
+"1946","21724","rayon chenille yarn 1300 ypp","charcoal","gray","","","","",NA
+"1946","21725","rayon chenille yarn 1300 ypp","deep lilac","purple","","","","",NA
+"1946","21726","rayon chenille yarn 1300 ypp","cayenne","red","","","","",NA
+"1946","21852","rayon chenille yarn 1300 ypp","blue jay","blue","","","","",NA
+"1946","21854","rayon chenille yarn 1300 ypp","dandelion","yellow","","","","",NA
+"1946","21855","rayon chenille yarn 1300 ypp","emerald green","green","","","","",NA
+"1946","22124","rayon chenille yarn 1300 ypp","soft rose","pink","","","","",NA
+"1946","2265","rayon chenille yarn 1300 ypp","silver","gray","","","","",NA
+"1946","2267","rayon chenille yarn 1300 ypp","cream","brown","","","","",NA
+"1946","3289","rayon chenille yarn 1300 ypp","soft rose","pink","","","","",NA
+"1946","3631","rayon chenille yarn 1300 ypp","burgundy","red","","","","",NA
+"1946","3633","rayon chenille yarn 1300 ypp","dark purple","purple","","","","",NA
+"19543","1111","big finest rayon boucle",NA,"natural","","","","",NA
+"19548","1111","big polyester tape yarn",NA,"white","","","","",NA
+"19551","9999","big rayon boucle",NA,"black","natural","","","",NA
+"1956","1111","4 pound yarn mystery box",NA,"not applicable","","","","",NA
+"19708","19709","thick and thin cotton with linen","bright white","white","","","","",NA
+"19708","19710","thick and thin cotton with linen","midnight navy","blue","","","","",NA
+"19708","19711","thick and thin cotton with linen","lime","green","","","","",NA
+"19708","19712","thick and thin cotton with linen","pewter","gray","blue","","","",NA
+"19708","19713","thick and thin cotton with linen","sand dune","brown","","","","",NA
+"19708","19714","thick and thin cotton with linen","scarlet","red","","","","",NA
+"19708","19715","thick and thin cotton with linen","sea foam","blue","","","","",NA
+"19708","19716","thick and thin cotton with linen","sunshine","yellow","","","","",NA
+"19708","22270","thick and thin cotton with linen","coal","gray","","","","",NA
+"19708","22514","thick and thin cotton with linen","natural","natural","","","","",NA
+"19846","19854","fun mini accents","polka dot","black","white","","","",NA
+"19846","19855","fun mini accents","jems","blue","purple","","","",NA
+"19846","19856","fun mini accents","truffle","black","white","","","",NA
+"1987","11442","wayfarer yarn","pink elephant","pink","","","","",NA
+"1987","19420","wayfarer yarn","soft blue","blue","","","","",NA
+"1987","19421","wayfarer yarn","bright red","red","","","","",NA
+"1987","2005","wayfarer yarn","natural","natural","","","","",NA
+"1987","2006","wayfarer yarn","sand dune","brown","","","","",NA
+"1987","2007","wayfarer yarn","mud puddle","brown","","","","",NA
+"1987","2008","wayfarer yarn","gravel","gray","","","","",NA
+"1987","2009","wayfarer yarn","iron bridge","gray","","","","",NA
+"1987","2010","wayfarer yarn","hiking trail","brown","","","","",NA
+"1987","2011","wayfarer yarn","hot spring","blue","","","","",NA
+"1987","2012","wayfarer yarn","harbor","blue","","","","",NA
+"1987","2013","wayfarer yarn","pine forest","green","","","","",NA
+"1987","2014","wayfarer yarn","meadow","green","","","","",NA
+"1987","2015","wayfarer yarn","prairie","yellow","","","","",NA
+"1987","2016","wayfarer yarn","camp fire","orange","","","","",NA
+"1987","2017","wayfarer yarn","cranberry harvest","red","","","","",NA
+"1987","2018","wayfarer yarn","coral reef","purple","","","","",NA
+"1987","21164","wayfarer yarn","honey mustard","yellow","brown","","","",NA
+"1987","2507","wayfarer yarn","bordeaux","purple","","","","",NA
+"1987","3082","wayfarer yarn","briny deep","blue","","","","",NA
+"1987","3083","wayfarer yarn","rose garden","pink","","","","",NA
+"19955","1111","textile bobbins with waxed tips",NA,"not applicable","","","","",NA
+"19963","1111","vintage textile tubes",NA,"not applicable","","","","",NA
+"20204","20205","big chenille 1750 ypp","mint","green","","","","",NA
+"20204","20206","big chenille 1750 ypp","dark olive","green","","","","",NA
+"20204","20207","big chenille 1750 ypp","mushroom","green","brown","","","",NA
+"20214","20215","sunburst yarn","ribbon chain","pink","red","orange","","",NA
+"20214","20216","sunburst yarn","boucle","pink","red","orange","","",NA
+"20214","20217","sunburst yarn","twist","pink","red","orange","","",NA
+"20223","1111","big scallop rayon yarn",NA,"natural","","","","",NA
+"20232","1111","milky way yarn",NA,"natural","","","","",NA
+"20468","20472","single ply metallic yarn","black silver","black","","","","",NA
+"20468","20474","single ply metallic yarn","gold","brown","","","","",NA
+"20468","20475","single ply metallic yarn","white","white","","","","",NA
+"20468","20540","single ply metallic yarn","black copper","black","","","","",NA
+"20468","20686","single ply metallic yarn","silver natural","gray","","","","",NA
+"20468","21994","single ply metallic yarn","blue","blue","","","","",NA
+"20468","21995","single ply metallic yarn","black rainbow","black","","","","",NA
+"20468","9999","single ply metallic yarn","rose","pink","","","","",NA
+"20497","20503","two ply metallic yarn","silver","gray","","","","",NA
+"20497","20504","two ply metallic yarn","light blue","blue","","","","",NA
+"20497","9999","two ply metallic yarn","light gold","yellow","brown","","","",NA
+"20506","20515","three ply metallic yarn","red","red","","","","",NA
+"20506","21483","three ply metallic yarn","purple","purple","","","","",NA
+"20506","21484","three ply metallic yarn","gold","brown","","","","",NA
+"20506","21485","three ply metallic yarn","black","black","","","","",NA
+"20506","21486","three ply metallic yarn","black copper","brown","","","","",NA
+"20506","21487","three ply metallic yarn","copper","brown","","","","",NA
+"20506","21491","three ply metallic yarn","green","green","","","","",NA
+"20506","21492","three ply metallic yarn","pink","pink","","","","",NA
+"20506","21493","three ply metallic yarn","silver","gray","","","","",NA
+"20506","21494","three ply metallic yarn","silver black","gray","","","","",NA
+"20506","21495","three ply metallic yarn","turquoise","blue","green","","","",NA
+"20506","21961","three ply metallic yarn","fuschia black","pink","","","","",NA
+"20506","9999","three ply metallic yarn","copper black","brown","","","","",NA
+"20525","20528","four ply metallic yarn","kelly green","green","","","","",NA
+"20525","20529","four ply metallic yarn","rainbow","red","blue","yellow","pink","",NA
+"20525","20531","four ply metallic yarn","green","green","","","","",NA
+"20525","20532","four ply metallic yarn","red","red","","","","",NA
+"20986","20987","lana loopy","caviar","black","","","","",NA
+"20986","20988","lana loopy","honeycomb","yellow","","","","",NA
+"20986","20989","lana loopy","twilight grey","gray","","","","",NA
+"20986","20990","lana loopy","brass","brown","","","","",NA
+"20986","20991","lana loopy","cream puff","white","natural","","","",NA
+"21000","21001","lustrous loopy","ivory","white","","","","",NA
+"21000","21002","lustrous loopy","cascade","blue","","","","",NA
+"21000","21003","lustrous loopy","verde","green","","","","",NA
+"21000","21004","lustrous loopy","platinum","gray","","","","",NA
+"21000","21782","lustrous loopy","red wine","red","","","","",NA
+"21000","21783","lustrous loopy","cayenne","orange","","","","",NA
+"21000","21785","lustrous loopy","liquid blue","blue","","","","",NA
+"21000","21786","lustrous loopy","deep lilac","purple","","","","",NA
+"21000","21895","lustrous loopy","blue jay","blue","","","","",NA
+"21000","21896","lustrous loopy","dandelion","yellow","","","","",NA
+"21000","21897","lustrous loopy","emerald","green","blue","","","",NA
+"21017","21018","stormy yarn","garden spot green","green","","","","",NA
+"21017","21019","stormy yarn","pine forest","green","","","","",NA
+"21017","21020","stormy yarn","steel serpent","gray","","","","",NA
+"21017","21021","stormy yarn","sienna","orange","","","","",NA
+"21017","21022","stormy yarn","indigo","blue","","","","",NA
+"21017","21023","stormy yarn","tin reflection","gray","","","","",NA
+"21017","21025","stormy yarn","bravado red","red","","","","",NA
+"21017","21026","stormy yarn","forever lilac","purple","","","","",NA
+"21017","21027","stormy yarn","beeswax","yellow","brown","","","",NA
+"21017","21028","stormy yarn","very berry","purple","","","","",NA
+"21017","21029","stormy yarn","gulfstream","green","blue","","","",NA
+"21048","21049","8/2 unmercerized cotton","garden spot green","green","","","","",NA
+"21048","21050","8/2 unmercerized cotton","garden spot green","green","","","","",NA
+"21048","21051","8/2 unmercerized cotton","pine forest","green","","","","",NA
+"21048","21052","8/2 unmercerized cotton","pine forest","green","","","","",NA
+"21048","21053","8/2 unmercerized cotton","steel serpent","gray","","","","",NA
+"21048","21054","8/2 unmercerized cotton","steel serpent","gray","","","","",NA
+"21048","21055","8/2 unmercerized cotton","sienna","orange","","","","",NA
+"21048","21056","8/2 unmercerized cotton","sienna","orange","","","","",NA
+"21048","21058","8/2 unmercerized cotton","indigo","blue","","","","",NA
+"21048","21059","8/2 unmercerized cotton","tin reflection","gray","","","","",NA
+"21048","21060","8/2 unmercerized cotton","tin reflection","gray","","","","",NA
+"21048","21062","8/2 unmercerized cotton","spring water","blue","","","","",NA
+"21048","21063","8/2 unmercerized cotton","bravado red","red","","","","",NA
+"21048","21064","8/2 unmercerized cotton","bravado red","red","","","","",NA
+"21048","21065","8/2 unmercerized cotton","forever lilac","purple","","","","",NA
+"21048","21066","8/2 unmercerized cotton","forever lilac","purple","","","","",NA
+"21048","21067","8/2 unmercerized cotton","beeswax","yellow","","","","",NA
+"21048","21068","8/2 unmercerized cotton","beeswax","yellow","","","","",NA
+"21048","21070","8/2 unmercerized cotton","very berry","purple","","","","",NA
+"21048","21071","8/2 unmercerized cotton","gulfstream","blue","green","","","",NA
+"21048","21072","8/2 unmercerized cotton","gulfstream","blue","green","","","",NA
+"21095","21096","soft cotton roving with seed","garden spot green","green","","","","",NA
+"21095","21097","soft cotton roving with seed","pine forest","green","","","","",NA
+"21095","21098","soft cotton roving with seed","steel serpent","gray","","","","",NA
+"21095","21099","soft cotton roving with seed","sienna","orange","","","","",NA
+"21095","21100","soft cotton roving with seed","indigo","blue","","","","",NA
+"21095","21101","soft cotton roving with seed","tin reflection","gray","","","","",NA
+"21095","21102","soft cotton roving with seed","spring water","blue","","","","",NA
+"21095","21103","soft cotton roving with seed","bravado red","red","","","","",NA
+"21095","21104","soft cotton roving with seed","forever lilac","purple","","","","",NA
+"21095","21105","soft cotton roving with seed","beeswax","yellow","brown","","","",NA
+"21095","21106","soft cotton roving with seed","very berry","purple","","","","",NA
+"21095","21107","soft cotton roving with seed","gulfstream","green","blue","","","",NA
+"21095","22523","soft cotton roving with seed","sage powder","green","","","","",NA
+"21429","21435","cloud yarn","cone","natural","","","","",NA
+"21429","21436","cloud yarn","skein","natural","","","","",NA
+"21551","21552","radiant wool rayon","lilac luster","purple","blue","","","",NA
+"21551","21562","radiant wool rayon","vigorous violet","purple","","","","",NA
+"21551","21564","radiant wool rayon","honey crystal","yellow","","","","",NA
+"21551","21566","radiant wool rayon","gala garnet","red","","","","",NA
+"21998","21999","tweedy twin wool","foggy evening","purple","gray","","","",NA
+"21998","22002","tweedy twin wool","chateau brown","brown","","","","",NA
+"21998","22003","tweedy twin wool","purple galaxy","purple","","","","",NA
+"21998","22004","tweedy twin wool","purple galaxy","purple","","","","",NA
+"21998","22005","tweedy twin wool","dusty feather","blue","","","","",NA
+"21998","22007","tweedy twin wool","brick oven","brown","red","","","",NA
+"21998","22009","tweedy twin wool","gold finch","yellow","","","","",NA
+"21998","22010","tweedy twin wool","gold finch","yellow","","","","",NA
+"22247","22249","silky sparkle","natural","natural","","","","",NA
+"22261","22262","crimped cotton flax","black","black","natural","","","",NA
+"22264","1111","scallop rayon",NA,"natural","","","","",NA
+"22322","1111","big mini lumpy cotton rayon",NA,"natural","","","","",NA
+"22323","1111","big worsted rayon boucle",NA,"natural","","","","",NA
+"22371","22372","cat combo twist","sphynx","purple","pink","white","","",NA
+"22371","22373","cat combo twist","siamese","white","brown","black","","",NA
+"22371","22374","cat combo twist","balinese","brown","pink","green","white","",NA
+"22371","22376","cat combo twist","chartreux","purple","green","brown","white","",NA
+"22432","22433","thick rayon chenille","cream","brown","","","","",NA
+"22487","22488","space dyed soft roving","green chrysanthemum","green","","","","",NA
+"22487","22489","space dyed soft roving","blue hyacinth","blue","","","","",NA
+"22493","22496","ripple yarn","royal","blue","","","","",NA
+"22493","22497","ripple yarn","crocus","purple","","","","",NA
+"22493","22498","ripple yarn","chartreuse","green","","","","",NA
+"2260","16330","3 ply silky rayon yarn","silver","gray","","","","",NA
+"2260","6710","3 ply silky rayon yarn","jade","green","","","","",NA
+"2260","6711","3 ply silky rayon yarn","royal","blue","","","","",NA
+"2260","6734","3 ply silky rayon yarn","light berry","purple","pink","","","",NA
+"2260","6735","3 ply silky rayon yarn","dark berry","purple","","","","",NA
+"2260","6736","3 ply silky rayon yarn","red bull","red","","","","",NA
+"2260","6737","3 ply silky rayon yarn","cactus","green","","","","",NA
+"2382","15874","super soft worsted cotton yarn","plum","purple","","","","",NA
+"2382","15921","super soft worsted cotton yarn","chocolate lily","brown","","","","",NA
+"2382","17136","super soft worsted cotton yarn","dark coal","gray","black","","","",NA
+"2382","17138","super soft worsted cotton yarn","ruby magnolia","pink","","","","",NA
+"2382","18317","super soft worsted cotton yarn","navy","blue","","","","",NA
+"2382","19788","super soft worsted cotton yarn","yellow corn","yellow","","","","",NA
+"2382","19789","super soft worsted cotton yarn","honeydew","green","","","","",NA
+"2382","19790","super soft worsted cotton yarn","milky","white","","","","",NA
+"2382","19791","super soft worsted cotton yarn","misty rose","pink","","","","",NA
+"2382","2384","super soft worsted cotton yarn","natural","natural","","","","",NA
+"2563","9200","fine rayon boucle yarn","black","black","","","","",NA
+"2563","9213","fine rayon boucle yarn","natural","natural","","","","",NA
+"2563","9216","fine rayon boucle yarn","navy","blue","","","","",NA
+"2563","9217","fine rayon boucle yarn","periwinkle","blue","purple","","","",NA
+"2563","9219","fine rayon boucle yarn","caramel","brown","","","","",NA
+"2563","9222","fine rayon boucle yarn","brazil","red","brown","","","",NA
+"2582","1111","craft string",NA,"green","","","","",NA
+"2586","18004","fine metallic gimp yarn","gold","yellow","","","","",NA
+"2586","18005","fine metallic gimp yarn","chrome","gray","","","","",NA
+"2586","19976","fine metallic gimp yarn","matte gold","yellow","brown","","","",NA
+"2586","19977","fine metallic gimp yarn","red","red","","","","",NA
+"2698","14848","duo tone rayon yarn","hanna","green","","","","",NA
+"2698","14849","duo tone rayon yarn","cinnamon","orange","brown","","","",NA
+"2698","17886","duo tone rayon yarn","pearl","natural","","","","",NA
+"2698","17924","duo tone rayon yarn","golden","brown","","","","",NA
+"2698","17929","duo tone rayon yarn","sheen","brown","","","","",NA
+"2698","18389","duo tone rayon yarn","dark purple","purple","","","","",NA
+"2698","21791","duo tone rayon yarn","red wine","red","","","","",NA
+"2698","21901","duo tone rayon yarn","blue jay","blue","","","","",NA
+"2698","21903","duo tone rayon yarn","emerald","green","","","","",NA
+"2698","2700","duo tone rayon yarn","aqua","blue","","","","",NA
+"2698","2701","duo tone rayon yarn","celadon","blue","","","","",NA
+"2698","2929","duo tone rayon yarn","pearl","natural","","","","",NA
+"2698","9962","duo tone rayon yarn","sand","brown","gray","","","",NA
+"2783","1111","rayon chenille yarn 2800 ypp",NA,"natural","","","","",NA
+"2938","16171","seeded rayon yarn","black ","black","","","","",NA
+"2985","1111","metallic yarn grab bag","large","red","blue","yellow","green","gray",NA
+"3263","1111","textile bobbins with metal tips",NA,"not applicable","","","","",NA
+"3512","6901","metallic tape yarn","silver","gray","","","","",NA
+"3680","13154","rayon boucle yarn 3792","gold","yellow","","","","",NA
+"3680","13155","rayon boucle yarn 3792","natural","natural","","","","",NA
+"3680","21770","rayon boucle yarn 3792","black","black","","","","",NA
+"3680","21771","rayon boucle yarn 3792","charcoal","gray","","","","",NA
+"3680","21772","rayon boucle yarn 3792","cayenne","orange","","","","",NA
+"3680","21773","rayon boucle yarn 3792","deep lilac","purple","","","","",NA
+"3680","21774","rayon boucle yarn 3792","liquid blue","blue","","","","",NA
+"3680","21775","rayon boucle yarn 3792","red wine","red","","","","",NA
+"3680","21886","rayon boucle yarn 3792","lime","green","","","","",NA
+"3680","21887","rayon boucle yarn 3792","dandelion","yellow","","","","",NA
+"3680","21888","rayon boucle yarn 3792","silver","gray","","","","",NA
+"3680","21889","rayon boucle yarn 3792","emerald","green","blue","","","",NA
+"3680","22138","rayon boucle yarn 3792","kale","green","","","","",NA
+"3680","22139","rayon boucle yarn 3792","soft rose","pink","","","","",NA
+"3680","22140","rayon boucle yarn 3792","dark purple","purple","","","","",NA
+"3680","22141","rayon boucle yarn 3792","mauve","pink","","","","",NA
+"3680","3688","rayon boucle yarn 3792","lychee","white","","","","",NA
+"3680","9980","rayon boucle yarn 3792","taupe","brown","","","","",NA
+"3680","9999","rayon boucle yarn 3792","black","black","","","","",NA
+"5605","5680","duet yarns","jade ","pink","purple","green","yellow","white",NA
+"605","1046","american lamb yarn","pink elephant","pink","","","","",NA
+"605","1048","american lamb yarn","wineglass","red","","","","",NA
+"605","1049","american lamb yarn","blue moon","blue","","","","",NA
+"605","1050","american lamb yarn","curry powder","yellow","","","","",NA
+"605","1051","american lamb yarn","natural","natural","","","","",NA
+"605","1052","american lamb yarn","black onyx","black","","","","",NA
+"605","11431","american lamb yarn","hot spring","blue","","","","",NA
+"605","11432","american lamb yarn","meadow","green","","","","",NA
+"605","11433","american lamb yarn","zengari","blue","","","","",NA
+"605","15117","american lamb yarn","navy","blue","","","","",NA
+"605","15120","american lamb yarn","periwinkle","purple","","","","",NA
+"605","1882","american lamb yarn","olive jar","green","","","","",NA
+"605","1883","american lamb yarn","delft blue","blue","","","","",NA
+"605","1884","american lamb yarn","granite","gray","","","","",NA
+"605","1885","american lamb yarn","pumpkin","orange","","","","",NA
+"605","1886","american lamb yarn","grape juice","purple","","","","",NA
+"605","1887","american lamb yarn","brownies","brown","","","","",NA
+"6342","15536","shiny worsted rayon boucle","copper","orange","brown","","","",NA
+"6342","15537","shiny worsted rayon boucle","golden","brown","yellow","","","",NA
+"6342","16873","shiny worsted rayon boucle","vanilla","white","","","","",NA
+"6342","16875","shiny worsted rayon boucle","clay","brown","","","","",NA
+"6854","20770","sun soft linen","pine bristle","green","","","","",NA
+"6854","20771","sun soft linen","steel serpent","gray","","","","",NA
+"6854","20772","sun soft linen","sienna","orange","","","","",NA
+"6854","20773","sun soft linen","indigo","blue","","","","",NA
+"6854","20774","sun soft linen","tin reflection","gray","","","","",NA
+"6854","20775","sun soft linen","spring water","blue","","","","",NA
+"6854","21149","sun soft linen","very berry","purple","","","","",NA
+"6854","21150","sun soft linen","gulfstream","green","blue","","","",NA
+"6854","21151","sun soft linen","bravado red","red","","","","",NA
+"6854","22529","sun soft linen","sage powder","green","","","","",NA
+"6854","7124","sun soft linen","plain","natural","","","","",NA
+"6854","7126","sun soft linen","metallic","natural","","","","",NA
+"7173","1111","raw silk rayon yarn",NA,"natural","","","","",NA
+"7447","1111","combo twist chenille",NA,"natural","","","","",NA
+"7709","16827","wool crepe with metallic twist","black ","black","","","","",NA
+"7709","16834","wool crepe with metallic twist","black on black","black","","","","",NA
+"7709","7710","wool crepe with metallic twist","snow silver","white","","","","",NA
+"7860","9245","fine wool crepe","pink","pink","","","","",NA
+"7860","9246","fine wool crepe","orchid","purple","","","","",NA
+"7860","9247","fine wool crepe","teal","blue","","","","",NA
+"7860","9248","fine wool crepe","sky blue","blue","","","","",NA
+"7860","9249","fine wool crepe","natural","natural","","","","",NA
+"8165","17664","wool tweed yarn","denim blue","blue","","","","",NA
+"8165","17668","wool tweed yarn","raspberry","red","","","","",NA
+"9226","9231","fancy twist cotton yarns","cotton boucle","natural","","","","",NA
+"9357","16154","rayon ribbon","ocean","blue","","","","",NA
+"9357","16156","rayon ribbon","lava","red","","","","",NA
+"9357","16158","rayon ribbon","natural","natural","","","","",NA
+"9357","17515","rayon ribbon","gold pan","brown","yellow","","","",NA
+"9357","17520","rayon ribbon","purple night","purple","","","","",NA
+"9367","15773","flax cotton rayon blend yarn","garnet","red","brown","","","",NA
+"9367","15787","flax cotton rayon blend yarn","golden khaki","green","","","","",NA
+"9367","17127","flax cotton rayon blend yarn","jet black","black","","","","",NA
+"9367","17130","flax cotton rayon blend yarn","ruby","pink","","","","",NA
+"9367","9417","flax cotton rayon blend yarn","natural","natural","","","","",NA
+"9421","1111","wool loopy yarn",NA,"natural","","","","",NA
+"9581","10493","skinny majesty","rust","orange","brown","","","",NA
+"9581","13184","skinny majesty","bleached white","white","","","","",NA
+"9581","21799","skinny majesty","cayenne","orange","","","","",NA
+"9581","21800","skinny majesty","deep lilac","purple","","","","",NA
+"9581","21801","skinny majesty","liquid blue","blue","","","","",NA
+"9581","21913","skinny majesty","blue jay","blue","","","","",NA
+"9581","21914","skinny majesty","dandelion","yellow","","","","",NA
+"9581","21915","skinny majesty","emerald","green","","","","",NA
+"9581","9613","skinny majesty","baby blue","blue","","","","",NA
+"9581","9617","skinny majesty","natural","natural","","","","",NA
+"9581","9832","skinny majesty","mimosa","green","","","","",NA
+"9625","13165","super fine wool***super special price***","neon","yellow","","","","",NA
+"9625","13172","super fine wool***super special price***","epic orange","orange","","","","",NA
+"9824","9825","fun multi","berries","red","blue","yellow","green","black",NA
+"9824","9826","fun multi","spices","red","orange","yellow","","",NA
+"9824","9827","fun multicolored seeds","truffle","black","gray","","","",NA
+"9824","9828","fun multi","butternut","orange","yellow","green","","",NA
+"9824","9829","fun multicolored seeds","confetti","blue","green","white","yellow","purple",NA
+"9824","9830","fun multicolored seeds","salt   pepper","black","white","","","",NA
+"9841","9842","viscose stretch yarn","black","black","","","","",NA
+"9841","9845","viscose stretch yarn","natural","natural","","","","",NA
+"9850","14824","skinny majesty","lava","red","","","","",NA
+"9850","15526","skinny majesty","sunbeam","yellow","","","","",NA

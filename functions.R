@@ -300,7 +300,8 @@ normalize <- function(df_list){
     mutate("fiber" = str_extract_all(categories, "(?<=fiber > )[^,]*"), 
            "yarn_weight" = str_extract_all(categories, "(?<=yarn weight > )[^,]*"),
            "effect" = str_extract_all(categories, "(?<=effect > )[^,]*"),
-           "hue" = str_extract_all(categories, "(?<=hue > )[^,]*"),
+           # these hues are at the product level
+           #"hue" = str_extract_all(categories, "(?<=hue > )[^,]*"),
            "big_cones" = case_when(str_detect(categories, "big cones")==TRUE ~"big cones",
                                    TRUE ~ NA_character_),
            "spools" = case_when(str_detect(categories, "spools")==TRUE ~"spools",
@@ -351,15 +352,18 @@ normalize <- function(df_list){
   
   #------------------
   
-  # int -> char (id columns in df_list$product_hue)
-  df_list$product_hue <- df_list$product_hue %>%
-    mutate(across(.cols = contains("_id"), as.character)) 
+  # product_hue.csv was initialized based of a unique list of products/variations
+  ## then, I added the hue1, hue2, hue3, etc. columns. 
   
-  # join df_list$product_hue to data_norm$product
-  ## in resulting data_norm$product_hue, hue will be NA for new products
-  ## NAs must be filled manually assigning hue in excel by editing the ./data/product_hue.csv
+  data_norm$product_hue <- df_list$product_hue %>%
+    # convert all cols to character 
+    mutate(across(.cols = everything(), as.character))
+  
   data_norm$product_hue <- data_norm$product %>% 
-    left_join(df_list$product_hue,
+    # join df_list$product_hue to data_norm$product
+    ## in resulting data_norm$product_hue, hue will be NA for products that had NOT been ordered before Jan 1, 2021 (since I've only loaded data since Jan 1, 2021 into the tool), and have been ordered since the last update
+    ## NAs must be filled manually assigning by editing the ./data/product_hue.csv
+    left_join(data_norm$product_hue,
               by = c("product_id", "variation_id")) %>%
     rename("name" = name.x,
          "color" = color.x) %>% 
@@ -367,11 +371,16 @@ normalize <- function(df_list){
            variation_id,
            name,
            color,
-           hue)  
+           hue1,
+           hue2,
+           hue3,
+           hue4,
+           hue5,
+           hue6)  
   
 
   #------------------
-  #outut message
+  #output message
   
   cat(sprintf("\n\n%i normalized data frames created:\n", length(data_norm)))
   cat(names(data_norm), sep="\n")
@@ -406,7 +415,7 @@ primary_key_list <- function(){
     "pk_product_hue" = data_norm$product_hue %>%
       select(product_id,
              variation_id,
-             hue), # hue is not really in the PK but i want to get a message if it's null so we can manually assign the hue
+             hue1), # hue1 is not really in the PK but i want to get a message if it's null so we can manually assign the hue
     "pk_product_usage" = data_norm$product_usage %>%
       select(everything())
     )
