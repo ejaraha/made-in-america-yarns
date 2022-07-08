@@ -1,1 +1,1 @@
-made-in-america-yarns database
+<h1>This custom tool was developed for <a href=https://madeinamericayarns.com/>madeinamericayarns.com</a> to generate insights into product popularity for various user groups and product categories. <a href=https://s-jaraha.shinyapps.io/miay-popular-products/>check it out here</a>!</h1>
